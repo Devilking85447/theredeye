@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin - TheRedEye</title>
+<style>body{background:#000;color:#fff;font-family:Arial;padding:20px}
+.card{max-width:750px;margin:auto;background:#121212;padding:20px;border-radius:12px;border:1px solid #ff0000}
+input{width:100%;padding:13px;background:#222;border:1px solid #333;color:#fff;border-radius:8px;box-sizing:border-box}
+button{padding:10px 16px;background:#ff0000;color:#fff;border:none;border-radius:6px;margin:5px;cursor:pointer}
+table{width:100%;border-collapse:collapse;margin-top:15px}th,td{border:1px solid #333;padding:7px;font-size:11px}th{background:#222;color:#ff0000}
+#panel{display:none}</style></head>
+<body>
+<div class="card" id="login"><h2 style="color:#f00">Admin Login</h2><input type="password" id="p" placeholder="Password"><button onclick="log()">Login</button><p id="e" style="color:red;display:none">Wrong!</p></div>
+<div class="card" id="panel"><h2>Logs - theredeyehelp@gmail.com</h2><button onclick="load()">Refresh</button><button onclick="csv()">Download CSV</button><table id="t"><thead><tr><th>Time</th><th>Game</th><th>PID</th><th>Linked</th><th>IP</th></tr></thead><tbody></tbody></table>
+<p style="font-size:10px;color:#888">Main logs will also come to your Gmail inbox. This is local backup.</p></div>
+<script>
+function log(){if(document.getElementById('p').value==="TRD#Eye_99$Secure!HP"){document.getElementById('login').style.display='none';document.getElementById('panel').style.display='block';load()}else{document.getElementById('e').style.display='block'}}
+function load(){let l=JSON.parse(localStorage.getItem('trd_logs')||'[]');let b=document.querySelector('#t tbody');b.innerHTML='';l.slice().reverse().forEach(x=>{b.innerHTML+=`<tr><td>${x.time}</td><td>${x.game}</td><td>${x.pid}</td><td>${x.linked}</td><td>${x.ip}</td></tr>`})}
+function csv(){let l=JSON.parse(localStorage.getItem('trd_logs')||'[]');let c="Time,Game,PID,Linked,IP\n";l.forEach(x=>{c+=`"${x.time}",${x.game},${x.pid},${x.linked},${x.ip}\n`});let a=document.createElement('a');a.href='data:text/csv,'+encodeURIComponent(c);a.download='logs.csv';a.click()}
+</script>
+</body></html>
