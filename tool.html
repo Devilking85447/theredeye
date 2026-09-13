@@ -1,72 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TheRedEye - Free BGMI Appeal Generator</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE RED EYE - Free Unban Tool</title>
 <style>
-body{margin:0;background:#080808;color:#fff;font-family:Arial, sans-serif}
-.box{max-width:520px;margin:20px auto;background:#141414;border:1.5px solid #ff0000;border-radius:14px;padding:20px}
-h1{color:#ff0000;text-align:center;margin:0} 
-p.s{color:#888;text-align:center;font-size:12px}
-input,select{width:100%;padding:12px;margin-top:8px;background:#222;border:1px solid #333;border-radius:8px;color:#fff;box-sizing:border-box}
-button{width:100%;padding:13px;margin-top:12px;background:linear-gradient(90deg,#ff0000,#ff4400);border:none;border-radius:8px;color:#fff;font-weight:bold;cursor:pointer}
-.out{margin-top:14px;background:#1e1e1e;padding:12px;border-radius:8px;white-space:pre-wrap;font-size:12px;display:none;border:1px solid #333}
-.ad{margin:12px 0;background:#222;border:1px dashed #555;padding:12px;text-align:center;color:#aaa;font-size:12px;border-radius:8px}
+body{background:#0a0a0a;color:#fff;font-family:Arial;text-align:center;margin:0;padding:20px}
+.box{max-width:500px;margin:auto;background:#151515;border:1px solid #ff0000;border-radius:15px;padding:25px;box-shadow:0 0 20px #ff000033}
+h1{color:#ff0000;letter-spacing:2px;margin:0}
+input,select{width:100%;padding:12px;margin:10px 0;background:#000;color:#fff;border:1px solid #333;border-radius:8px;box-sizing:border-box}
+button{width:100%;padding:14px;background:linear-gradient(90deg,#ff0000,#8b0000);color:#fff;border:0;border-radius:8px;font-weight:bold;font-size:16px;cursor:pointer;margin-top:10px}
+#result{display:none;margin-top:20px;text-align:left;background:#000;padding:15px;border-radius:10px;border:1px dashed #ff0000;white-space:pre-wrap;font-size:14px}
+.small{font-size:12px;color:#888;margin-top:15px}
+a.btn{display:block;text-decoration:none;margin-top:10px;padding:12px;border-radius:8px;font-weight:bold}
+.yt{background:#ff0000;color:#fff}
+.qr-box{margin-top:15px;background:#fff;padding:15px;border-radius:12px}
+.qr-box img{width:200px;height:200px;display:block;margin:auto}
+.qr-box p{color:#000;margin:10px 0 0 0;font-weight:bold;font-size:15px}
 </style>
 </head>
 <body>
+
+<script>
+const YOUTUBE_LINK = "https://youtube.com/@theredeye"; 
+</script>
+
 <div class="box">
 <h1>THE RED EYE</h1>
-<p class="s">FREE & SAFE ACCOUNT APPEAL GENERATOR</p>
+<p style="color:#ff4d4d;margin-top:5px">FREE & SAFE APPEAL GENERATOR</p>
 
-<div class="ad">YAHAN APNA ADSENSE CODE DALNA - Har 1000 views pe earning hogi</div>
+<select id="game"><option>BGMI</option><option>Free Fire MAX</option><option>PUBG MOBILE</option><option>Valorant</option></select>
+<input id="uid" placeholder="Enter Your Game ID / UID">
+<input id="reason" placeholder="Ban Reason (Ex: Third Party...)">
+<button onclick="gen()">GENERATE LETTER - FREE</button>
 
-<label>Game</label>
-<select id="game"><option>BGMI</option><option>Free Fire MAX</option><option>PUBG</option><option>Valorant</option></select>
-<label>Player ID / UID</label>
-<input id="pid" placeholder="5123456789">
-<label>Ban Reason</label>
-<input id="reason" placeholder="Ex: Third party plugin">
+<div id="result"></div>
+<button id="copyBtn" style="display:none" onclick="copyT()">COPY LETTER</button>
 
-<button onclick="make()">GENERATE LETTER - FREE</button>
+<a id="ytBtn" class="btn yt" target="_blank">📺 Full Unban Process Video</a>
 
-<div id="out" class="out"></div>
-<button id="copyBtn" style="display:none;background:#00c853" onclick="copyL()">COPY LETTER</button>
-
-<div style="margin-top:18px;text-align:center">
-<a href="https://www.youtube.com/@theredeye" target="_blank"><button style="background:#222;border:1px solid #ff0000">📺 Full Unban Video</button></a>
-<a href="https://buymeacoffee.com/" target="_blank"><button style="background:#ffcc00;color:#000">☕ Support - UPI / Coffee</button></a>
-<p style="font-size:10px;color:#555;margin-top:10px">Note: Ye tool aapka data save nahi karta. 100% Safe.</p>
+<!-- QR ONLY - NO UPI LINK -->
+<div class="qr-box">
+<img src="qr.jpg" alt="Support QR">
+<p>Scan & Pay ₹49 to Support ❤️</p>
 </div>
+
+<p class="small">We don't ask for password. 100% safe method.</p>
+<div id="ad-slot"></div>
 </div>
 
 <script>
-function make(){
-let pid=document.getElementById('pid').value.trim();
-let game=document.getElementById('game').value;
-let reason=document.getElementById('reason').value.trim()||"Not specified";
-if(pid.length<4){alert("Sahi ID daalo bhai");return;}
-let letter=`Subject: Request for Account Review - ${game} ID: ${pid}
-
-Respected ${game} Support Team,
-
-My account [${pid}] has been banned for [${reason}]. I respectfully request a manual review.
-
-I am a genuine player and I have never used any hack or third-party tool. Please check my logs and consider unbanning my account.
-
-Thank you,
-A Loyal ${game} Player
-Player ID: ${pid}
-Date: ${new Date().toLocaleDateString()}`;
-
-document.getElementById('out').style.display='block';
-document.getElementById('out').innerText=letter;
+document.getElementById('ytBtn').href = YOUTUBE_LINK;
+function gen(){
+let g=document.getElementById('game').value;
+let u=document.getElementById('uid').value || "[Your ID]";
+let r=document.getElementById('reason').value || "Not mentioned";
+let d=new Date().toLocaleDateString();
+let txt=`Subject: Request to Review Ban - ${g} ID ${u}\n\nRespected ${g} Support Team,\n\nMy account ID ${u} got banned for reason: ${r} on ${d}.\nI respectfully request you to review my account. I have never used any hack or third party tool.\n\nPlease give me a chance to review. I am a loyal player.\n\nThank You,\nPlayer ID: ${u}`;
+document.getElementById('result').innerText=txt;
+document.getElementById('result').style.display='block';
 document.getElementById('copyBtn').style.display='block';
 }
-function copyL(){
-navigator.clipboard.writeText(document.getElementById('out').innerText);
-alert("Copied! Krafton support pe paste kar do.");
-}
+function copyT(){navigator.clipboard.writeText(document.getElementById('result').innerText);alert("Copied!");}
 </script>
 </body>
 </html>
