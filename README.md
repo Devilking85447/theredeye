@@ -1,7 +1,5 @@
 # 👁️ TheRedEye - See The Unseen. Hack The System.
 
-![TheRedEye Banner](./favicon.png)
-
 **TheRedEye** is an advanced educational platform for **Cyber Security, Ethical Hacking & Bug Bounty** - built for the next generation of Indian hackers. We teach in simple **Hindi + English**.
 
 🔗 **Live Website:** https://devilking5447.github.io/theredeye/
