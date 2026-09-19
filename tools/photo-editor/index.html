@@ -1,0 +1,50 @@
+<!DOCTYPE html><html lang=en><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Pro Photo Editor - TheRedEye 42</title><style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#000;color:#ff0f0f;font-family:monospace}
+.header{display:flex;justify-content:space-between;align-items:center;padding:12px 15px;background:#0a0a0a;border-bottom:1px solid #222;position:sticky;top:0;z-index:10}
+.header b{letter-spacing:3px}
+.header a{border:1px solid #ff0f0f;padding:6px 14px;border-radius:20px;color:#ff0f0f;text-decoration:none;font-size:11px}
+.wrap{max-width:1200px;margin:auto;display:grid;grid-template-columns:1.5fr 380px;min-height:calc(100vh - 50px)}
+@media(max-width:900px){.wrap{grid-template-columns:1fr}}
+.photo-area{background:#050505;display:flex;align-items:center;justify-content:center;position:relative;min-height:70vh;padding:15px;border-right:1px solid #222}
+#peCanvas{max-width:100%;max-height:82vh;border-radius:12px;box-shadow:0 0 30px rgba(255,15,15,0.25);display:none}
+.upload{border:2px dashed #ff0f0f88;padding:40px;border-radius:16px;text-align:center;cursor:pointer;background:#0a0a0a;max-width:420px;width:100%}
+.features{background:#0f0f0f;padding:14px;overflow-y:auto;border-left:1px solid #111}
+.cat{border:1px solid #ff0f0f;border-radius:12px;padding:10px;margin-bottom:12px;background:rgba(20,0,0,0.4)}
+.cat h3{color:#fff;text-align:center;font-size:12px;border-bottom:1px dashed #ff0f0f;padding-bottom:7px;margin-bottom:10px}
+.row{display:flex;align-items:center;margin:13px 0}
+.row label{width:80px;font-size:11px;color:#ff6b6b}
+.row input{flex:1;accent-color:#ff0f0f}
+.row b{width:34px;text-align:right;font-size:11px}
+.btn{width:100%;padding:13px;border-radius:10px;font-weight:900;border:none;cursor:pointer;margin-top:8px}
+.btn-red{background:#ff0f0f;color:#000}
+.btn-dark{background:#111;border:1px solid #333;color:#ff0f0f}
+.preset{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px}
+.preset button{white-space:nowrap;border-radius:20px;padding:6px 12px;font-size:10px;background:#000;border:1px solid #ff0f0f;color:#ff0f0f;cursor:pointer}
+.hold{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.9);border:1px solid #ff0f0f;color:#ff0f0f;padding:8px 18px;border-radius:25px;font-size:11px;display:none}
+</style></head><body>
+<div class=header><b>THEREDEYE.IN</b><a href="../">← 41 TOOLS</a></div>
+<div class=wrap>
+<div class=photo-area>
+<div class=upload id=peUpload onclick="peFile.click()"><div style="font-size:44px">📸</div><h2 style="color:#ff0f0f;margin:10px 0">PHOTO WILL SHOW HERE</h2><p style="color:#666;font-size:11px">Tap to open • Photo separate, big view</p><input type=file id=peFile hidden accept=image/*></div>
+<canvas id=peCanvas></canvas>
+<button class=hold id=peHoldBtn onmousedown="peShowOrig()" onmouseup="peHideOrig()" ontouchstart="peShowOrig()" ontouchend="peHideOrig()">👁 HOLD ORIGINAL</button>
+</div>
+<div class=features id=featuresArea style="display:none">
+<div class=cat><h3>🎨 QUICK FILTERS</h3><div class=preset><button onclick="pePreset('vivid')">🔥 Vivid</button><button onclick="pePreset('bw')">B&W</button><button onclick="pePreset('warm')">☀️ Warm</button><button onclick="pePreset('cold')">❄️ Cold</button><button onclick="pePreset('reset')">↺ Reset</button></div></div>
+<div class=cat><h3>💡 LIGHT - Photo will change live</h3><div class=row><label>Exposure</label><input type=range id=peExp min=-100 max=100 value=0><b id=peExpV>0</b></div><div class=row><label>Brilliance</label><input type=range id=peBri min=-100 max=100 value=0><b id=peBriV>0</b></div><div class=row><label>Highlights</label><input type=range id=peHigh min=-100 max=100 value=0><b id=peHighV>0</b></div><div class=row><label>Shadows</label><input type=range id=peShad min=-100 max=100 value=0><b id=peShadV>0</b></div></div>
+<div class=cat><h3>🎨 COLOR</h3><div class=row><label>Contrast</label><input type=range id=peCont min=-100 max=100 value=0><b id=peContV>0</b></div><div class=row><label>Saturation</label><input type=range id=peSat min=-100 max=100 value=0><b id=peSatV>0</b></div></div>
+<div class=cat><button class="btn btn-red" onclick=peDownload()>⬇ DOWNLOAD 4K FREE - NO WATERMARK</button><button class="btn btn-dark" onclick="peFile.click()">🔄 CHANGE PHOTO</button><p style="color:#0f0;font-size:9px;text-align:center;margin-top:8px">✓ Photo Separate • Features Separate • Live</p></div>
+</div>
+<div class=features id=placeholderFeatures><div class=cat style="text-align:center;padding:30px"><h3>FEATURES WILL APPEAR HERE</h3><p style="color:#555;font-size:11px;margin-top:10px">After opening photo<br>Left/Top = Photo Area<br>Right/Bottom = Features Area</p></div></div>
+</div>
+<script>
+const peCanvas=document.getElementById('peCanvas'),peCtx=peCanvas.getContext('2d');let peImg=null;
+peFile.onchange=e=>peLoad(e.target.files[0]);
+function peLoad(f){if(!f)return;let u=URL.createObjectURL(f);let im=new Image();im.onload=()=>{peImg=im;peCanvas.width=im.width;peCanvas.height=im.height;peCanvas.style.display='block';peUpload.style.display='none';featuresArea.style.display='block';placeholderFeatures.style.display='none';peHoldBtn.style.display='block';peDraw();};im.src=u;}
+function peDraw(){if(!peImg)return;let ex=parseInt(peExp.value),br=parseInt(peBri.value),hi=parseInt(peHigh.value),sh=parseInt(peShad.value),co=parseInt(peCont.value),sa=parseInt(peSat.value);let bright=100+ex+br*0.4+sh*0.2+hi*0.1;peCtx.filter=`brightness(${bright}%) contrast(${100+co}%) saturate(${100+sa}%)`;peCtx.drawImage(peImg,0,0);peExpV.innerText=ex;peBriV.innerText=br;peHighV.innerText=hi;peShadV.innerText=sh;peContV.innerText=co;peSatV.innerText=sa;}
+document.querySelectorAll('#featuresArea input').forEach(i=>i.addEventListener('input',peDraw));
+function peShowOrig(){peCtx.filter='none';peCtx.drawImage(peImg,0,0);}function peHideOrig(){peDraw();}
+function pePreset(t){if(t=='vivid'){peExp.value=8;peBri.value=18;peCont.value=12;peSat.value=28}else if(t=='bw'){peSat.value=-100;peCont.value=15}else if(t=='warm'){peBri.value=12;peSat.value=18}else if(t=='cold'){peSat.value=8;peCont.value=8}else{peExp.value=0;peBri.value=0;peCont.value=0;peSat.value=0;peHigh.value=0;peShad.value=0}peDraw();}
+function peDownload(){let a=document.createElement('a');a.download=`theredeye-4K-${Date.now()}.jpg`;a.href=peCanvas.toDataURL('image/jpeg',1.0);a.click();}
+</script></body></html>
