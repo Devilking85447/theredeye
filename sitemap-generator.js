@@ -1,7 +1,7 @@
 const fs = require('fs');
 console.log(' SITEMAP FIXING...');
 
-const DOMAIN = 'www.theredeye.co.in';
+const DOMAIN = 'https://www.theredeye.co.in';
 let urls = [
   { loc: `${DOMAIN}/`, lastmod: new Date().toISOString().split('T')[0] },
   { loc: `${DOMAIN}/about.html`, lastmod: '2026-05-10' },
