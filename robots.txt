@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: www.theredeye.co.in/theredeye/sitemap.xml
+Sitemap: https://www.theredeye.co.in/theredeye/sitemap.xml
