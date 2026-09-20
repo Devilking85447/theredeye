@@ -2,7 +2,7 @@
 
 **TheRedEye** is an advanced educational platform for **Cyber Security, Ethical Hacking & Bug Bounty** - built for the next generation of Indian hackers. We teach in simple **Hindi + English**.
 
-🔗 **Live Website:** www.theredeye.co.in 
+🔗 **Live Website:** https://www.theredeye.co.in
 
 > Old link redirecting soon.
 
