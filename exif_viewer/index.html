@@ -1,1 +1,47 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>EXIF Data Viewer - theredeye.co.in</title><link rel="canonical" href="https://theredeye.co.in/exif-viewer/"><style>*{margin:0;padding:0;box-sizing:border-box}body{background:#000;color:#ff0f0f;font-family:monospace;padding:15px}.box{max-width:600px;margin:auto;border:1px solid #ff0f0f;border-radius:16px;padding:20px;background:#0a0a0a}h1{color:#ff0f0f;text-align:center;letter-spacing:2px;font-size:18px}.up{border:2px dashed #ff0f0f88;padding:30px;border-radius:12px;text-align:center;cursor:pointer;margin:15px 0}.res{background:#111;padding:12px;border-radius:10px;font-size:11px;color:#0f0;white-space:pre-wrap;min-height:100px}.btn{width:100%;padding:12px;background:#ff0f0f;color:#000;font-weight:900;border:none;border-radius:10px;cursor:pointer;margin-top:10px}</style></head><body><div class="box"><h1>THEREDEYE.CO.IN - EXIF VIEWER</h1><p style="text-align:center;color:#666;font-size:9px">By Praveen Bansal - support@theredeye.co.in</p><div class="up" onclick="document.getElementById('f').click()">📸 CLICK TO UPLOAD PHOTO<input type="file" id="f" hidden accept="image/*"></div><div class="res" id="res">Upload a photo to see its hidden data (Location, Device, Time)...</div><button class="btn" onclick="document.getElementById('f').click()">UPLOAD ANOTHER</button><a href="../" style="color:#666;font-size:10px;text-align:center;display:block;margin-top:15px">← Back</a></div><script>document.getElementById('f').onchange=e=>{let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{let v=new DataView(r.result);let out=`File: ${f.name}\nSize: ${(f.size/1024).toFixed(2)} KB\nType: ${f.type}\n\n`;try{let j=0;if(v.getUint16(0)==0xFFD8){let off=2;while(off<v.byteLength){if(v.getUint16(off)==0xFFE1){out+='EXIF Found ✅\n';let exifOff=off+10;let little=v.getUint16(exifOff)==0x4949;function getU16(o){return v.getUint16(o,little)}function getU32(o){return v.getUint32(o,little)}let num=getU16(exifOff+8);for(let i=0;i<num;i++){let tagOff=exifOff+10+i*12;let tag=getU16(tagOff);if(tag==0x010F)out+='Device: (Maker) Found\n';if(tag==0x0110)out+='Model: (Phone) Found\n';if(tag==0x9003)out+='Date Taken: Found\n';if(tag==0x8825)out+='⚠️ GPS Location Data FOUND! - Photo has location!\n';}break}off+=2+v.getUint16(off+2)} }if(!out.includes('GPS'))out+='\n✅ No GPS Location Found - Safe to share\n';}catch(err){out+='No EXIF or EXIF Cleaned ✅ - Safe\n'}out+='\nChecked by theredeye.co.in - Praveen Bansal';document.getElementById('res').innerText=out;};r.readAsArrayBuffer(f.slice(0,65535));}</script></body></html>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>EXIF Viewer - Hidden GPS Check - theredeye.co.in</title><meta name="description" content="EXIF Data Viewer Check Hidden GPS Location in Photo by Praveen Bansal"><style>body{margin:0;background:#000;color:#0f0;font-family:monospace;padding:12px}h1{color:#0f0;text-align:center;text-shadow:0 0 15px #0f0}.box{border:1px solid #0f0;border-radius:12px;padding:15px;max-width:700px;margin:15px auto;background:rgba(0,20,0,.9)}input{width:100%;padding:12px;background:#111;border:1px solid #0f0;color:#fff;border-radius:6px;box-sizing:border-box}pre{background:#000;padding:12px;border:1px solid #333;color:#fff;white-space:pre-wrap;word-break:break-all;min-height:100px;font-size:11px}#warn{border:1px dashed #ff0f0f;color:#ff0f0f;padding:10px;margin:10px 0;display:none}button{padding:10px;background:#0f0;color:#000;font-weight:900;border:0;border-radius:6px;cursor:pointer;width:100%;margin-top:8px}</style></head><body>
+<h1>EXIF VIEWER</h1>
+<p style="text-align:center;color:#fff;font-size:10px">Photo ka Hidden GPS Location Check - Educational Only</p>
+<div class="box">
+<input type="file" id="file" accept="image/*">
+<div id="warn"></div>
+<pre id="out">Select a photo...</pre>
+<button onclick="removeExif()" id="remBtn" style="display:none">REMOVE EXIF & DOWNLOAD SAFE PHOTO</button>
+<canvas id="c" style="display:none"></canvas>
+</div>
+<a href="../" style="color:#ff0f0f;display:block;text-align:center;margin:20px">← Back to THEREDEYE.CO.IN</a>
+<script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
+<script>
+let currentFile=null;
+document.getElementById('file').onchange=e=>{
+ let f=e.target.files[0]; if(!f)return; currentFile=f;
+ document.getElementById('out').innerText='Reading EXIF...';
+ EXIF.getData(f,function(){
+  let all=EXIF.getAllTags(this); let txt='';
+  if(!all || Object.keys(all).length===0){ txt='✅ No EXIF Data Found\nPhoto is SAFE to share (No GPS, No Camera Info)'; document.getElementById('warn').style.display='none'; }
+  else{
+   for(let k in all){ if(k.includes('GPS')) txt+=k+': '+all[k]+' [SENSITIVE]\n'; else txt+=k+': '+all[k]+'\n'; }
+   if(all.GPSLatitude){
+     let lat=EXIF.getTag(this,'GPSLatitude'), lon=EXIF.getTag(this,'GPSLongitude');
+     let latRef=EXIF.getTag(this,'GPSLatitudeRef')||'N', lonRef=EXIF.getTag(this,'GPSLongitudeRef')||'E';
+     let latDec=(lat[0]+lat[1]/60+lat[2]/3600)*(latRef=='S'?-1:1);
+     let lonDec=(lon[0]+lon[1]/60+lon[2]/3600)*(lonRef=='W'?-1:1);
+     document.getElementById('warn').innerHTML='⚠️ WARNING: GPS FOUND!<br>Latitude: '+latDec+'<br>Longitude: '+lonDec+'<br><a href="https://maps.google.com/?q='+latDec+','+lonDec+'" target="_blank" style="color:#ff0f0f">Open in Google Maps</a>';
+     document.getElementById('warn').style.display='block';
+   } else { document.getElementById('warn').style.display='none'; }
+  }
+  document.getElementById('out').innerText=txt;
+  document.getElementById('remBtn').style.display='block';
+ });
+}
+function removeExif(){
+ if(!currentFile)return;
+ let img=new Image(); let url=URL.createObjectURL(currentFile);
+ img.onload=()=>{
+  let c=document.getElementById('c'); c.width=img.width; c.height=img.height;
+  c.getContext('2d').drawImage(img,0,0);
+  let safe=c.toDataURL('image/jpeg',0.92);
+  let a=document.createElement('a'); a.href=safe; a.download='safe-no-exif.jpg'; a.click();
+  alert('Safe photo downloaded - EXIF removed!');
+ }; img.src=url;
+}
+</script></body></html>
