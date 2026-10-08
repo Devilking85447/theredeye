@@ -1,2 +1,45 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Aadhaar Photo Maker 20KB 50KB - theredeye.co.in</title><meta name="description" content="Free Aadhaar Photo Maker by Praveen Bansal - Make 20KB 50KB 100KB Passport Photo - theredeye.co.in"><link rel="canonical" href="https://theredeye.co.in/aadhaar-photo-maker/"><style>*{margin:0;padding:0;box-sizing:border-box}body{background:#000;color:#ff0f0f;font-family:monospace;padding:15px}.box{max-width:550px;margin:auto;border:1px solid #ff0f0f;border-radius:16px;padding:18px;background:#0a0a0a}h1{color:#ff0f0f;text-align:center;font-size:17px;letter-spacing:2px}canvas{width:100%;max-width:350px;display:block;margin:15px auto;border-radius:8px;background:#111;border:1px solid #222}.row{display:flex;gap:8px;margin:10px 0;flex-wrap:wrap}.row button{flex:1;padding:10px;border-radius:20px;border:1px solid #ff0f0f;background:#000;color:#ff0f0f;cursor:pointer;font-size:11px}.btn{width:100%;padding:13px;background:#ff0f0f;color:#000;font-weight:900;border:none;border-radius:10px;cursor:pointer;margin-top:10px}.up{border:2px dashed #ff0f0f88;padding:25px;border-radius:12px;text-align:center;cursor:pointer;margin:12px 0}.small{color:#0f0;font-size:9px;text-align:center;margin-top:8px}
-</style></head><body><div class="box"><h1>THEREDEYE.CO.IN</h1><p style="text-align:center;color:#ff0f0f;font-size:10px">AADHAAR PHOTO MAKER - BY PRAVEEN BANSAL</p><div class="up" onclick="document.getElementById('f').click()">📸 UPLOAD PHOTO<input type="file" id="f" hidden accept="image/*"></div><canvas id="c"></canvas><div class="row"><button onclick="setSize(20)">20KB</button><button onclick="setSize(50)">50KB</button><button onclick="setSize(100)">100KB</button><button onclick="setSize(200)">200KB</button></div><div class="row"><button onclick="setBG('white')">White BG</button><button onclick="setBG('red')">Red BG</button><button onclick="setBG('blue')">Blue BG</button></div><p id="info" class="small">Size: - | Upload first</p><button class="btn" onclick="download()">⬇ DOWNLOAD PHOTO</button><a href="../" style="color:#666;font-size:10px;text-align:center;display:block;margin-top:14px">← Back to 43 Tools</a></div><script>let img=null,curSize=50,bg='white';const can=document.getElementById('c'),ctx=can.getContext('2d');document.getElementById('f').onchange=e=>{let f=e.target.files[0];if(!f)return;let im=new Image();im.onload=()=>{img=im;can.width=350;can.height=450;draw()};im.src=URL.createObjectURL(f)};function draw(){if(!img)return;ctx.fillStyle=bg;ctx.fillRect(0,0,can.width,can.height);let r=Math.min(can.width/img.width,can.height/img.height);let w=img.width*r,h=img.height*r;ctx.drawImage(img,(can.width-w)/2,(can.height-h)/2,w,h);document.getElementById('info').innerText=`Size: ${curSize}KB Target | BG: ${bg} | theredeye.co.in`}function setSize(s){curSize=s;draw()}function setBG(c){bg=c;draw()}function download(){if(!img){alert('Photo upload karo pehle');return}let q=curSize<=20?0.4:curSize<=50?0.6:curSize<=100?0.8:0.9;let a=document.createElement('a');a.download=`theredeye-co-in-${curSize}KB-${Date.now()}.jpg`;a.href=can.toDataURL('image/jpeg',q);a.click()}</script></body></html>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Aadhaar Photo Maker 20KB 50KB 100KB - theredeye.co.in</title><meta name="description" content="Aadhaar Photo Size Maker 20KB 50KB 100KB by Praveen Bansal - Govt Form Photo Resizer"><style>body{margin:0;background:#000;color:#fff;font-family:monospace;padding:12px}h1{color:#ff0f0f;text-align:center;text-shadow:0 0 15px #ff0f0f}.box{border:1px solid #ff0f0f;border-radius:12px;padding:15px;max-width:600px;margin:15px auto;background:rgba(20,0,0,.9)}input,select,button{width:100%;padding:10px;margin:6px 0;background:#000;border:1px solid #ff0f0f;color:#fff;border-radius:6px;box-sizing:border-box}button{background:#ff0f0f;color:#000;font-weight:900;cursor:pointer}canvas{max-width:100%;border:1px solid #333;margin:10px 0}#out{color:#0f0;white-space:pre-wrap;font-size:11px}</style></head><body>
+<h1>AADHAAR PHOTO MAKER</h1>
+<p style="text-align:center;color:#aaa;font-size:10px">20KB | 50KB | 100KB - Govt Form Size - theredeye.co.in</p>
+<div class="box">
+<input type="file" id="file" accept="image/*">
+<select id="size"><option value="20">20KB - Aadhaar / Signature</option><option value="50" selected>50KB - Govt Jobs</option><option value="100">100KB - Passport</option><option value="200">200KB - High Quality</option></select>
+<select id="dim"><option value="213,213">213x213 (Aadhaar 3.5x3.5cm)</option><option value="300,400" selected>350x450 (Passport 3.5x4.5cm)</option><option value="400,400">400x400 Square</option></select>
+<button onclick="make()">MAKE PHOTO</button>
+<canvas id="c"></canvas>
+<div id="out"></div>
+<button id="dl" style="display:none" onclick="download()">DOWNLOAD PHOTO</button>
+</div>
+<a href="../" style="color:#ff0f0f;display:block;text-align:center;margin:20px">← Back to THEREDEYE.CO.IN</a>
+<script>
+let img=new Image(); let loaded=false;
+document.getElementById('file').onchange=e=>{
+ let f=e.target.files[0]; if(!f)return;
+ let r=new FileReader(); r.onload=ev=>{img.onload=()=>{loaded=true; document.getElementById('out').innerText='Loaded: '+f.name}; img.src=ev.target.result}; r.readAsDataURL(f);
+}
+function make(){
+ if(!loaded)return alert('Photo select karo');
+ let targetKB=parseInt(document.getElementById('size').value);
+ let d=document.getElementById('dim').value.split(','); let W=parseInt(d[0]), H=parseInt(d[1]);
+ let c=document.getElementById('c'); c.width=W; c.height=H;
+ let ctx=c.getContext('2d'); ctx.fillStyle='#fff'; ctx.fillRect(0,0,W,H);
+ // center crop
+ let ratio=Math.max(W/img.width, H/img.height); let nw=img.width*ratio, nh=img.height*ratio;
+ ctx.drawImage(img,(W-nw)/2,(H-nh)/2,nw,nh);
+ // compress to target KB
+ let q=0.9; let data=c.toDataURL('image/jpeg',q);
+ while(data.length/1024 > targetKB*1.4 && q>0.1){ q-=0.05; data=c.toDataURL('image/jpeg',q); }
+ // draw again with quality
+ let finalImg=new Image(); finalImg.onload=()=>{
+   c.getContext('2d').clearRect(0,0,W,H); c.getContext('2d').fillStyle='#fff'; c.getContext('2d').fillRect(0,0,W,H);
+   c.getContext('2d').drawImage(finalImg,0,0);
+   document.getElementById('out').innerText='Ready: '+W+'x'+H+' | ~'+Math.round(data.length/1024)+'KB | Target: '+targetKB+'KB\nQuality: '+Math.round(q*100)+'%';
+   document.getElementById('dl').style.display='block';
+   c.dataset.url=data;
+ };
+ finalImg.src=data;
+}
+function download(){
+ let a=document.createElement('a'); a.href=document.getElementById('c').dataset.url; a.download='aadhaar-photo-'+document.getElementById('size').value+'kb.jpg'; a.click();
+}
+</script></body></html>
