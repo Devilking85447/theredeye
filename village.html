@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>World Village Talk - VillageGram</title>
+<title>VillageGram - Login</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
 body{background:#000;color:#fff}
@@ -13,77 +13,129 @@ button{width:100%;padding:12px;border-radius:8px;border:1px solid #00d4ff;backgr
 .tab{display:flex;gap:10px;margin-bottom:15px}
 .tab div{flex:1;padding:10px;text-align:center;border:1px solid #00d4ff;border-radius:8px;cursor:pointer}
 .tab .active{background:#00d4ff;color:#000}
-.res{border:1px solid #333;border-radius:8px;padding:10px;margin-top:10px;background:#111;text-align:center}
+.res{border:1px solid #333;border-radius:8px;padding:10px;margin-top:10px;background:#111;text-align:center;color:#0f0}
 #instaApp{display:none;height:100vh;flex-direction:column}
-.topBar{display:flex;justify-content:space-between;align-items:center;padding:12px 15px;border-bottom:1px solid #222;background:#000;position:sticky;top:0;z-index:10}
-.topBar h2{font-family:cursive;color:#fff}
-.stories{display:flex;gap:12px;padding:12px;overflow-x:auto;border-bottom:1px solid #111;background:#000}
+.topBar{display:flex;justify-content:space-between;align-items:center;padding:12px 15px;border-bottom:1px solid #222;background:#000;position:sticky;top:0}
+.stories{display:flex;gap:12px;padding:12px;overflow-x:auto;border-bottom:1px solid #111}
 .story{text-align:center;min-width:60px}
 .story .ring{width:56px;height:56px;border-radius:50%;padding:2px;background:linear-gradient(45deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5);margin:auto}
-.story .ring img{width:100%;height:100%;border-radius:50%;border:2px solid #000;background:#222}
+.story .ring img{width:100%;height:100%;border-radius:50%;border:2px solid #000}
 .story p{font-size:10px;margin-top:5px;color:#ccc}
-.feed{flex:1;overflow-y:auto;padding-bottom:60px;background:#000}
-.post{border-bottom:1px solid #111;padding-bottom:10px;margin-bottom:5px}
+.feed{flex:1;overflow-y:auto;padding-bottom:70px}
+.post{border-bottom:1px solid #111;padding-bottom:10px}
 .postHead{display:flex;align-items:center;gap:10px;padding:10px}
-.postHead img{width:32px;height:32px;border-radius:50%;background:#222}
-.postHead b{font-size:13px}
-.postHead span{font-size:10px;color:#00d4ff;margin-left:auto;border:1px solid #00d4ff;padding:2px 6px;border-radius:10px}
-.postImg{background:#0a0a0a;min-height:80px;display:flex;align-items:center;justify-content:center;padding:20px;font-size:14px;color:#00d4ff;border:1px solid #111;margin:0 10px;border-radius:8px}
-.postActions{display:flex;gap:15px;padding:10px 12px;font-size:22px}
-.likes{padding:0 12px;font-size:12px;font-weight:bold}
-.caption{padding:5px 12px;font-size:12px;color:#ddd}
+.postHead img{width:32px;height:32px;border-radius:50%}
+.postImg{background:#0a0a0a;min-height:60px;display:flex;align-items:center;justify-content:center;padding:15px;color:#00d4ff;border:1px solid #111;margin:0 10px;border-radius:8px;text-align:center}
 .bottomNav{position:fixed;bottom:0;left:0;right:0;background:#000;border-top:1px solid #222;display:flex;justify-content:space-around;padding:12px 0;font-size:22px}
 .inputBar{display:flex;gap:8px;padding:10px;border-top:1px solid #222;background:#000;position:sticky;bottom:60px}
 .inputBar input{flex:1;margin:0}
 .inputBar button{width:80px;margin:0}
 </style>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 </head>
 <body>
-<div id="loginPage"><div class="login-box">
+
+<div id="loginPage">
+<div class="login-box">
 <h2 style="color:#00d4ff;text-align:center">WORLD VILLAGE TALK</h2>
 <p style="text-align:center;color:#aaa;font-size:11px;margin:8px 0">Login to enter VillageGram</p>
-<div class="tab"><div id="phoneTab" class="active" onclick="switchTab('phone')">Phone</div><div id="emailTab" onclick="switchTab('email')">Email</div></div>
-<div id="phoneLogin"><input id="loginPhone" placeholder="+91 Phone number"><div id="recaptcha"></div><button onclick="sendOTP()">SEND OTP</button><div id="otpBox" style="display:none"><input id="loginOTP" placeholder="Enter OTP"><button onclick="verifyOTP()" style="background:#0f0;border-color:#0f0">VERIFY</button></div><div id="loginStatus" class="res" style="display:none"></div></div>
-<div id="emailLogin" style="display:none"><input id="emailId" placeholder="Email"><input id="emailPass" type="password" placeholder="Password"><button onclick="emailLogin()">LOGIN</button><button onclick="emailSignup()" style="background:#111;color:#00d4ff">CREATE ACCOUNT</button><div id="emailStatus" class="res" style="display:none"></div></div>
-</div></div>
+
+<div class="tab">
+<div id="phoneTab" class="active" onclick="switchTab('phone')">Phone</div>
+<div id="emailTab" onclick="switchTab('email')">Email</div>
+</div>
+
+<div id="phoneLogin">
+<input id="loginPhone" placeholder="+91 Phone number">
+<button onclick="sendOTP()">SEND OTP</button>
+<div id="otpBox" style="display:none">
+<input id="loginOTP" placeholder="Enter 6 digit OTP">
+<button onclick="verifyOTP()" style="background:#0f0">VERIFY & LOGIN</button>
+</div>
+<div id="loginStatus" class="res" style="display:none"></div>
+</div>
+
+<div id="emailLogin" style="display:none">
+<input id="emailId" placeholder="Email">
+<input id="emailPass" type="password" placeholder="Password">
+<button onclick="emailLogin()">LOGIN</button>
+<div id="emailStatus" class="res" style="display:none"></div>
+</div>
+
+</div>
+</div>
 
 <div id="instaApp">
-<div class="topBar"><h2>VillageGram</h2><div>❤ ✈</div></div>
+<div class="topBar"><h2 style="font-family:cursive">VillageGram</h2><div>❤ ✈</div></div>
 <div class="stories">
 <div class="story"><div class="ring"><img src="https://i.pravatar.cc/100?img=11"></div><p>Russia</p></div>
 <div class="story"><div class="ring"><img src="https://i.pravatar.cc/100?img=22"></div><p>India</p></div>
 <div class="story"><div class="ring"><img src="https://i.pravatar.cc/100?img=33"></div><p>USA</p></div>
 <div class="story"><div class="ring"><img src="https://i.pravatar.cc/100?img=44"></div><p>Brazil</p></div>
 </div>
-<div class="feed" id="feed">
-<div style="padding:15px;text-align:center;color:#00d4ff;font-size:12px">— LIVE VILLAGE CHAT —</div>
-<div id="villageChat" style="padding:10px;max-height:500px;overflow-y:auto"></div>
-</div>
+<div class="feed"><div style="padding:15px;text-align:center;color:#00d4ff">— LIVE VILLAGE CHAT —</div><div id="villageChat" style="padding:10px"></div></div>
 <div class="inputBar"><input id="villageMsg" placeholder="Write message..."><button onclick="villageSend()">Send</button></div>
 <div class="bottomNav"><span>⌂</span><span>🔍</span><span>⊞</span><span>🎬</span><span>◉</span></div>
 </div>
 
 <script>
-const firebaseConfig = {
-  apiKey: "AIzaSyAE8gpHzcFLWtJShBL6PPoJqQdZehMfJ0",
-  authDomain: "theredeye-village.firebaseapp.com",
-  projectId: "theredeye-village",
-  storageBucket: "theredeye-village.firebasestorage.app",
-  messagingSenderId: "1009539974986",
-  appId: "1:1009539974986:web:cbf897f24a92399dd1e3b3"
-};
-firebase.initializeApp(firebaseConfig);
-let confirmationResult;
-window.onload=()=>{window.recaptchaVerifier=new firebase.auth.RecaptchaVerifier('recaptcha',{size:'normal'});}
-function switchTab(t){document.getElementById('phoneTab').classList.remove('active');document.getElementById('emailTab').classList.remove('active');if(t=='phone'){document.getElementById('phoneTab').classList.add('active');document.getElementById('phoneLogin').style.display='block';document.getElementById('emailLogin').style.display='none';}else{document.getElementById('emailTab').classList.add('active');document.getElementById('emailLogin').style.display='block';document.getElementById('phoneLogin').style.display='none';}}
-function sendOTP(){let phone=document.getElementById('loginPhone').value.trim();if(!phone.startsWith('+')){alert('Add +91');return;}document.getElementById('loginStatus').style.display='block';document.getElementById('loginStatus').innerText='Sending...';firebase.auth().signInWithPhoneNumber(phone,window.recaptchaVerifier).then(r=>{confirmationResult=r;document.getElementById('otpBox').style.display='block';document.getElementById('loginStatus').innerText='OTP Sent!'}).catch(e=>{document.getElementById('loginStatus').innerText=e.message;});}
-function verifyOTP(){let c=document.getElementById('loginOTP').value.trim();confirmationResult.confirm(c).then(()=>{showInsta();}).catch(e=>alert(e.message));}
-function emailLogin(){let e=document.getElementById('emailId').value,p=document.getElementById('emailPass').value;firebase.auth().signInWithEmailAndPassword(e,p).then(()=>showInsta()).catch(er=>{document.getElementById('emailStatus').style.display='block';document.getElementById('emailStatus').innerText=er.message;});}
-function emailSignup(){let e=document.getElementById('emailId').value,p=document.getElementById('emailPass').value;firebase.auth().createUserWithEmailAndPassword(e,p).then(()=>showInsta()).catch(er=>{document.getElementById('emailStatus').style.display='block';document.getElementById('emailStatus').innerText=er.message;});}
-function showInsta(){document.getElementById('loginPage').style.display='none';document.getElementById('instaApp').style.display='flex';}
-async function villageSend(){let msg=document.getElementById('villageMsg').value.trim();if(!msg)return;let chat=document.getElementById('villageChat');let div=document.createElement('div');div.className='post';div.innerHTML=`<div class="postHead"><img src="https://i.pravatar.cc/100?img=8"><b>you</b><span>EN→ ALL</span></div><div class="postImg">${msg}</div>`;chat.prepend(div);document.getElementById('villageMsg').value='';try{let res=await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(msg)}&langpair=en|hi`);let d=await res.json();div.querySelector('.postImg').innerHTML=msg+"<br><br><b style='color:#0f0'>HI: "+d.responseData.translatedText+"</b>";}catch{}}
+let currentOTP = null;
+
+function switchTab(t){
+ document.getElementById('phoneTab').classList.remove('active');
+ document.getElementById('emailTab').classList.remove('active');
+ if(t=='phone'){document.getElementById('phoneTab').classList.add('active');document.getElementById('phoneLogin').style.display='block';document.getElementById('emailLogin').style.display='none';}
+ else{document.getElementById('emailTab').classList.add('active');document.getElementById('emailLogin').style.display='block';document.getElementById('phoneLogin').style.display='none';}
+}
+
+function sendOTP(){
+ let phone = document.getElementById('loginPhone').value.trim();
+ if(phone.length < 8){alert('Enter valid phone number');return;}
+ 
+ currentOTP = Math.floor(100000 + Math.random() * 900000);
+ let patterns = [638299, 638289, 528829, currentOTP];
+ currentOTP = patterns[Math.floor(Math.random()*patterns.length)];
+ if(currentOTP < 100000) currentOTP = Math.floor(100000 + Math.random() * 900000);
+
+ document.getElementById('otpBox').style.display='block';
+ document.getElementById('loginStatus').style.display='block';
+ document.getElementById('loginStatus').innerHTML = `OTP Sent to ${phone}<br><br><b style="font-size:22px;letter-spacing:3px">${currentOTP}</b><br><br><span style="font-size:10px;color:#aaa">(Demo OTP - For testing purpose)</span>`;
+ console.log('Generated OTP:', currentOTP);
+}
+
+function verifyOTP(){
+ let entered = document.getElementById('loginOTP').value.trim();
+ if(entered == currentOTP){
+   showInsta();
+ } else {
+   alert('Invalid OTP! Correct OTP is: ' + currentOTP);
+ }
+}
+
+function emailLogin(){
+ let e=document.getElementById('emailId').value;
+ if(e.length < 3){alert('Enter email');return;}
+ showInsta();
+}
+
+function showInsta(){
+ document.getElementById('loginPage').style.display='none';
+ document.getElementById('instaApp').style.display='flex';
+}
+
+async function villageSend(){
+ let msg=document.getElementById('villageMsg').value.trim();if(!msg)return;
+ let chat=document.getElementById('villageChat');
+ let div=document.createElement('div');
+ div.className='post';
+ div.innerHTML=`<div class="postHead"><img src="https://i.pravatar.cc/100?img=8"><b>you</b><span>EN->ALL</span></div><div class="postImg">${msg}</div>`;
+ chat.prepend(div);
+ document.getElementById('villageMsg').value='';
+ try{
+   let res=await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(msg)}&langpair=en|hi`);
+   let d=await res.json();
+   div.querySelector('.postImg').innerHTML = msg + "<br><br><b style='color:#0f0'>Translated: " + d.responseData.translatedText + "</b>";
+ }catch{}
+}
 </script>
 </body>
 </html>
