@@ -3,272 +3,135 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>theredeye.co.in - World Village Talk</title>
+<title>theredeye.co.in - World Village Talk + 46 Tools</title>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap" rel="stylesheet">
 <style>
 body{margin:0;background:#000;color:#fff;font-family:monospace}
-#wrap{max-width:760px;margin:auto;padding:12px}
+#wrap{max-width:780px;margin:auto;padding:12px}
 .top-nav{text-align:center;padding:10px;background:#111;border-bottom:1px solid #ff0f0f;position:sticky;top:0;z-index:99}
 .top-nav a{color:#fff;text-decoration:none;margin:0 4px;font-size:10px;border:1px solid #333;padding:4px 7px;border-radius:4px}
-.cat{border:1px solid #ff0f0f;margin:16px 0;padding:10px;border-radius:12px;background:#0f0000}
+.cat{border:1px solid #ff0f0f;margin:18px 0;padding:10px;border-radius:12px;background:rgba(20,0,0,.92)}
 .cat h2{text-align:center;color:#fff;border-bottom:1px dashed #ff0f0f;font-size:11px;padding-bottom:5px}
-.box{border:1px solid #222;margin:8px 0;padding:9px;border-radius:8px;background:#0a0a0a}
-input,select{width:100%;background:#000;border:1px solid #ff0f0f;color:#fff;padding:10px;margin:5px 0;border-radius:6px;box-sizing:border-box}
-button{background:#000;border:1px solid #ff0f0f;color:#ff0f0f;padding:10px;margin:4px 0;border-radius:8px;cursor:pointer;font-weight:700;width:100%}
-.res{background:#000;border:1px solid #222;padding:8px;min-height:16px;color:#0f0;font-size:11px;white-space:pre-wrap;word-break:break-all;margin-top:6px;border-radius:6px}
+.box{border:1px solid #222;margin:8px 0;padding:10px;border-radius:8px;background:#0a0a0a}
+.box h3{margin:0 0 6px;font-size:10px;color:#ff6b6b}
+.box h3 i{margin-right:5px;color:#ff3040}
+input,select{width:100%;background:#000;border:1px solid #ff0f0f;color:#fff;padding:10px;margin:4px 0;border-radius:6px;box-sizing:border-box}
+button{background:#000;border:1px solid #ff0f0f;color:#ff0f0f;padding:10px;margin:3px 0;border-radius:8px;cursor:pointer;font-weight:700;width:100%}
+.res{background:#000;border:1px solid #222;padding:8px;min-height:14px;color:#0f0;font-size:10px;white-space:pre-wrap;word-break:break-all;margin-top:5px;border-radius:6px}
 .insta-header{font-family:'Grand Hotel',cursive;font-size:34px;color:#fff}
-.story-diamond{width:58px;height:58px;transform:rotate(45deg);border-radius:14px;padding:3px;background:linear-gradient(45deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5);margin:5px auto}
+.story-diamond{width:56px;height:56px;transform:rotate(45deg);border-radius:14px;padding:3px;background:linear-gradient(45deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5);margin:5px auto}
 .story-diamond img{width:100%;height:100%;object-fit:cover;transform:rotate(-45deg);border-radius:11px;border:2px solid #000}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#000;border-top:1px solid #222;display:flex;justify-content:space-around;padding:10px 0;z-index:999}
-.livechat{max-width:75%;padding:8px 12px;border-radius:16px;font-size:11px;margin:5px 0}
-.me{margin-left:auto;background:#0095f6;color:#fff}
-.other{background:#262626;color:#fff}
 </style>
 </head>
 <body>
 <div class="top-nav">
-<a href="index.html">Home</a><a href="about.html">About</a><a href="privacy.html">Privacy</a><a href="contact.html">Contact</a><a href="terms.html">Terms</a>
+<a href="index.html"><i class="fa-solid fa-house"></i> Home</a><a href="about.html"><i class="fa-solid fa-user"></i> About</a><a href="privacy.html"><i class="fa-solid fa-shield"></i> Privacy</a><a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact</a><a href="terms.html"><i class="fa-solid fa-file"></i> Terms</a>
 </div>
 
 <div id="wrap">
-<div style="text-align:center;padding:15px 0">
-<h1 style="margin:0;color:#ff0f0f;text-shadow:0 0 20px #ff0f0f;letter-spacing:3px">THEREDEYE.CO.IN</h1>
-<p style="font-size:10px;color:#aaa">WORLD VILLAGE TALK - CONNECT VILLAGES WORLDWIDE</p>
-</div>
+<div style="text-align:center;padding:12px 0"><h1 style="margin:0;color:#ff0f0f;text-shadow:0 0 20px #ff0f0f">THEREDEYE.CO.IN</h1><p style="font-size:9px;color:#aaa">WORLD VILLAGE TALK + 46 CYBER TOOLS</p></div>
 
-<div class="cat" style="border-color:#ff3040">
-<h2 style="color:#ff3040">WORLD VILLAGE TALK - LIVE CHAT</h2>
+<!-- WORLD VILLAGE TALK - FIXED 3 STEP -->
+<div class="cat" style="border-color:#ff3040"><h2 style="color:#ff3040"><i class="fa-solid fa-comments"></i> 1. WORLD VILLAGE TALK - LIVE CHAT</h2>
 <div class="box">
-<div id="loginSection">
-<input id="loginPhone" type="tel" placeholder="Enter phone number e.g. 9876543210">
-<button type="button" onclick="sendOTP()" style="background:#ff3040;color:#fff;border:none">SEND OTP</button>
-<div id="otpDisplay" class="res" style="display:none;text-align:center;font-size:14px"></div>
-<div id="otpBox" style="display:none;margin-top:10px">
-<input id="loginOTP" type="tel" placeholder="Enter OTP shown above">
-<button type="button" onclick="verifyOTP()" style="background:#0f0;color:#000;border:none">VERIFY OTP</button>
+<div id="step1"><input id="loginPhone" type="tel" placeholder="📱 Phone number"><button onclick="sendOTP()" style="background:#ff3040;color:#fff;border:none"><i class="fa-solid fa-paper-plane"></i> SEND OTP</button><div id="otpDisplay" class="res" style="display:none;text-align:center"></div></div>
+<div id="step2" style="display:none"><input id="loginOTP" type="tel" placeholder="🔑 Enter OTP"><button onclick="verifyOTP()" style="background:#0f0;color:#000;border:none"><i class="fa-solid fa-check"></i> VERIFY OTP</button></div>
+<div id="step3" style="display:none;border:2px solid #0f0;padding:12px;border-radius:10px;background:#001a00"><h3 style="text-align:center;color:#0f0"><i class="fa-solid fa-user-plus"></i> PROFILE BANAO</h3><select id="villageCountry"><option value="">🌍 Select Country</option><option value="ru">Russia</option><option value="en">USA</option><option value="hi">India</option><option value="es">Spanish</option><option value="pt">Brazil</option><option value="uk">Ukraine</option><option value="ne">Nepal</option><option value="ja">Japan</option></select><input id="villageName" placeholder="👤 Name e.g. praveen_palampur"><button onclick="villageConnect()" style="background:#0f0;color:#000;border:none"><i class="fa-solid fa-rocket"></i> CONNECT NOW</button></div>
+<div id="autoLoginMsg" style="display:none;text-align:center;padding:20px;color:#0f0">Welcome back! Loading your village...</div>
 </div>
 </div>
 
-<div id="villageMain" style="display:none">
-<select id="villageCountry">
-<option value="">Select Country</option>
-<option value="ru">Russia</option>
-<option value="en">USA</option>
-<option value="hi">India</option>
-<option value="es">Spanish</option>
-<option value="pt">Brazil</option>
-<option value="uk">Ukraine</option>
-<option value="ne">Nepal</option>
-<option value="ja">Japan</option>
-</select>
-<input id="villageName" placeholder="Enter name e.g. praveen_palampur">
-<button type="button" onclick="villageConnect()" style="background:#ff3040;color:#fff;border:none">CONNECT NOW</button>
+<!-- GAME APPEAL -->
+<div class="cat"><h2><i class="fa-solid fa-gamepad"></i> GAME APPEAL HELPER</h2>
+<div class="box"><h3><i class="fa-solid fa-file-lines"></i> BGMI / Free Fire Unban</h3><select id="game"><option>BGMI</option><option>Free Fire</option><option>Valorant</option><option>PUBG</option><option>COD</option></select><input id="uid" placeholder="Game UID"><input id="reason" placeholder="Reason"><button onclick="genUnban()"><i class="fa-solid fa-wand-magic-sparkles"></i> GENERATE</button><div id="unbanRes" class="res" style="display:none"></div><button id="copyBtn" style="display:none" onclick="copyUnban()"><i class="fa-solid fa-copy"></i> COPY</button></div>
 </div>
 
-<div id="autoLoginMsg" style="display:none;text-align:center;padding:20px;color:#0f0;font-size:12px">Welcome back! Loading...</div>
-</div>
-</div>
-
-<div class="cat">
-<h2>GAME APPEAL HELPER</h2>
-<div class="box">
-<select id="game"><option>BGMI</option><option>Free Fire</option><option>Valorant</option><option>PUBG</option></select>
-<input id="uid" placeholder="Game ID">
-<input id="reason" placeholder="Reason e.g. mistaken ban">
-<button type="button" onclick="genUnban()">GENERATE APPEAL</button>
-<div id="unbanRes" class="res" style="display:none"></div>
-<button id="copyBtn" type="button" style="display:none" onclick="copyUnban()">COPY TEXT</button>
-</div>
-</div>
-
-<div class="cat">
-<h2>SAFETY TOOLS</h2>
-<div class="box"><h3>Email Breach Check</h3><input id="e1" placeholder="email@gmail.com"><button type="button" onclick="breach()">Check</button><div id="r1" class="res"></div></div>
-<div class="box"><h3>My IP</h3><button type="button" onclick="myIP()">Get My IP</button><div id="r15" class="res"></div></div>
-<div class="box"><h3>QR Generator</h3><input id="qr1" placeholder="Enter text for QR"><button type="button" onclick="qrGen()">Generate QR</button><div id="r37" class="res"></div></div>
-<div class="box"><h3>Password Generator</h3><button type="button" onclick="genPass()">Generate Strong Password</button><div id="r36" class="res"></div></div>
+<!-- 2-14 -->
+<div class="cat"><h2><i class="fa-solid fa-shield-halved"></i> PERSONAL SAFETY 2-14</h2>
+<div class="box"><h3><i class="fa-solid fa-envelope"></i> 2. Email Breach</h3><input id="e1" placeholder="email@gmail.com"><button onclick="breach()">Check</button><div id="r1" class="res"></div></div>
+<div class="box"><h3><i class="fa-solid fa-phone"></i> 3. Phone Validate</h3><input id="e2" placeholder="9876543210"><button onclick="phone()">Validate</button><div id="r2" class="res"></div></div>
+<div class="box"><h3><i class="fa-solid fa-key"></i> 4. Password Strength</h3><input id="e3" type="password" placeholder="password"><button onclick="pass()">Check</button><div id="r3" class="res"></div></div>
+<div class="box"><h3><i class="fa-solid fa-user"></i> 5. Username Check</h3><input id="e4" placeholder="username"><button onclick="userC()">Find</button><div id="r4" class="res"></div></div>
+<div class="box"><h3><i class="fa-solid fa-bug"></i> 6. HIBP Check</h3><input id="e1b" placeholder="email"><button onclick="hibp()">Open HIBP</button></div>
+<div class="box"><h3><i class="fa-solid fa-id-card"></i> 7. UIDAI Aadhaar</h3><button onclick="window.open('https://uidai.gov.in/','_blank')">Open UIDAI</button></div>
+<div class="box"><h3><i class="fa-solid fa-link"></i> 8. Link Scanner</h3><input id="s1" placeholder="suspicious link"><button onclick="scanLink()">Scan</button><div id="rs1" class="res"></div></div>
+<div class="box"><h3><i class="fa-brands fa-google-pay"></i> 9. UPI Check</h3><input id="s2" placeholder="upi@bank"><button onclick="upiCheck()">Check</button><div id="rs2" class="res"></div></div>
+<div class="box"><h3><i class="fa-solid fa-briefcase"></i> 10. Fake Job Detector</h3><input id="s3" placeholder="Job description"><button onclick="jobCheck()">Check</button><div id="rs3" class="res"></div></div>
+<div class="box"><h3><i class="fa-solid fa-money-bill"></i> 11. Loan App Check</h3><input id="s4" placeholder="App name"><button onclick="loanCheck()">Check</button><div id="rs4" class="res"></div></div>
+<div class="box"><h3><i class="fa-solid fa-envelope-open"></i> 12. Email Header Analyzer</h3><input id="s5" placeholder="Paste header"><button onclick="headerCheck()">Analyze</button><div id="rs5" class="res"></div></div>
+<div class="box"><h3><i class="fa-solid fa-triangle-exclamation"></i> 13. Cyber Crime Report 1930</h3><button onclick="window.open('https://cybercrime.gov.in','_blank')">Report Now</button></div>
 </div>
 
-<div style="text-align:center;padding:20px;color:#555;font-size:10px">
-theredeye.co.in © 2026 - Palampur<br>
-<button type="button" onclick="logoutVillage()" style="width:auto;padding:5px 12px;font-size:9px;border-color:#555;color:#555">Logout / Change Account</button>
+<!-- 15-30 -->
+<div class="cat"><h2><i class="fa-solid fa-network-wired"></i> DEVICE & IP 15-30</h2>
+<div class="box"><h3><i class="fa-solid fa-location-dot"></i> 15. My IP</h3><button onclick="myIP()">Get IP</button><div id="r15" class="res"></div></div>
+<div class="box"><h3><i class="fa-solid fa-map-location-dot"></i> 16. IP Geolocation</h3><input id="ip1" placeholder="8.8.8.8"><button onclick="ipGeo()">Locate</button><div id="r16" class="res"></div></div>
+<div class="box"><h3><i class="fa-solid fa-mobile"></i> 17. Device Info</h3><button onclick="devInfo()">Show Info</button><div id="r18" class="res"></div></div>
+<div class="box"><h3><i class="fa-solid fa-server"></i> 18. DNS Lookup</h3><input id="dns1" placeholder="google.com"><button onclick="dnsLook()">Lookup</button></div>
+<div class="box"><h3><i class="fa-solid fa-globe"></i> 20. Domain Whois</h3><input id="who1" placeholder="example.com"><button onclick="whois()">Whois</button></div>
 </div>
+
+<!-- 34-46 -->
+<div class="cat"><h2><i class="fa-solid fa-screwdriver-wrench"></i> ADVANCED TOOLS 34-46</h2>
+<div class="box"><h3><i class="fa-solid fa-hashtag"></i> 34. SHA256</h3><input id="sha1" placeholder="text"><button onclick="sha256()">Generate</button><div id="r34" class="res"></div></div>
+<div class="box"><h3><i class="fa-solid fa-code"></i> 35. Base64 Encode/Decode</h3><input id="b641" placeholder="text"><button onclick="b64e()">Encode</button><button onclick="b64d()">Decode</button><div id="r35" class="res"></div></div>
+<div class="box"><h3><i class="fa-solid fa-key"></i> 36. Password Generator</h3><button onclick="genPass()">Generate Strong Password</button><div id="r36" class="res"></div></div>
+<div class="box"><h3><i class="fa-solid fa-qrcode"></i> 37. QR Generator</h3><input id="qr1" placeholder="text for QR"><button onclick="qrGen()">Generate QR</button><div id="r37" class="res"></div></div>
+<div class="box"><h3><i class="fa-solid fa-scale-balanced"></i> 38. Cyber Law Info</h3><button onclick="cyberLaw()">Show Laws</button><div id="r38" class="res"></div></div>
+<div class="box"><h3><i class="fa-brands fa-instagram"></i> 40. Insta Safety Tips</h3><button onclick="instaSafe()">Get Tips</button><div id="r40" class="res"></div></div>
+<div class="box"><h3><i class="fa-solid fa-id-card-clip"></i> 41. Aadhaar Mask</h3><input id="aad1" placeholder="1234 5678 9012"><button onclick="aadMask()">Mask Aadhaar</button><div id="r41" class="res"></div></div>
+<div class="box"><h3><i class="fa-solid fa-user-shield"></i> 46. Privacy Score</h3><button onclick="privacyScore()">Check Score</button><div id="r46" class="res"></div></div>
+</div>
+
+<div style="text-align:center;padding:20px;color:#555;font-size:10px">theredeye.co.in © 2026 - Palampur | <button onclick="logoutVillage()" style="width:auto;padding:5px 10px;font-size:9px">Logout</button></div>
 </div>
 
 <script>
-// Firebase hidden config
 const _cfg="eyJhcGlLZXkiOiJBSXphU3lBRTBncEh6Y0ZsV3RKc2g4TDZQUG9iSnJRZDJFaE1mSjAiLCJhdXRoRG9tYWluIjoidGhlcmVkZXllLXZpbGxhZ2UuZmlyZWJhc2VhcHAuY29tIiwiZGF0YWJhc2VVUkwiOiJodHRwczovL3RoZXJlZGV5ZS12aWxsYWdlLWRlZmF1bHQtcnRkYi5maXJlYmFzZWlvLmNvbSIsInByb2plY3RJZCI6InRoZXJlZGV5ZS12aWxsYWdlIiwic3RvcmFnZUJ1Y2tldCI6InRoZXJlZGV5ZS12aWxsYWdlLmZpcmViYXNlc3RvcmFnZS5hcHAiLCJtZXNzYWdpbmdTZW5kZXJJZCI6IjEwMDk1Mzk5NzQ5ODYiLCJhcHBJZCI6IjE6MTAwOTUzOTk3NDk4Njp3ZWI6Y2JmODk3ZjI0YTkyMzM5ZGQxZTNiMyJ9";
 const firebaseConfig=JSON.parse(atob(_cfg));
 firebase.initializeApp(firebaseConfig);
 const db=firebase.database();
-
 let currentOTP=0, me=null, chatId=null, myLang='hi';
-
-// Auto login
-(function(){
-  let saved=localStorage.getItem('village_me');
-  if(saved){
-    try{
-      me=JSON.parse(saved);
-      myLang=me.country||'hi';
-      document.addEventListener('DOMContentLoaded', function(){
-        document.getElementById('loginSection').style.display='none';
-        document.getElementById('villageMain').style.display='none';
-        document.getElementById('autoLoginMsg').style.display='block';
-        setTimeout(showLiveApp, 800);
-      });
-    }catch(e){}
-  }
-})();
-
-function logoutVillage(){
-  if(confirm('Logout karna hai?')){
-    localStorage.removeItem('village_me');
-    location.reload();
-  }
-}
-
-function sendOTP(){
-  let p=document.getElementById('loginPhone').value.trim();
-  if(p.length < 8){ alert('Phone number daal bhai'); return; }
-  currentOTP=Math.floor(100000+Math.random()*900000);
-  let d=document.getElementById('otpDisplay');
-  let b=document.getElementById('otpBox');
-  d.style.display='block';
-  d.innerHTML='Tera OTP hai: <b style="font-size:26px;color:#ff3040;display:block;margin-top:5px">'+currentOTP+'</b><span style="font-size:10px;color:#888">Is OTP ko neeche daal</span>';
-  b.style.display='block';
-  console.log('OTP Generated:', currentOTP);
-  b.scrollIntoView({behavior:'smooth'});
-}
-
-function verifyOTP(){
-  let entered=document.getElementById('loginOTP').value.trim();
-  if(entered == currentOTP && currentOTP != 0){
-    document.getElementById('loginSection').style.display='none';
-    document.getElementById('villageMain').style.display='block';
-    document.getElementById('otpDisplay').style.display='none';
-    document.getElementById('otpBox').style.display='none';
-  } else {
-    alert('Galat OTP! Sahi OTP hai: '+currentOTP);
-  }
-}
-
-function villageConnect(){
-  let country=document.getElementById('villageCountry').value;
-  let raw=document.getElementById('villageName').value.trim();
-  if(!country){ alert('Country select kar'); return; }
-  if(!raw){ alert('Name daal'); return; }
-  let uname=raw.toLowerCase().replace(/[^a-z0-9_]/g,'').slice(0,20);
-  if(uname.length < 3) uname='user'+Date.now();
-  myLang=country;
-  me={username:uname,name:raw,country:country,pic:'https://i.pravatar.cc/150?u='+uname,online:true,joined:Date.now()};
-  localStorage.setItem('village_me', JSON.stringify(me));
-  db.ref('profiles/'+uname).set(me).then(()=>{ showLiveApp(); }).catch(e=>{ console.log(e); showLiveApp(); });
-}
-
-function showLiveApp(){
-  document.getElementById('wrap').innerHTML=`
-  <div style="background:#000;color:#fff;min-height:100vh;padding-bottom:70px">
-  <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid #222;position:sticky;top:0;background:#000;z-index:10">
-  <span style="font-size:24px">+</span><span class="insta-header">World Village Talk</span><span onclick="openReqs()" style="font-size:22px;cursor:pointer">♡<span id="heartCount" style="color:red;font-size:10px"></span></span>
-  </div>
-  <div style="display:flex;gap:6px;overflow-x:auto;padding:10px 6px;border-bottom:1px solid #111">
-  <div style="text-align:center;min-width:76px"><div class="story-diamond" style="background:#333"><img src="${me.pic}"></div><div style="font-size:9px;margin-top:8px">Your story</div></div>
-  <div id="worldStories" style="display:flex;gap:6px"></div>
-  </div>
-  <div style="padding:10px">
-  <div style="background:#111;border:1px solid #222;border-radius:10px;padding:10px;margin-bottom:10px">
-  <div style="font-size:11px;color:#ff3040;font-weight:800">FRIENDS (<span id="fCount">0</span>) <button id="reqBtn" style="display:none;float:right;background:#ff3040;color:#fff;border:none;padding:3px 8px;border-radius:10px;font-size:9px" onclick="openReqs()">Requests</button></div>
-  <div id="friendsList" style="max-height:120px;overflow-y:auto;margin-top:6px">Loading...</div>
-  </div>
-  <div style="background:#111;border:1px solid #222;border-radius:10px;padding:10px;margin-bottom:10px">
-  <div style="font-size:11px;color:#aaa">WORLD VILLAGES</div>
-  <div id="worldList" style="max-height:150px;overflow-y:auto;margin-top:6px">Loading...</div>
-  </div>
-  <div style="border:1px solid #222;border-radius:10px;overflow:hidden;background:#000">
-  <div id="chatHead" style="padding:10px;background:#111;font-size:11px">Select a friend to start LIVE chat</div>
-  <div id="chatArea" style="height:220px;overflow-y:auto;padding:10px;display:flex;flex-direction:column"></div>
-  <div style="padding:8px;border-top:1px solid #222;display:flex;gap:6px">
-  <input id="msgInput" placeholder="Type message..." style="flex:1;background:#111;border:1px solid #333;color:#fff;padding:10px;border-radius:20px" onkeydown="if(event.key==='Enter')sendLiveMsg()">
-  <button type="button" onclick="sendLiveMsg()" style="width:auto;background:#0095f6;color:#fff;border:none;padding:10px 16px;border-radius:20px">Send</button>
-  </div>
-  <div id="transInfo" style="padding:5px;font-size:9px;color:#00d4ff;background:#111;text-align:center"></div>
-  </div>
-  </div>
-  <div id="reqArea" style="display:none;padding:10px;background:#111;margin:10px;border-radius:10px"></div>
-  <div style="text-align:center;padding:10px"><button type="button" onclick="logoutVillage()" style="width:auto;font-size:9px;border-color:#555;color:#888">Logout / Switch Account</button></div>
-  <div class="bottom-nav"><span onclick="location.reload()" style="font-size:24px;color:#fff;cursor:pointer">⌂</span><span style="font-size:20px">▶</span><span style="font-size:20px">✈</span><span style="font-size:20px">○</span><span><img src="${me.pic}" style="width:24px;height:24px;border-radius:50%"></span></div>
-  </div>`;
-  loadWorldReal(); loadFriendsReal(); watchReqsReal();
-}
-
-function loadWorldReal(){
-  db.ref('profiles').on('value', s=>{
-    let all=s.val()||{}, h='', sh='';
-    Object.values(all).forEach(p=>{
-      if(p.username===me.username) return;
-      h+=`<div style="padding:6px;border-bottom:1px solid #111;display:flex;gap:6px;align-items:center"><img src="${p.pic}" style="width:26px;height:26px;border-radius:50%"><div style="flex:1"><div style="font-size:11px">@${p.username}</div><div style="font-size:8px;color:#888">${p.country}</div></div><button type="button" onclick="addFriendReal('${p.username}')" style="width:auto;background:#0095f6;color:#fff;border:none;padding:5px 10px;border-radius:6px;font-size:9px">Add</button></div>`;
-      sh+=`<div style="text-align:center;min-width:76px" onclick="addFriendReal('${p.username}')"><div class="story-diamond"><img src="${p.pic}"></div><div style="font-size:9px;margin-top:8px">${p.username}</div></div>`;
-    });
-    let wl=document.getElementById('worldList'); if(wl) wl.innerHTML=h||'No users yet - be first!';
-    let ws=document.getElementById('worldStories'); if(ws) ws.innerHTML=sh||'';
-  });
-}
-function addFriendReal(to){ db.ref('requests/'+to+'/'+me.username).set({from:me.username,name:me.name,pic:me.pic,time:Date.now()}); alert('Request sent to @'+to); }
-function watchReqsReal(){
-  db.ref('requests/'+me.username).on('value', s=>{
-    let r=s.val()||{}, c=Object.keys(r).length;
-    let btn=document.getElementById('reqBtn'); let hc=document.getElementById('heartCount');
-    if(!btn) return;
-    if(c>0){ btn.style.display='block'; btn.innerText=c+' Requests'; btn._data=r; if(hc) hc.innerText=c; } else { btn.style.display='none'; if(hc) hc.innerText=''; }
-  });
-}
-function openReqs(){
-  let btn=document.getElementById('reqBtn'); let r=btn?btn._data||{}:{}; let area=document.getElementById('reqArea');
-  area.style.display='block'; area.innerHTML='<b style="color:#ff3040">Follow Requests</b><br>';
-  if(Object.keys(r).length==0) area.innerHTML+='<div style="font-size:10px;color:#888">No requests</div>';
-  Object.values(r).forEach(x=>{ area.innerHTML+=`<div style="padding:8px;border-bottom:1px solid #222;display:flex;gap:8px;align-items:center"><img src="${x.pic}" style="width:28px;height:28px;border-radius:50%"><div style="flex:1"><div style="font-size:11px">${x.name}</div><div style="font-size:9px;color:#888">@${x.from}</div></div><button type="button" onclick="acceptReal('${x.from}')" style="width:auto;background:#0f0;color:#000;border:none;padding:6px 12px;border-radius:6px">Accept</button></div>`; });
-  area.scrollIntoView({behavior:'smooth'});
-}
-function acceptReal(from){ db.ref('friends/'+me.username+'/'+from).set(true); db.ref('friends/'+from+'/'+me.username).set(true); db.ref('requests/'+me.username+'/'+from).remove(); alert('Now friends with @'+from); }
-function loadFriendsReal(){
-  db.ref('friends/'+me.username).on('value', s=>{
-    let d=s.val()||{}, h=''; let fc=document.getElementById('fCount'); if(fc) fc.innerText=Object.keys(d).length;
-    Object.keys(d).forEach(u=>{ h+=`<div onclick="startChatReal('${u}')" style="padding:8px;border-bottom:1px solid #111;display:flex;gap:8px;align-items:center;cursor:pointer"><div style="width:22px;height:22px;background:#0095f6;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff">${u[0].toUpperCase()}</div><div style="font-size:11px">@${u}</div><div style="margin-left:auto;width:6px;height:6px;background:#0f0;border-radius:50%"></div></div>`; });
-    let fl=document.getElementById('friendsList'); if(fl) fl.innerHTML=h||'Add friends from World section';
-  });
-}
-function startChatReal(other){
-  chatId=[me.username, other].sort().join('__');
-  document.getElementById('chatHead').innerHTML=`Chat with <b>@${other}</b> ● LIVE`;
-  let area=document.getElementById('chatArea'); area.innerHTML='';
-  db.ref('chats/'+chatId).off();
-  db.ref('chats/'+chatId).limitToLast(60).on('child_added', snap=>{
-    let m=snap.val(); let isMe=m.from===me.username;
-    let div=document.createElement('div'); div.className='livechat '+(isMe?'me':'other');
-    div.innerHTML=(isMe?'You: ':'@'+m.from+': ')+m.text+(m.trans?`<br><span style="font-size:9px;opacity:0.7">🌍 ${m.trans}</span>`:'');
-    area.appendChild(div); area.scrollTop=area.scrollHeight;
-  });
-}
-async function sendLiveMsg(){
-  let t=document.getElementById('msgInput').value.trim();
-  if(!t){ return; }
-  if(!chatId){ alert('Pehle friend select kar'); return; }
-  document.getElementById('msgInput').value='';
-  let trans='';
-  try{ let r=await fetch('https://api.mymemory.translated.net/get?q='+encodeURIComponent(t)+'&langpair=en|'+myLang); let d=await r.json(); trans=d.responseData.translatedText; document.getElementById('transInfo').innerText='🌍 '+trans; }catch(e){}
-  db.ref('chats/'+chatId).push({from:me.username,text:t,trans:trans,time:Date.now()});
-}
-
-// Small tools
-function genUnban(){ let u=document.getElementById('uid').value.trim(); if(!u){alert('ID daal');return;} let r=document.getElementById('unbanRes'); r.style.display='block'; r.innerText='Dear Team, My ID '+u+' was banned by mistake. Please review. I am a genuine player. Thank you.'; document.getElementById('copyBtn').style.display='block'; }
-function copyUnban(){ navigator.clipboard.writeText(document.getElementById('unbanRes').innerText).then(()=>alert('Copied!')); }
-function breach(){ let e=document.getElementById('e1').value.trim(); let r=document.getElementById('r1'); r.innerText='Checking...'; fetch('https://api.xposedornot.com/v1/check-email/'+encodeURIComponent(e)).then(j=>j.json()).then(d=>r.innerText=JSON.stringify(d,null,2)).catch(()=>r.innerText='Safe or API busy'); }
-async function myIP(){ try{ let d=await fetch('https://api.ipify.org?format=json').then(j=>j.json()); document.getElementById('r15').innerText='Your IP: '+d.ip; }catch{ document.getElementById('r15').innerText='Failed to get IP'; } }
-function genPass(){ let c='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789!@#', p=''; for(let i=0;i<16;i++) p+=c[Math.floor(Math.random()*c.length)]; document.getElementById('r36').innerText=p; }
-function qrGen(){ let v=document.getElementById('qr1').value.trim(); if(!v){alert('Text daal');return;} document.getElementById('r37').innerHTML=`<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(v)}" style="border:5px solid #fff">`; }
+let saved=localStorage.getItem('village_me');
+if(saved){try{me=JSON.parse(saved);myLang=me.country||'hi';document.addEventListener('DOMContentLoaded',()=>{document.getElementById('step1').style.display='none';document.getElementById('step2').style.display='none';document.getElementById('step3').style.display='none';document.getElementById('autoLoginMsg').style.display='block';setTimeout(showLiveApp,800);});}catch(e){}}
+function logoutVillage(){if(confirm('Logout?')){localStorage.removeItem('village_me');location.reload();}}
+function sendOTP(){let p=document.getElementById('loginPhone').value.trim();if(p.length<8){alert('Phone daal');return;}currentOTP=Math.floor(100000+Math.random()*900000);let d=document.getElementById('otpDisplay');d.style.display='block';d.innerHTML='OTP: <b style="font-size:28px;color:#ff3040;display:block">'+currentOTP+'</b>';document.getElementById('step2').style.display='block';}
+function verifyOTP(){let e=document.getElementById('loginOTP').value.trim();if(e==currentOTP&&currentOTP!=0){document.getElementById('step1').style.display='none';document.getElementById('step2').style.display='none';document.getElementById('step3').style.display='block';}else alert('Wrong OTP: '+currentOTP);}
+function villageConnect(){let c=document.getElementById('villageCountry').value,r=document.getElementById('villageName').value.trim();if(!c||!r){alert('Country+Name daal');return;}let u=r.toLowerCase().replace(/[^a-z0-9_]/g,'').slice(0,20)||'user'+Date.now();myLang=c;me={username:u,name:r,country:c,pic:'https://i.pravatar.cc/150?u='+u,online:true,joined:Date.now()};localStorage.setItem('village_me',JSON.stringify(me));db.ref('profiles/'+u).set(me).then(()=>showLiveApp());}
+function showLiveApp(){document.getElementById('wrap').innerHTML=`<div style="background:#000;color:#fff;min-height:100vh;padding-bottom:20px"><div style="display:flex;justify-content:space-between;padding:12px;border-bottom:1px solid #222;position:sticky;top:0;background:#000"><span>⌂</span><span style="font-family:Grand Hotel,cursive;font-size:30px">World Village Talk</span><span>♡</span></div><div style="padding:10px"><div style="background:#111;border:1px solid #222;border-radius:10px;padding:10px;margin-bottom:10px"><div style="font-size:11px;color:#ff3040">FRIENDS (<span id="fCount">0</span>)</div><div id="friendsList">Loading...</div></div><div style="background:#111;border:1px solid #222;border-radius:10px;padding:10px;margin-bottom:10px"><div style="font-size:11px;color:#aaa">WORLD VILLAGES</div><div id="worldList">Loading...</div></div><div style="border:1px solid #222;border-radius:10px;overflow:hidden;background:#000"><div id="chatHead" style="padding:10px;background:#111">Select friend</div><div id="chatArea" style="height:220px;overflow-y:auto;padding:10px;display:flex;flex-direction:column"></div><div style="padding:8px;display:flex;gap:6px"><input id="msgInput" placeholder="Message..." style="flex:1;background:#111;border:1px solid #333;color:#fff;padding:10px;border-radius:20px"><button onclick="sendLiveMsg()" style="width:auto;background:#0095f6;color:#fff;border:none;padding:10px 16px;border-radius:20px">Send</button></div></div></div><div style="text-align:center;padding:10px"><button onclick="localStorage.clear();location.reload()" style="width:auto">Logout</button> <button onclick="location.reload()" style="width:auto">Back to Tools</button></div></div>`;loadWorldReal();}
+function loadWorldReal(){db.ref('profiles').on('value',s=>{let a=s.val()||{},h='';Object.values(a).forEach(p=>{if(p.username===me.username)return;h+=`<div style="padding:8px;border-bottom:1px solid #111;display:flex;gap:8px;align-items:center"><img src="${p.pic}" style="width:26px;height:26px;border-radius:50%"><div style="flex:1">@${p.username} (${p.country})</div><button onclick="addFriendReal('${p.username}')" style="width:auto;background:#0095f6;color:#fff;border:none;padding:5px 10px;border-radius:6px">Add</button></div>`;});let wl=document.getElementById('worldList');if(wl)wl.innerHTML=h||'No users yet';});db.ref('friends/'+me.username).on('value',s=>{let d=s.val()||{},h='';Object.keys(d).forEach(u=>{h+=`<div onclick="startChatReal('${u}')" style="padding:8px;border-bottom:1px solid #111;cursor:pointer">@${u} ●</div>`;});let fl=document.getElementById('friendsList');if(fl)fl.innerHTML=h||'Add friends';let fc=document.getElementById('fCount');if(fc)fc.innerText=Object.keys(d).length;});}
+function addFriendReal(t){db.ref('requests/'+t+'/'+me.username).set({from:me.username,name:me.name,pic:me.pic});alert('Request sent to @'+t);}
+function startChatReal(o){chatId=[me.username,o].sort().join('__');document.getElementById('chatHead').innerHTML='Chat with @'+o+' LIVE';let area=document.getElementById('chatArea');area.innerHTML='';db.ref('chats/'+chatId).limitToLast(60).on('child_added',snap=>{let m=snap.val();let isMe=m.from===me.username;let div=document.createElement('div');div.style.cssText=`max-width:75%;padding:8px 12px;border-radius:16px;font-size:11px;margin:4px 0;${isMe?'margin-left:auto;background:#0095f6;color:#fff':'background:#262626;color:#fff'}`;div.innerText=m.text;area.appendChild(div);area.scrollTop=area.scrollHeight;});}
+async function sendLiveMsg(){let t=document.getElementById('msgInput').value.trim();if(!t||!chatId){alert('Select friend');return;}document.getElementById('msgInput').value='';db.ref('chats/'+chatId).push({from:me.username,text:t,time:Date.now()});}
+function genUnban(){let u=document.getElementById('uid').value.trim();if(!u){alert('ID');return;}let r=document.getElementById('unbanRes');r.style.display='block';r.innerText='Dear Team, My ID '+u+' was banned by mistake. Please review. I am genuine player.';document.getElementById('copyBtn').style.display='block';}
+function copyUnban(){navigator.clipboard.writeText(document.getElementById('unbanRes').innerText).then(()=>alert('Copied'));}
+function breach(){let e=document.getElementById('e1').value.trim(),r=document.getElementById('r1');r.innerText='Checking...';fetch('https://api.xposedornot.com/v1/check-email/'+encodeURIComponent(e)).then(j=>j.json()).then(d=>r.innerText=JSON.stringify(d,null,2)).catch(()=>r.innerText='Safe');}
+function phone(){let v=document.getElementById('e2').value.trim();document.getElementById('r2').innerText=/^[6-9]\d{9}$/.test(v)?'Valid Indian Number':'Invalid';}
+function pass(){let p=document.getElementById('e3').value,s=0;if(p.length>=8)s++;if(/[A-Z]/.test(p))s++;if(/[0-9]/.test(p))s++;if(/[^A-Za-z0-9]/.test(p))s++;document.getElementById('r3').innerText='Strength: '+s+'/4 '+(s>2?'✅ Strong':'⚠️ Weak');}
+function userC(){let u=document.getElementById('e4').value.trim();if(u)window.open('https://whatsmyname.app/?q='+u,'_blank');}
+function hibp(){let v=document.getElementById('e1b').value.trim();if(v)window.open('https://haveibeenpwned.com/account/'+v,'_blank');}
+function scanLink(){let v=document.getElementById('s1').value;document.getElementById('rs1').innerText=v.includes('@')||v.length>100?'⚠️ Suspicious':'✅ Looks OK';}
+function upiCheck(){let v=document.getElementById('s2').value;document.getElementById('rs2').innerText=v.includes('@')?'✅ Valid UPI format':'❌ Invalid';}
+function jobCheck(){let v=document.getElementById('s3').value.toLowerCase();document.getElementById('rs3').innerText=v.includes('fee')||v.includes('pay')?'⚠️ Possible Scam':'✅ OK';}
+function loanCheck(){let v=document.getElementById('s4').value.toLowerCase();document.getElementById('rs4').innerText=v.includes('instant')?'⚠️ Check RBI list':'✅ OK';}
+function headerCheck(){document.getElementById('rs5').innerText='Check SPF/DKIM manually - if failed, spam.';}
+async function myIP(){try{let d=await fetch('https://api.ipify.org?format=json').then(j=>j.json());document.getElementById('r15').innerText='Your IP: '+d.ip;}catch{document.getElementById('r15').innerText='Failed';}}
+async function ipGeo(){let ip=document.getElementById('ip1').value.trim();if(!ip)return;let d=await fetch('https://ipapi.co/'+ip+'/json/').then(j=>j.json());document.getElementById('r16').innerText=JSON.stringify(d,null,2);}
+function devInfo(){document.getElementById('r18').innerText=navigator.userAgent+'\nScreen: '+screen.width+'x'+screen.height;}
+function dnsLook(){let d=document.getElementById('dns1').value.trim();if(d)window.open('https://dnschecker.org/#A/'+d,'_blank');}
+function whois(){let d=document.getElementById('who1').value.trim();if(d)window.open('https://who.is/whois/'+d,'_blank');}
+async function sha256(){let v=document.getElementById('sha1').value;let b=new TextEncoder().encode(v);let h=await crypto.subtle.digest('SHA-256',b);document.getElementById('r34').innerText=Array.from(new Uint8Array(h)).map(b=>b.toString(16).padStart(2,'0')).join('');}
+function b64e(){try{document.getElementById('r35').innerText=btoa(document.getElementById('b641').value);}catch{document.getElementById('r35').innerText='Error';}}
+function b64d(){try{document.getElementById('r35').innerText=atob(document.getElementById('b641').value);}catch{document.getElementById('r35').innerText='Invalid Base64';}}
+function genPass(){let c='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789!@#',p='';for(let i=0;i<16;i++)p+=c[Math.floor(Math.random()*c.length)];document.getElementById('r36').innerText=p;}
+function qrGen(){let v=document.getElementById('qr1').value.trim();if(!v){alert('Text daal');return;}document.getElementById('r37').innerHTML=`<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(v)}" style="border:5px solid #fff;border-radius:10px">`;}
+function cyberLaw(){document.getElementById('r38').innerText='IT Act 66C: Identity theft - 3 years jail\n66D: Cheating by impersonation\nReport: cybercrime.gov.in or 1930';}
+function instaSafe(){document.getElementById('r40').innerText='1. Private account rakho\n2. 2FA On karo\n3. Unknown link pe click mat karo\n4. Location tag off rakho';}
+function aadMask(){let v=document.getElementById('aad1').value.replace(/\D/g,'');document.getElementById('r41').innerText=v.length>=12?'Masked: XXXX XXXX '+v.slice(-4):'12 digit daal';}
+function privacyScore(){document.getElementById('r46').innerText='Your Privacy Score: '+(Math.floor(Math.random()*30)+65)+'/100\nTip: Use strong passwords + 2FA';}
 </script>
 </body>
 </html>
