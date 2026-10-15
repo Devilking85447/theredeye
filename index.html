@@ -2,230 +2,134 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>theredeye.co.in - World Village Talk | Independent Village Network</title>
+<title>World Village Talk</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Grand+Hotel&display=swap" rel="stylesheet">
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 <style>
-:root{--red:#ff3040;--bg:#070707;--card:#121212;--border:#222}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#fff;font-family:'Space Grotesk',sans-serif;letter-spacing:.2px}
-#app{max-width:540px;margin:auto;background:#000;min-height:100vh;position:relative;padding-bottom:90px;border-left:1px solid #111;border-right:1px solid #111}
-.top{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(0,0,0,.9);backdrop-filter:blur(10px);z-index:100}
-.logo{font-family:'Grand Hotel',cursive;font-size:30px;letter-spacing:1px}
-.logo span{color:var(--red)}
-.top i{width:38px;height:38px;display:grid;place-items:center;background:#151515;border:1px solid #222;border-radius:10px;transform:rotate(0deg);font-size:16px;cursor:pointer;transition:.2s}
-.top i:hover{transform:rotate(8deg) scale(1.05);background:var(--red);border-color:var(--red)}
-.storyBar{display:flex;gap:14px;overflow-x:auto;padding:14px 12px;border-bottom:1px solid #111;scrollbar-width:none}
-.storyBar::-webkit-scrollbar{display:none}
-.story{text-align:center;min-width:74px;cursor:pointer}
-.village-icon{width:64px;height:64px;background:#111;border:2px solid #222;border-radius:0;transform:rotate(45deg);display:grid;place-items:center;position:relative;overflow:hidden;margin:0 auto 8px auto;transition:.2s}
-.village-icon img{width:140%;height:140%;object-fit:cover;transform:rotate(-45deg)}
-.village-icon:hover{border-color:var(--red);transform:rotate(45deg) scale(1.06)}
-.village-icon.you{border-style:dashed}
-.sname{font-size:10px;color:#ccc;max-width:74px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.card{background:var(--card);border:1px solid var(--border);border-radius:16px;margin:12px;padding:12px}
-.card h2{font-size:12px;color:var(--red);letter-spacing:1.5px;margin:0 0 10px 0;text-transform:uppercase;border-bottom:1px dashed #222;padding-bottom:8px}
-input,select,textarea{width:100%;padding:12px;background:#0f0f0f;border:1px solid #2a2a2a;color:#fff;border-radius:10px;margin:6px 0;font-family:inherit}
-button{width:100%;padding:12px;background:#fff;color:#000;border:none;border-radius:10px;font-weight:700;margin:6px 0;cursor:pointer;font-family:inherit;letter-spacing:.5px}
-button.red{background:var(--red);color:#fff}button.dark{background:#1e1e1e;color:#fff;border:1px solid #333}
-.res{padding:10px;background:#000;border:1px solid #222;border-radius:10px;color:#0f0;font-size:11px;margin-top:8px;white-space:pre-wrap;word-break:break-all}
+:root{--red:#ff3040}*{box-sizing:border-box}body{margin:0;background:#000;color:#fff;font-family:'Space Grotesk',sans-serif}
+#app{max-width:520px;margin:auto;background:#000;min-height:100vh;padding-bottom:90px;border-left:1px solid #111;border-right:1px solid #111}
+.top{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;position:sticky;top:0;background:#000;z-index:100;border-bottom:1px solid #111}
+.logo{font-family:'Grand Hotel',cursive;font-size:28px}.logo span{color:var(--red)}
+.icon{width:36px;height:36px;display:grid;place-items:center;background:#151515;border:1px solid #222;border-radius:10px;cursor:pointer}
+.searchBar{margin:10px 12px;display:flex;gap:8px;align-items:center;background:#121212;border:1px solid #222;border-radius:12px;padding:8px 12px}
+.searchBar input{flex:1;background:transparent;border:none;color:#fff;outline:none}
+.card{background:#121212;border:1px solid #222;border-radius:16px;margin:10px;padding:12px}
+input,select,textarea{width:100%;padding:12px;background:#0f0f0f;border:1px solid #2a2a2a;color:#fff;border-radius:10px;margin:5px 0}
+button{width:100%;padding:12px;background:#fff;color:#000;border:none;border-radius:10px;font-weight:700;cursor:pointer}button.red{background:var(--red);color:#fff}button.dark{background:#1e1e1e;color:#fff;border:1px solid #333}
 .tab{display:none}.tab.active{display:block}
-.feed-post{border-radius:16px;overflow:hidden;margin-bottom:12px;background:#121212;border:1px solid #222}
-.feed-head{display:flex;gap:10px;align-items:center;padding:10px}
-.feed-head img{width:36px;height:36px;border-radius:0;transform:rotate(0);border:1px solid #333}
-.feed-img{width:100%;max-height:520px;object-fit:cover;background:#111}
-.feed-actions{display:flex;gap:14px;padding:10px 12px;font-size:18px}
-.feed-actions i{cursor:pointer;transform:rotate(0deg);transition:.15s}
-.feed-actions i:hover{transform:rotate(-8deg) scale(1.15);color:var(--red)}
-.bottom{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);width:94%;max-width:520px;background:rgba(18,18,18,.95);border:1px solid #222;border-radius:18px;display:flex;justify-content:space-around;padding:10px 6px;z-index:999;backdrop-filter:blur(12px);box-shadow:0 10px 30px rgba(0,0,0,.6)}
-.bottom i{font-size:20px;color:#888;cursor:pointer;width:44px;height:44px;display:grid;place-items:center;border-radius:10px;transform:rotate(0deg);transition:.2s}
-.bottom i.active{color:#fff;background:#222;transform:rotate(5deg)}
-.profile-grid{display:grid;grid-template-columns:100px 1fr;gap:14px;align-items:center}
-.avatar{width:92px;height:92px;background:#111;border:2px solid #222;border-radius:0;transform:rotate(0deg);overflow:hidden;display:grid;place-items:center}
-.avatar img{width:100%;height:100%;object-fit:cover}
-.stat{display:flex;gap:16px;text-align:center;margin-top:6px}
-.stat b{display:block;font-size:16px}.stat span{font-size:11px;color:#888}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;place-items:center;z-index:1000;padding:16px}
-.modal.active{display:grid}
-.modal-box{background:#121212;border:1px solid #333;border-radius:18px;max-width:480px;width:100%;max-height:90vh;overflow-y:auto;padding:16px}
+.feed-post{background:#121212;border:1px solid #222;border-radius:16px;margin:10px;overflow:hidden}
+.feed-head{display:flex;gap:10px;align-items:center;padding:10px}.feed-head img{width:36px;height:36px;border-radius:8px}
+.feed-img{width:100%;max-height:560px;object-fit:cover}
+.bottom{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);width:94%;max-width:520px;background:rgba(18,18,18,.96);border:1px solid #222;border-radius:18px;display:flex;justify-content:space-around;padding:8px;z-index:999}
+.bottom i{font-size:20px;color:#777;width:44px;height:44px;display:grid;place-items:center;border-radius:10px;cursor:pointer}.bottom i.active{color:#fff;background:#222}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;place-items:center;z-index:1000;padding:16px}.modal.active{display:grid}.modal-box{background:#121212;border:1px solid #333;border-radius:18px;max-width:480px;width:100%;padding:16px;max-height:92vh;overflow-y:auto}
+.id-badge{background:linear-gradient(45deg,#ff3040,#962fbf);padding:12px;border-radius:12px;text-align:center;margin:10px 0;font-weight:700}
+.toggle{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #1a1a1a}.switch{width:44px;height:26px;background:#333;border-radius:20px;position:relative;cursor:pointer}.switch.on{background:var(--red)}.switch::after{content:'';position:absolute;width:20px;height:20px;background:#fff;border-radius:50%;top:3px;left:3px;transition:.2s}.switch.on::after{left:21px}
 </style>
 </head>
 <body>
 <div id="app">
-<div class="top">
-<i class="fa-solid fa-plus" onclick="openModal('createModal')" title="Create"></i>
-<div class="logo">World Village <span>Talk</span></div>
-<i class="fa-solid fa-paper-plane" onclick="switchTab('dms')" title="Village Chat"></i>
-</div>
+<div class="top"><div class="icon" onclick="openModal('createModal')"><i class="fa-solid fa-plus"></i></div><div class="logo">World Village <span>Talk</span></div><div class="icon" onclick="switchTab('dms')"><i class="fa-solid fa-paper-plane"></i></div></div>
+<div class="searchBar"><i class="fa-solid fa-magnifying-glass" style="color:#777"></i><input id="searchInput" placeholder="Search village, user, #hashtag" oninput="doSearch()"></div>
 
-<div class="storyBar" id="storyBar">
-<div class="story" onclick="openModal('createModal')"><div class="village-icon you"><img id="myStoryImg" src="https://i.pravatar.cc/150?u=you"></div><div class="sname">Your Moment</div></div>
-<div id="storiesList" style="display:flex;gap:14px"></div>
-</div>
-
-<!-- LOGIN + COMPLETE PROFILE (Name, Mobile, Gender, Bio etc.) -->
 <div id="loginBox" class="card">
-<h2>Village Login</h2>
-<div id="s1"><input id="phone" type="tel" placeholder="Mobile Number (e.g. 9876543210)"><button class="red" onclick="sendOTP()"><i class="fa-solid fa-paper-plane"></i> SEND OTP</button><div id="otpShow" class="res" style="display:none;text-align:center"></div></div>
-<div id="s2" style="display:none"><input id="otpInput" placeholder="Enter OTP"><button onclick="verifyOTP()">VERIFY OTP</button></div>
-<div id="s3" style="display:none;border:1.5px solid #0f0;padding:12px;border-radius:14px;background:#001a00">
-<h2 style="color:#0f0">Complete Village Profile - Har cheez</h2>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-<input id="fullName" placeholder="Full Name">
-<input id="username" placeholder="Username e.g. praveen_palampur">
-</div>
-<input id="mobile" type="tel" placeholder="Mobile Number">
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-<select id="gender"><option value="">Gender</option><option>Male</option><option>Female</option><option>Other</option><option>Prefer not to say</option></select>
-<select id="country"><option value="">Country / Village Country</option><option>India</option><option>Russia</option><option>USA</option><option>Brazil</option><option>Nepal</option><option>Japan</option><option>Ukraine</option></select>
-</div>
-<input id="dob" type="date">
-<input id="website" placeholder="Website / YouTube (optional)">
-<textarea id="bio" rows="3" placeholder="Bio - Apne gaon ke baare me likho, kya kaam karte ho..."></textarea>
-<input type="file" id="avatarFile" accept="image/*">
-<button class="red" onclick="createProfile()"><i class="fa-solid fa-rocket"></i> CREATE PROFILE & ENTER VILLAGE</button>
-</div>
+<h3 style="color:var(--red);margin:0 0 10px 0">WORLD VILLAGE LOGIN</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+<button onclick="showLoginType('otp')" id="btn_otp" class="red" style="padding:8px;font-size:12px">Real OTP</button>
+<button onclick="showLoginType('pass')" id="btn_pass" class="dark" style="padding:8px;font-size:12px">Village ID + Password</button>
 </div>
 
-<!-- VILLAGE FEED - POST BUTTON UPAR -->
+<div id="otpLogin">
+<div id="s1"><input id="phone" placeholder="+919876543210"><div id="recaptcha"></div><button class="red" onclick="sendRealOTP()">SEND REAL OTP ON SMS</button><div style="font-size:11px;color:#888;text-align:center;margin-top:6px">Real OTP SMS notification pe ayega</div></div>
+<div id="s2" style="display:none;margin-top:10px"><input id="otpInput" placeholder="Enter OTP from SMS"><button onclick="verifyRealOTP()">VERIFY REAL OTP</button><div id="otpStatus" style="font-size:11px;color:#0f0;margin-top:6px"></div></div>
+</div>
+
+<div id="passLogin" style="display:none">
+<input id="loginUser" placeholder="Village ID"><input id="loginPass" type="password" placeholder="Password">
+<button class="red" onclick="loginWithPass()">LOGIN</button>
+<span style="font-size:12px;color:#888;cursor:pointer" onclick="openModal('forgotModal')">Forgot Password?</span>
+</div>
+
+<div id="s3" style="display:none;border:1.5px solid #0f0;padding:12px;border-radius:14px;background:#001a00;margin-top:10px">
+<h4 style="margin:0 0 8px 0;color:#0f0">Create Your Village ID</h4>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><input id="fullName" placeholder="Full Name"><input id="username" placeholder="Village ID"></div>
+<input id="mobileShow" disabled>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><input id="password" type="password" placeholder="Create Password"><input id="cpassword" type="password" placeholder="Confirm"></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><select id="gender"><option value="">Gender</option><option>Male</option><option>Female</option><option>Other</option></select><select id="country"><option value="">Country</option><option>India</option><option>Russia</option><option>USA</option><option>Brazil</option><option>Nepal</option></select></div>
+<textarea id="bio" rows="2" placeholder="Bio"></textarea><input type="file" id="avatarFile" accept="image/*">
+<div style="background:#000;border:1px solid #222;border-radius:10px;padding:8px;margin-top:8px">
+<b style="font-size:11px;color:var(--red)">PRIVACY</b>
+<div class="toggle"><span>Profile Public</span><div class="switch on" id="sw_profile" onclick="this.classList.toggle('on')"></div></div>
+<div class="toggle"><span>Mobile Private</span><div class="switch" id="sw_mobile" onclick="this.classList.toggle('on')"></div></div>
+<div class="toggle"><span>Bio Public</span><div class="switch on" id="sw_bio" onclick="this.classList.toggle('on')"></div></div>
+</div>
+<button class="red" onclick="createProfile()" style="margin-top:10px">CREATE ID</button>
+</div>
+<div id="idCreated" style="display:none" class="id-badge"></div>
+</div>
+
 <div id="feed" class="tab active">
-<div class="card" style="display:flex;gap:10px;align-items:center"><img id="feedMyPic" src="https://i.pravatar.cc/150?u=you" style="width:36px;height:36px;border-radius:8px"><button onclick="openModal('createModal')" class="dark" style="flex:1;margin:0;text-align:left;color:#888"><i class="fa-solid fa-pen-nib"></i> Share your village today?</button><i class="fa-solid fa-image" onclick="openModal('createModal')" style="font-size:20px;cursor:pointer"></i></div>
-<div id="feedPosts"></div>
+<div class="card" style="display:flex;gap:10px;align-items:center"><img id="feedMyPic" src="https://i.pravatar.cc/150?u=you" style="width:36px;height:36px;border-radius:8px"><button onclick="openModal('createModal')" class="dark" style="flex:1;margin:0;text-align:left;color:#888">Share your village? Pehli post tu dal</button></div>
+<div id="feedPosts"></div><div id="searchResults" style="display:none"></div>
 </div>
-
+<div id="explore" class="tab"><div id="exploreGrid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px"></div></div>
 <div id="reels" class="tab"><div id="reelsList"></div></div>
-<div id="dms" class="tab">
-<div class="card"><b>Village Chat - Photo/Video/Voice</b><div style="display:flex;gap:6px;margin-top:8px"><input id="dmUser" placeholder="Username search" style="flex:1"><button onclick="openDM()" style="width:auto">Open Chat</button></div><div id="dmList" style="margin-top:10px;max-height:200px;overflow-y:auto"></div></div>
-<div class="card"><div id="dmHead" style="font-weight:700">Select user</div><div id="dmChatArea" style="height:300px;overflow-y:auto;display:flex;flex-direction:column;padding:6px;gap:4px"></div><div style="display:flex;gap:6px;margin-top:8px"><input id="dmMsg" placeholder="Type message..." style="flex:1"><input type="file" id="dmFile" accept="image/*,video/*,audio/*" style="display:none" onchange="sendDMFile()"><button onclick="document.getElementById('dmFile').click()" style="width:auto" class="dark"><i class="fa-solid fa-paperclip"></i></button><button onclick="sendDM()" style="width:auto" class="red">Send</button></div></div>
-</div>
-<div id="explore" class="tab"><div class="card"><h2><i class="fa-solid fa-compass"></i> Discover Villages - Hashtags & Trending</h2><input id="exploreSearch" placeholder="Search #palampur #russia #farming" oninput="doExplore()"></div><div id="exploreGrid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;padding:3px"></div></div>
-<div id="live" class="tab"><div class="card"><h2><i class="fa-solid fa-tower-broadcast"></i> Village Live - Go Live from your village</h2><video id="liveVideo" autoplay muted playsinline style="width:100%;height:340px;background:#111;border-radius:14px"></video><div style="display:flex;gap:8px;margin-top:10px"><button onclick="startLive()" class="red">Go Live</button><button onclick="stopLive()" class="dark">End Live</button></div><div id="liveComments" style="height:120px;overflow-y:auto;background:#000;border:1px solid #222;border-radius:10px;padding:8px;margin-top:8px"></div><div style="display:flex;gap:6px"><input id="liveComment" placeholder="Comment during live..."><button onclick="sendLiveComment()" style="width:auto">Send</button></div></div></div>
-<div id="profileTab" class="tab"><div class="card" id="myProfileCard"></div></div>
-
-<!-- ALL 46 TOOLS - SEPARATE SECTION, NOT INSIDE TOOL -->
-<div class="card"><h2><i class="fa-solid fa-screwdriver-wrench"></i> Village Safety & Utility Tools - 46 Tools</h2>
-<p style="font-size:11px;color:#888;margin:0">Ye tools alag hain, feed se alag. Neeche use karo.</p>
-</div>
-
-<div class="card"><h2>1. Game Appeal Helper</h2><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px"><select id="game"><option>BGMI</option><option>Free Fire</option><option>Valorant</option><option>PUBG</option></select><input id="gid" placeholder="Game ID"></div><input id="reason" placeholder="Reason"><button onclick="genAppeal()">Generate Appeal Letter</button><div id="gRes" class="res" style="display:none"></div><button id="copyBtn" style="display:none" onclick="copyAppeal()" class="dark">Copy</button></div>
-
-<div class="card"><h2>Safety 2-14</h2>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-<div><input id="e1" placeholder="Email"><button onclick="breach()" class="dark">Breach Check</button><div id="r1" class="res"></div></div>
-<div><input id="e2" placeholder="Phone"><button onclick="phoneVal()" class="dark">Validate Phone</button><div id="r2" class="res"></div></div>
-</div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
-<div><input id="e3" type="password" placeholder="Password"><button onclick="passStr()" class="dark">Strength</button><div id="r3" class="res"></div></div>
-<div><input id="e4" placeholder="Username"><button onclick="userCheck()" class="dark">Find Accounts</button><div id="r4" class="res"></div></div>
-</div>
-<div style="margin-top:8px"><input id="s1" placeholder="Suspicious Link"><button onclick="scanLink()">Scan Link</button><div id="rs1" class="res"></div></div>
-<div style="margin-top:8px"><input id="s2" placeholder="UPI ID"><button onclick="upiCheck()" class="dark">Check UPI</button><div id="rs2" class="res"></div></div>
-<div style="margin-top:8px"><button onclick="window.open('https://cybercrime.gov.in','_blank')" class="red"><i class="fa-solid fa-triangle-exclamation"></i> Report to Cyber Crime 1930</button></div>
-</div>
-
-<div class="card"><h2>Device & IP 15-30</h2>
-<button onclick="myIP()">Get My IP</button><div id="r15" class="res"></div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px"><input id="ip1" placeholder="IP e.g. 8.8.8.8"><button onclick="ipGeo()" class="dark">IP Location</button></div><div id="r16" class="res"></div>
-<button onclick="devInfo()" class="dark" style="margin-top:8px">Show Device Info</button><div id="r18" class="res"></div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px"><input id="dns1" placeholder="Domain e.g. google.com"><button onclick="dnsLook()" class="dark">DNS / Whois</button></div>
-</div>
-
-<div class="card"><h2>Advanced 34-46</h2>
-<input id="sha1" placeholder="Text for SHA256"><button onclick="sha256()" class="dark">Generate SHA256</button><div id="r34" class="res"></div>
-<input id="b641" placeholder="Text for Base64" style="margin-top:8px"><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><button onclick="b64e()">Encode</button><button onclick="b64d()" class="dark">Decode</button></div><div id="r35" class="res"></div>
-<button onclick="genPass()" style="margin-top:8px">Generate Strong Password</button><div id="r36" class="res"></div>
-<input id="qr1" placeholder="Text for QR" style="margin-top:8px"><button onclick="qrGen()">Generate QR Code</button><div id="r37" class="res"></div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px"><input id="aad1" placeholder="Aadhaar 12 digits"><input id="pan1" placeholder="PAN"></div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><button onclick="aadMask()" class="dark">Mask Aadhaar</button><button onclick="panMask()" class="dark">Mask PAN</button></div><div id="r41" class="res"></div><div id="r42" class="res"></div>
-<button onclick="privacyScore()" style="margin-top:8px">Check Privacy Score</button><div id="r46" class="res"></div>
-</div>
-
-<div class="card"><h2>Legal</h2><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px"><button onclick="openModal('privacyModal')" class="dark">Privacy Policy</button><button onclick="openModal('termsModal')" class="dark">Terms</button><button onclick="openModal('disclaimerModal')" class="dark">Disclaimer</button></div><button onclick="openModal('contactModal')" class="dark" style="margin-top:8px">Contact / Team</button></div>
-
-<div style="text-align:center;padding:18px;color:#555;font-size:10px">World Village Talk © 2026 - Built with Meta AI - Mandi, HP, India<br><span style="text-decoration:underline;cursor:pointer" onclick="localStorage.clear();location.reload()">Logout & Switch Account</span></div>
+<div id="dms" class="tab"><div class="card"><b>Village Chat</b><div style="display:flex;gap:6px;margin-top:8px"><input id="dmUser" placeholder="Village ID"><button onclick="openDM()" style="width:auto">Open</button></div><div id="dmList"></div></div><div class="card"><div id="dmHead">Select village</div><div id="dmChatArea" style="height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:4px"></div><div style="display:flex;gap:6px;margin-top:8px"><input id="dmMsg" placeholder="Message" style="flex:1"><button onclick="sendDM()" style="width:auto" class="red">Send</button></div></div></div>
+<div id="profileTab" class="tab"><div id="myProfileCard" class="card"></div></div>
 
 <div class="bottom">
 <i class="fa-solid fa-house active" id="nav-feed" onclick="switchTab('feed')"></i>
 <i class="fa-solid fa-compass" id="nav-explore" onclick="switchTab('explore')"></i>
-<i class="fa-solid fa-square-plus" id="nav-create" onclick="openModal('createModal')"></i>
+<i class="fa-solid fa-square-plus" onclick="openModal('createModal')"></i>
 <i class="fa-solid fa-film" id="nav-reels" onclick="switchTab('reels')"></i>
 <i class="fa-solid fa-user" id="nav-profile" onclick="openProfile()"></i>
 </div>
 </div>
 
-<!-- CREATE MODAL -->
-<div class="modal" id="createModal"><div class="modal-box">
-<div style="display:flex;justify-content:space-between;align-items:center"><h2 style="margin:0;color:#fff">Create Village Content</h2><i class="fa-solid fa-xmark" onclick="closeModal('createModal')" style="cursor:pointer"></i></div>
-<input type="file" id="createFile" accept="image/*,video/*"><select id="createType"><option value="post">Village Feed - Permanent Post</option><option value="story">Village Moment - 24h Story</option><option value="reel">Village Clip - Short Video</option></select>
-<textarea id="createCaption" rows="3" placeholder="Caption - What's happening in your village? Use #hashtags"></textarea>
-<button class="red" onclick="doCreate()">Upload Now</button>
-</div></div>
-
-<!-- PROFILE EDIT MODAL -->
-<div class="modal" id="profileModal"><div class="modal-box"><h2>Edit Village Profile</h2><div id="profileEditForm"></div></div></div>
-
-<!-- LEGAL MODALS -->
-<div class="modal" id="privacyModal"><div class="modal-box"><h2>Privacy Policy - World Village Talk</h2><p style="font-size:12px;line-height:1.6;color:#ccc">We at World Village Talk respect your privacy. Your mobile number is only used for login verification. Your posts, clips, moments are stored securely in Firebase. We do not sell your data. You can delete your profile anytime via logout. Your IP is only used for safety tools, not tracked. Contact: theredeye.co.in/contact.html</p><button class="dark" onclick="closeModal('privacyModal')">Close</button></div></div>
-<div class="modal" id="termsModal"><div class="modal-box"><h2>Terms of Use</h2><p style="font-size:12px;line-height:1.6;color:#ccc">By using World Village Talk you agree not to post illegal, abusive, or fake content. Village Moments auto-delete after 24h. Village Clips must be under 60 seconds. Respect all villages and cultures. Any violation leads to profile removal. This platform is built for farmers, students, and village communities to connect globally.</p><button class="dark" onclick="closeModal('termsModal')">Close</button></div></div>
-<div class="modal" id="disclaimerModal"><div class="modal-box"><h2>Disclaimer</h2><p style="font-size:12px;line-height:1.6;color:#ccc">World Village Talk is an independent village social network inspired by community sharing, not affiliated with any major social platform. Tools like Breach Check, IP lookup use public APIs. We are not responsible for third-party API results. Use safety tools at your own discretion. For legal issues contact us.</p><button class="dark" onclick="closeModal('disclaimerModal')">Close</button></div></div>
-<div class="modal" id="contactModal"><div class="modal-box"><h2>Team - theredeye.co.in</h2><p style="font-size:12px;line-height:1.6;color:#ccc">Founder: Palampur, Mandi, HP, India<br>Mission: Connect villages worldwide like World Village Talk<br>Built with help of Meta AI to empower independent creators<br>Email: contact@theredeye.co.in<br>We teach how to build your own platform without depending on big tech.</p><button class="dark" onclick="closeModal('contactModal')">Close</button></div></div>
+<div class="modal" id="createModal"><div class="modal-box"><h3>Create Post - Pehli Post Tu Dal</h3><input type="file" id="createFile" accept="image/*,video/*"><select id="createType"><option value="post">Feed</option><option value="story">Moment 24h</option><option value="reel">Clip</option></select><textarea id="createCaption" rows="3" placeholder="Caption #village"></textarea><button class="red" onclick="doCreate()">Post Now</button><button class="dark" onclick="closeModal('createModal')">Close</button></div></div>
+<div class="modal" id="forgotModal"><div class="modal-box"><h3>Forgot Password</h3><input id="forgotUser" placeholder="Village ID"><div id="forgotRes" style="margin-top:8px;color:#0f0"></div><button class="red" onclick="forgotPass()">Get OTP</button><button class="dark" onclick="closeModal('forgotModal')">Close</button></div></div>
 
 <script>
 const _cfg="eyJhcGlLZXkiOiJBSXphU3lBRTBncEh6Y0ZsV3RKc2g4TDZQUG9iSnJRZDJFaE1mSjAiLCJhdXRoRG9tYWluIjoidGhlcmVkZXllLXZpbGxhZ2UuZmlyZWJhc2VhcHAuY29tIiwiZGF0YWJhc2VVUkwiOiJodHRwczovL3RoZXJlZGV5ZS12aWxsYWdlLWRlZmF1bHQtcnRkYi5maXJlYmFzZWlvLmNvbSIsInByb2plY3RJZCI6InRoZXJlZGV5ZS12aWxsYWdlIiwic3RvcmFnZUJ1Y2tldCI6InRoZXJlZGV5ZS12aWxsYWdlLmZpcmViYXNlc3RvcmFnZS5hcHAiLCJtZXNzYWdpbmdTZW5kZXJJZCI6IjEwMDk1Mzk5NzQ5ODYiLCJhcHBJZCI6IjE6MTAwOTUzOTk3NDk4Njp3ZWI6Y2JmODk3ZjI0YTkyMzM5ZGQxZTNiMyJ9";
-firebase.initializeApp(JSON.parse(atob(_cfg))); const db=firebase.database();
-let OTP=0, me=null, dmTarget=null, liveStream=null;
-let saved=localStorage.getItem('village_user_v2');
-if(saved){ me=JSON.parse(saved); document.getElementById('loginBox').style.display='none'; document.getElementById('myStoryImg').src=me.pic; document.getElementById('feedMyPic').src=me.pic; initApp(); openProfile(); }
-function sendOTP(){ let p=document.getElementById('phone').value.trim(); if(p.length<8){alert('Mobile daal');return;} OTP=Math.floor(100000+Math.random()*900000); let d=document.getElementById('otpShow'); d.style.display='block'; d.innerHTML='OTP: <b style="font-size:28px;color:#ff3040">'+OTP+'</b> (Demo - Real OTP backend baad me lagega)'; document.getElementById('s2').style.display='block';}
-function verifyOTP(){ let e=document.getElementById('otpInput').value.trim(); if(e==OTP){ document.getElementById('s1').style.display='none'; document.getElementById('s2').style.display='none'; document.getElementById('s3').style.display='block'; } else alert('Wrong OTP: '+OTP); }
-function createProfile(){
- let fn=document.getElementById('fullName').value.trim(), u=document.getElementById('username').value.trim(), mob=document.getElementById('mobile').value.trim()||document.getElementById('phone').value.trim(), gen=document.getElementById('gender').value, cou=document.getElementById('country').value, dob=document.getElementById('dob').value, web=document.getElementById('website').value.trim(), bio=document.getElementById('bio').value.trim();
- if(!fn||!u||!mob||!gen||!cou){alert('Full Name, Username, Mobile, Gender, Country bharo - ye compulsory hai');return;}
- let avatarFile=document.getElementById('avatarFile').files[0]; let pic=avatarFile?URL.createObjectURL(avatarFile):'https://i.pravatar.cc/150?u='+u;
- me={fullName:fn, username:u.toLowerCase().replace(/[^a-z0-9_]/g,''), mobile:mob, gender:gen, country:cou, dob:dob, website:web, bio:bio, pic:pic, time:Date.now(), followers:0, following:0, posts:0};
- localStorage.setItem('village_user_v2',JSON.stringify(me)); document.getElementById('loginBox').style.display='none'; document.getElementById('myStoryImg').src=me.pic; document.getElementById('feedMyPic').src=me.pic; db.ref('profiles/'+me.username).set(me); initApp(); openProfile(); alert('Profile ban gaya! Ab pehli post daal - Village Feed me.');
+firebase.initializeApp(JSON.parse(atob(_cfg))); const db=firebase.database(); const auth=firebase.auth();
+let confirmationResult=null, verifiedPhone="", me=null, dmTarget=null;
+let saved=localStorage.getItem('village_user_final'); if(saved){ me=JSON.parse(saved); document.getElementById('loginBox').style.display='none'; initApp(); showIdCreated(); }
+function showLoginType(t){ document.getElementById('otpLogin').style.display=t==='otp'?'block':'none'; document.getElementById('passLogin').style.display=t==='pass'?'block':'none'; document.getElementById('btn_otp').className=t==='otp'?'red':'dark'; document.getElementById('btn_pass').className=t==='pass'?'red':'dark'; }
+function sendRealOTP(){
+  let phone=document.getElementById('phone').value.trim(); if(phone.length<10){alert('Number daal +91 ke saath');return;}
+  if(!phone.startsWith('+')) phone='+91'+phone.replace(/^0+/,''); verifiedPhone=phone; document.getElementById('mobileShow').value=phone;
+  if(!window.recaptchaVerifier){ window.recaptchaVerifier=new firebase.auth.RecaptchaVerifier('recaptcha',{size:'invisible'}); }
+  auth.signInWithPhoneNumber(phone, window.recaptchaVerifier).then(r=>{ confirmationResult=r; document.getElementById('s2').style.display='block'; document.getElementById('otpStatus').innerText='✅ OTP sent to '+phone+' - SMS dekho'; alert('Real OTP bheja '+phone); }).catch(e=>{ alert('Error: '+e.message); window.recaptchaVerifier=null; });
 }
-function initApp(){ loadStories(); loadFeed(); loadReels(); loadDMList(); }
-function switchTab(t){ document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active')); document.getElementById(t).classList.add('active'); document.querySelectorAll('.bottom i').forEach(i=>i.classList.remove('active')); let nav=document.getElementById('nav-'+t); if(nav) nav.classList.add('active'); if(t==='profile') openProfile(); }
+function verifyRealOTP(){
+  let otp=document.getElementById('otpInput').value.trim(); if(!confirmationResult){alert('Pehle OTP bhejo');return;}
+  confirmationResult.confirm(otp).then(()=>{ document.getElementById('s1').style.display='none'; document.getElementById('s2').style.display='none'; document.getElementById('s3').style.display='block'; alert('✅ OTP Verified! ID banao'); }).catch(()=>{ alert('Galat OTP'); });
+}
+function createProfile(){
+ let fn=document.getElementById('fullName').value.trim(), u=document.getElementById('username').value.trim().toLowerCase().replace(/[^a-z0-9_]/g,''), pass=document.getElementById('password').value.trim(), cpass=document.getElementById('cpassword').value.trim(), gen=document.getElementById('gender').value, cou=document.getElementById('country').value, bio=document.getElementById('bio').value.trim();
+ if(!fn||!u||!verifiedPhone||!pass||!gen||!cou){alert('Sab bharo');return;} if(pass!==cpass){alert('Password match nahi');return;}
+ let file=document.getElementById('avatarFile').files[0]; let pic=file?URL.createObjectURL(file):'https://i.pravatar.cc/150?u='+u;
+ me={fullName:fn, username:u, mobile:verifiedPhone, password:pass, gender:gen, country:cou, bio:bio, pic:pic, time:Date.now(), posts:0, privacy:{profile:document.getElementById('sw_profile').classList.contains('on'), mobile:document.getElementById('sw_mobile').classList.contains('on'), bio:document.getElementById('sw_bio').classList.contains('on')}};
+ localStorage.setItem('village_user_final',JSON.stringify(me)); localStorage.setItem('village_pass_'+u,pass); db.ref('profiles/'+u).set(me); document.getElementById('loginBox').style.display='none'; initApp(); showIdCreated();
+}
+function showIdCreated(){ let b=document.getElementById('idCreated'); b.style.display='block'; b.innerHTML=`✅ ID Created - Real OTP Verified<br><span style="font-size:20px">@${me.username}</span><br>${me.fullName} • ${me.mobile}`; }
+function loginWithPass(){ let u=document.getElementById('loginUser').value.trim().toLowerCase(), p=document.getElementById('loginPass').value.trim(); db.ref('profiles/'+u).once('value',s=>{ let d=s.val(); if(d&&d.password===p){ me=d; localStorage.setItem('village_user_final',JSON.stringify(me)); document.getElementById('loginBox').style.display='none'; initApp(); showIdCreated(); } else alert('Wrong ID or Password'); }); }
+function forgotPass(){ let u=document.getElementById('forgotUser').value.trim(); let otp=Math.floor(100000+Math.random()*900000); document.getElementById('forgotRes').innerHTML='Reset OTP for @'+u+': <b>'+otp+'</b>'; }
+function initApp(){ loadFeed(); loadDMList(); }
+function switchTab(t){ document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active')); document.getElementById(t).classList.add('active'); document.querySelectorAll('.bottom i').forEach(i=>i.classList.remove('active')); let n=document.getElementById('nav-'+t); if(n) n.classList.add('active'); if(t==='profile') openProfile(); }
 function openModal(id){ document.getElementById(id).classList.add('active'); } function closeModal(id){ document.getElementById(id).classList.remove('active'); }
-function openProfile(){ switchTab('profileTab'); if(!me){document.getElementById('myProfileCard').innerHTML='<p>Login karo pehle</p>';return;} document.getElementById('myProfileCard').innerHTML=`<div class="profile-grid"><div class="avatar"><img src="${me.pic}"></div><div><b style="font-size:18px">${me.fullName}</b><div style="font-size:12px;color:#888">@${me.username} • ${me.country}</div><div class="stat"><div><b>${me.posts||0}</b><span>Posts</span></div><div><b>${me.followers||0}</b><span>Followers</span></div><div><b>${me.following||0}</b><span>Following</span></div></div></div></div><div style="margin-top:12px;font-size:13px;line-height:1.5"><b>Bio:</b> ${me.bio||'No bio yet'}<br><b>Gender:</b> ${me.gender} | <b>Mobile:</b> ${me.mobile}<br>${me.dob?'DOB: '+me.dob+'<br>':''}${me.website?'Website: '+me.website:''}</div><button class="dark" onclick="editProfile()" style="margin-top:12px">Edit Profile - Name, Mobile, Gender, Bio</button>`; }
-function editProfile(){ openModal('profileModal'); document.getElementById('profileEditForm').innerHTML=`<input id="e_fullName" value="${me.fullName}" placeholder="Full Name"><input id="e_username" value="${me.username}" placeholder="Username"><input id="e_mobile" value="${me.mobile}" placeholder="Mobile"><select id="e_gender"><option ${me.gender==='Male'?'selected':''}>Male</option><option ${me.gender==='Female'?'selected':''}>Female</option><option ${me.gender==='Other'?'selected':''}>Other</option></select><select id="e_country"><option selected>${me.country}</option><option>India</option><option>Russia</option><option>USA</option><option>Brazil</option><option>Nepal</option></select><textarea id="e_bio" rows="3" placeholder="Bio">${me.bio}</textarea><input id="e_website" value="${me.website||''}" placeholder="Website"><button class="red" onclick="saveProfile()">Save Profile</button>`; }
-function saveProfile(){ me.fullName=document.getElementById('e_fullName').value.trim(); me.username=document.getElementById('e_username').value.trim().toLowerCase().replace(/[^a-z0-9_]/g,''); me.mobile=document.getElementById('e_mobile').value.trim(); me.gender=document.getElementById('e_gender').value; me.country=document.getElementById('e_country').value; me.bio=document.getElementById('e_bio').value.trim(); me.website=document.getElementById('e_website').value.trim(); localStorage.setItem('village_user_v2',JSON.stringify(me)); db.ref('profiles/'+me.username).set(me); closeModal('profileModal'); openProfile(); alert('Profile updated');}
-function loadStories(){ db.ref('stories').on('value',s=>{ let all=s.val()||{}, h=''; Object.values(all).forEach(st=>{ if(Date.now()-st.time>24*60*60*1000) return; h+=`<div class="story" onclick="alert('Village Moment: ${st.caption} - 24h me delete hoga')"><div class="village-icon"><img src="${st.pic}"></div><div class="sname">${st.caption||'Moment'}</div></div>`;}); document.getElementById('storiesList').innerHTML=h; });}
-function doCreate(){ let f=document.getElementById('createFile').files[0]; let type=document.getElementById('createType').value; let cap=document.getElementById('createCaption').value.trim(); if(!f&&!cap){alert('Image/Video ya caption daal');return;} let url=f?URL.createObjectURL(f):'https://picsum.photos/500/500?random='+Date.now(); if(type==='post'){ db.ref('posts').push({user:me.username,fullName:me.fullName,pic:me.pic,img:url,caption:cap,time:Date.now()}); me.posts=(me.posts||0)+1; localStorage.setItem('village_user_v2',JSON.stringify(me)); } if(type==='story') db.ref('stories/'+me.username).set({pic:url,time:Date.now(),caption:me.username}); if(type==='reel') db.ref('reels').push({user:me.username,pic:me.pic,video:url,caption:cap,time:Date.now()}); closeModal('createModal'); document.getElementById('createCaption').value=''; document.getElementById('createFile').value=''; alert(type+' uploaded! Ab Village Feed me dikhega'); switchTab(type==='post'?'feed':type==='story'?'feed':'reels'); }
-function createPost(){ openModal('createModal'); }
-function loadFeed(){ db.ref('posts').limitToLast(30).on('child_added',snap=>{ let p=snap.val(); let div=document.createElement('div'); div.className='feed-post'; div.innerHTML=`<div class="feed-head"><img src="${p.pic}" style="border-radius:8px"><div><b>${p.fullName||p.user}</b><div style="font-size:11px;color:#888">@${p.user} • ${p.caption? p.caption.slice(0,30):''}</div></div><div style="margin-left:auto"><i class="fa-solid fa-ellipsis"></i></div></div><img src="${p.img}" class="feed-img"><div class="feed-actions"><i class="fa-regular fa-heart"></i><i class="fa-regular fa-comment"></i><i class="fa-solid fa-paper-plane"></i><i class="fa-regular fa-bookmark" style="margin-left:auto"></i></div><div style="padding:0 12px 12px 12px;font-size:13px"><b>@${p.user}</b> ${p.caption}<br><span style="color:#888;font-size:11px">${new Date(p.time).toLocaleString()}</span></div>`; document.getElementById('feedPosts').prepend(div); document.getElementById('exploreGrid').innerHTML=`<img src="${p.img}" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:2px">`+document.getElementById('exploreGrid').innerHTML; });}
-function uploadReel(){ let f=document.getElementById('reelFile').files[0]; if(!f){alert('Video select kar');return;} let url=URL.createObjectURL(f); let cap=document.getElementById('reelCaption').value; db.ref('reels').push({user:me.username,pic:me.pic,video:url,caption:cap,time:Date.now()}); }
-function loadReels(){ db.ref('reels').limitToLast(12).on('child_added',snap=>{ let r=snap.val(); let d=document.createElement('div'); d.className='card'; d.style.padding='0'; d.style.overflow='hidden'; d.innerHTML=`<div class="reel-box"><video src="${r.video}" loop autoplay muted onclick="this.muted=!this.muted" style="cursor:pointer"></video><div style="position:absolute;bottom:12px;left:12px;right:50px"><b>@${r.user}</b><div style="font-size:12px;margin-top:4px">${r.caption}</div></div><div style="position:absolute;right:12px;bottom:20px;display:flex;flex-direction:column;gap:18px;text-align:center"><i class="fa-regular fa-heart"></i><span style="font-size:10px">Like</span><i class="fa-regular fa-comment"></i><span style="font-size:10px">Comment</span><i class="fa-solid fa-paper-plane"></i></div></div>`; document.getElementById('reelsList').prepend(d); });}
-function loadDMList(){ db.ref('profiles').on('value',s=>{ let a=s.val()||{},h=''; Object.values(a).forEach(p=>{ if(me&&p.username===me.username)return; h+=`<div onclick="document.getElementById('dmUser').value='${p.username}';openDM()" style="padding:10px;border-bottom:1px solid #111;cursor:pointer;display:flex;gap:10px;align-items:center"><div class="village-icon" style="width:36px;height:36px;margin:0"><img src="${p.pic}"></div><div><b>@${p.username}</b><div style="font-size:11px;color:#888">${p.country} • ${p.gender||''}</div></div></div>`;}); document.getElementById('dmList').innerHTML=h; });}
-function openDM(){ dmTarget=document.getElementById('dmUser').value.trim().toLowerCase(); if(!dmTarget){alert('Username daal');return;} document.getElementById('dmHead').innerText='Village Chat with @'+dmTarget; let area=document.getElementById('dmChatArea'); area.innerHTML=''; let chatId=[me.username,dmTarget].sort().join('__'); db.ref('dms/'+chatId).off(); db.ref('dms/'+chatId).limitToLast(60).on('child_added',snap=>{ let m=snap.val(); let isMe=m.from===me.username; let div=document.createElement('div'); div.style.cssText=`max-width:75%;padding:8px 12px;border-radius:14px;font-size:13px;margin:3px 0;${isMe?'margin-left:auto;background:#fff;color:#000':'background:#222;color:#fff'}`; if(m.type==='image') div.innerHTML=`<img src="${m.text}" style="width:140px;border-radius:8px">`; else if(m.type==='video') div.innerHTML=`<video src="${m.text}" style="width:140px;border-radius:8px" controls></video>`; else if(m.type==='audio') div.innerHTML=`<audio src="${m.text}" controls style="width:140px"></audio>`; else div.innerText=m.text; area.appendChild(div); area.scrollTop=area.scrollHeight; });}
-function sendDM(){ let t=document.getElementById('dmMsg').value.trim(); if(!t||!dmTarget){alert('User+Message');return;} let chatId=[me.username,dmTarget].sort().join('__'); db.ref('dms/'+chatId).push({from:me.username,text:t,type:'text',time:Date.now()}); document.getElementById('dmMsg').value='';}
-function sendDMFile(){ let f=document.getElementById('dmFile').files[0]; if(!f||!dmTarget){alert('User select kar');return;} let url=URL.createObjectURL(f); let type=f.type.startsWith('image')?'image':f.type.startsWith('video')?'video':'audio'; let chatId=[me.username,dmTarget].sort().join('__'); db.ref('dms/'+chatId).push({from:me.username,text:url,type:type,time:Date.now()});}
-function doExplore(){ let q=document.getElementById('exploreSearch').value.toLowerCase(); document.getElementById('exploreGrid').innerHTML=''; db.ref('posts').once('value',s=>{ let all=s.val()||{}; Object.values(all).forEach(p=>{ if((p.caption||'').toLowerCase().includes(q)||p.user.includes(q)||q==='') document.getElementById('exploreGrid').innerHTML+=`<img src="${p.img}" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:2px">`; }); });}
-async function startLive(){ try{ liveStream=await navigator.mediaDevices.getUserMedia({video:true,audio:true}); document.getElementById('liveVideo').srcObject=liveStream; db.ref('lives/'+me.username).set({user:me.username,time:Date.now()}); }catch(e){alert('Camera permission de: '+e.message);} }
-function stopLive(){ if(liveStream){ liveStream.getTracks().forEach(t=>t.stop()); document.getElementById('liveVideo').srcObject=null; db.ref('lives/'+me.username).remove(); }}
-function sendLiveComment(){ let t=document.getElementById('liveComment').value.trim(); if(!t)return; document.getElementById('liveComments').innerHTML+=`<div><b>@${me.username}:</b> ${t}</div>`; document.getElementById('liveComment').value='';}
-function genAppeal(){ let id=document.getElementById('gid').value.trim(); if(!id){alert('Game ID');return;} let r=document.getElementById('gRes'); r.style.display='block'; r.innerText='Respected Team, My Game ID '+id+' has been banned mistakenly. Reason: '+document.getElementById('reason').value+'. I am a genuine player from village community. Kindly review and unban. Regards, '+(me?me.fullName:'User'); document.getElementById('copyBtn').style.display='block';}
-function copyAppeal(){ navigator.clipboard.writeText(document.getElementById('gRes').innerText).then(()=>alert('Appeal Copied!'));}
-function breach(){ let e=document.getElementById('e1').value.trim(); let r=document.getElementById('r1'); r.innerText='Checking...'; fetch('https://api.xposedornot.com/v1/check-email/'+encodeURIComponent(e)).then(j=>j.json()).then(d=>r.innerText=JSON.stringify(d,null,2)).catch(()=>r.innerText='Safe / API busy - Try haveibeenpwned');}
-function phoneVal(){ let v=document.getElementById('e2').value.trim(); document.getElementById('r2').innerText=/^[6-9]\d{9}$/.test(v)?'✅ Valid Indian Mobile':'❌ Invalid';}
-function passStr(){ let p=document.getElementById('e3').value,s=0; if(p.length>=8)s++; if(/[A-Z]/.test(p))s++; if(/[0-9]/.test(p))s++; if(/[^A-Za-z0-9]/.test(p))s++; document.getElementById('r3').innerText='Strength: '+s+'/4 '+(s>2?'✅ Strong':'⚠️ Weak');}
-function userCheck(){ let u=document.getElementById('e4').value.trim(); if(u)window.open('https://whatsmyname.app/?q='+u,'_blank');}
-function scanLink(){ let v=document.getElementById('s1').value; document.getElementById('rs1').innerText=v.includes('@')||v.length>80?'⚠️ Suspicious Link - Do not open':'✅ Looks OK';}
-function upiCheck(){ let v=document.getElementById('s2').value; document.getElementById('rs2').innerText=v.includes('@')?'✅ Valid UPI format':'❌ Invalid';}
-function myIP(){ fetch('https://api.ipify.org?format=json').then(r=>r.json()).then(d=>document.getElementById('r15').innerText='Your IP: '+d.ip).catch(()=>document.getElementById('r15').innerText='Offline - 127.0.0.1');}
-function ipGeo(){ let ip=document.getElementById('ip1').value.trim(); if(!ip)return; fetch('https://ipapi.co/'+ip+'/json/').then(r=>r.json()).then(d=>document.getElementById('r16').innerText=JSON.stringify(d,null,2));}
-function devInfo(){ document.getElementById('r18').innerText=navigator.userAgent.slice(0,160)+'\nScreen: '+screen.width+'x'+screen.height+'\nLang: '+navigator.language+'\nPlatform: '+navigator.platform;}
-function dnsLook(){ let d=document.getElementById('dns1').value.trim(); if(d)window.open('https://dnschecker.org/#A/'+d,'_blank');}
-function sha256(){ let v=document.getElementById('sha1').value; crypto.subtle.digest('SHA-256',new TextEncoder().encode(v)).then(h=>{ document.getElementById('r34').innerText=Array.from(new Uint8Array(h)).map(b=>b.toString(16).padStart(2,'0')).join(''); });}
-function b64e(){ try{document.getElementById('r35').innerText=btoa(document.getElementById('b641').value);}catch{document.getElementById('r35').innerText='Error';}}
-function b64d(){ try{document.getElementById('r35').innerText=atob(document.getElementById('b641').value);}catch{document.getElementById('r35').innerText='Invalid Base64';}}
-function genPass(){ let c='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789!@#',p='';for(let i=0;i<18;i++)p+=c[Math.floor(Math.random()*c.length)]; document.getElementById('r36').innerText=p;}
-function qrGen(){ let v=document.getElementById('qr1').value.trim(); if(!v){alert('Text daal');return;} document.getElementById('r37').innerHTML=`<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(v)}" style="border:6px solid #fff;border-radius:12px">`;}
-function aadMask(){ let v=document.getElementById('aad1').value.replace(/\D/g,''); document.getElementById('r41').innerText=v.length>=12?'Masked: XXXX XXXX '+v.slice(-4):'12 digit daal';}
-function panMask(){ let v=document.getElementById('pan1').value.trim(); document.getElementById('r42').innerText=v.length>=5?'Masked: '+v.slice(0,2)+'XXX'+v.slice(-2):'PAN daal';}
-function privacyScore(){ document.getElementById('r46').innerText='Your Privacy Score: '+(Math.floor(Math.random()*25)+70)+'/100\nTip: Private profile + Strong password + 2FA';}
+function openProfile(){ switchTab('profileTab'); if(!me) return; let p=me.privacy||{}; document.getElementById('myProfileCard').innerHTML=`<div style="text-align:center"><div style="width:90px;height:90px;margin:auto;background:#111;border-radius:14px;overflow:hidden"><img src="${me.pic}" style="width:100%;height:100%;object-fit:cover"></div><b style="display:block;margin-top:8px">${me.fullName}</b>@${me.username}<div style="margin-top:6px"><span style="background:linear-gradient(45deg,#ff3040,#962fbf);padding:4px 10px;border-radius:20px;font-size:11px">Village ID: @${me.username} - Real OTP Verified</span></div></div><div style="font-size:13px;background:#000;border:1px solid #222;border-radius:12px;padding:10px;margin-top:10px"><b>Name:</b> ${me.fullName}<br><b>ID:</b> @${me.username}<br><b>Mobile:</b> ${p.mobile?me.mobile:'🔒 Private'}<br><b>Bio:</b> ${p.bio?me.bio:'🔒 Private'}<br><b>Country:</b> ${me.country}<br><b>Created:</b> ${new Date(me.time).toLocaleDateString()}</div><button class="dark" onclick="editProfile()" style="margin-top:10px">Edit</button><button class="red" onclick="logout()" style="margin-top:8px">Logout - ID Safe</button>`; }
+function logout(){ if(confirm('Logout? ID safe rahegi')){ localStorage.removeItem('village_user_final'); location.reload(); } }
+function editProfile(){ let bio=prompt('New Bio:',me.bio)||me.bio; me.bio=bio; localStorage.setItem('village_user_final',JSON.stringify(me)); db.ref('profiles/'+me.username).set(me); openProfile(); }
+function doCreate(){ let f=document.getElementById('createFile').files[0]; let type=document.getElementById('createType').value; let cap=document.getElementById('createCaption').value.trim(); if(!f&&!cap){alert('Photo ya caption');return;} let url=f?URL.createObjectURL(f):'https://picsum.photos/500/500?random='+Date.now(); if(type==='post'){ db.ref('posts').push({user:me.username,fullName:me.fullName,pic:me.pic,img:url,caption:cap,time:Date.now()}); me.posts=(me.posts||0)+1; localStorage.setItem('village_user_final',JSON.stringify(me)); } if(type==='story') db.ref('stories/'+me.username).set({pic:url,time:Date.now()}); if(type==='reel') db.ref('reels').push({user:me.username,pic:me.pic,video:url,caption:cap,time:Date.now()}); closeModal('createModal'); alert('Post Live!'); switchTab('feed'); }
+function loadFeed(){ db.ref('posts').limitToLast(50).on('child_added',s=>{ let p=s.val(); let div=document.createElement('div'); div.className='feed-post'; div.innerHTML=`<div class="feed-head"><img src="${p.pic}"><div><b>${p.fullName||p.user}</b><div style="font-size:11px;color:#888">@${p.user}</div></div></div><img src="${p.img}" class="feed-img"><div style="padding:10px"><b>@${p.user}</b> ${p.caption||''}<br><span style="color:#666;font-size:11px">${new Date(p.time).toLocaleString()}</span></div>`; document.getElementById('feedPosts').prepend(div); }); }
+function doSearch(){ let q=document.getElementById('searchInput').value.toLowerCase().trim(); if(!q){ document.getElementById('feedPosts').style.display='block'; document.getElementById('searchResults').style.display='none'; return; } document.getElementById('feedPosts').style.display='none'; document.getElementById('searchResults').style.display='block'; db.ref('posts').once('value',s=>{ let all=s.val()||{}, h=''; Object.values(all).forEach(p=>{ if((p.caption||'').toLowerCase().includes(q)||p.user.toLowerCase().includes(q)) h+=`<div class="feed-post"><div class="feed-head"><img src="${p.pic}"><b>@${p.user}</b></div><img src="${p.img}" class="feed-img"><div style="padding:10px">${p.caption}</div></div>`; }); document.getElementById('searchResults').innerHTML=h||'<div class="card">No results</div>'; }); }
+function loadDMList(){ db.ref('profiles').on('value',s=>{ let a=s.val()||{},h=''; Object.values(a).forEach(p=>{ if(me&&p.username===me.username) return; h+=`<div onclick="document.getElementById('dmUser').value='${p.username}';openDM()" style="padding:10px;border-bottom:1px solid #111;cursor:pointer">@${p.username} - ${p.country}</div>`;}); document.getElementById('dmList').innerHTML=h; }); }
+function openDM(){ dmTarget=document.getElementById('dmUser').value.trim().toLowerCase(); if(!dmTarget){alert('Village ID');return;} document.getElementById('dmHead').innerText='Chat @'+dmTarget; let area=document.getElementById('dmChatArea'); area.innerHTML=''; let chatId=[me.username,dmTarget].sort().join('__'); db.ref('dms/'+chatId).off(); db.ref('dms/'+chatId).limitToLast(50).on('child_added',snap=>{ let m=snap.val(); let isMe=m.from===me.username; let div=document.createElement('div'); div.style.cssText=`max-width:75%;padding:8px 12px;border-radius:14px;font-size:13px;margin:3px 0;${isMe?'margin-left:auto;background:#fff;color:#000':'background:#222;color:#fff'}`; div.innerText=m.text; area.appendChild(div); area.scrollTop=area.scrollHeight; });}
+function sendDM(){ let t=document.getElementById('dmMsg').value.trim(); if(!t||!dmTarget){alert('Msg');return;} let chatId=[me.username,dmTarget].sort().join('__'); db.ref('dms/'+chatId).push({from:me.username,text:t,time:Date.now()}); document.getElementById('dmMsg').value='';}
 </script>
 </body>
 </html>
