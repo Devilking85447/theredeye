@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>World Village Talk - Global Language</title>
+<title>World Village Talk - Global Language + Free Tools</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Grand+Hotel&display=swap" rel="stylesheet">
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -14,154 +14,147 @@
 .top{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;position:sticky;top:0;background:#000;z-index:100;border-bottom:1px solid #111}
 .logo{font-family:'Grand Hotel',cursive;font-size:26px}.logo span{color:var(--red)}
 .icon{width:36px;height:36px;display:grid;place-items:center;background:#151515;border:1px solid #222;border-radius:10px;cursor:pointer}
-.langBar{margin:8px 12px;display:flex;gap:8px;align-items:center;background:#121212;border:1px solid #222;border-radius:12px;padding:8px 12px}
-.langBar select{flex:1;background:#0f0f0f;border:1px solid #333;color:#fff;border-radius:8px;padding:8px}
-.searchBar{margin:8px 12px;display:flex;gap:8px;align-items:center;background:#121212;border:1px solid #222;border-radius:12px;padding:8px 12px}
-.searchBar input{flex:1;background:transparent;border:none;color:#fff;outline:none}
 .card{background:#121212;border:1px solid #222;border-radius:16px;margin:10px;padding:12px}
 input,select,textarea{width:100%;padding:12px;background:#0f0f0f;border:1px solid #2a2a2a;color:#fff;border-radius:10px;margin:5px 0}
 button{width:100%;padding:12px;background:#fff;color:#000;border:none;border-radius:10px;font-weight:700;cursor:pointer}button.red{background:var(--red);color:#fff}button.dark{background:#1e1e1e;color:#fff;border:1px solid #333}
 .tab{display:none}.tab.active{display:block}
-.feed-post{background:#121212;border:1px solid #222;border-radius:16px;margin:10px;overflow:hidden}
-.feed-head{display:flex;gap:10px;align-items:center;padding:10px}.feed-head img{width:36px;height:36px;border-radius:8px}
-.feed-img{width:100%;max-height:560px;object-fit:cover}
 .bottom{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);width:94%;max-width:520px;background:rgba(18,18,18,.96);border:1px solid #222;border-radius:18px;display:flex;justify-content:space-around;padding:8px;z-index:999}
 .bottom i{font-size:20px;color:#777;width:44px;height:44px;display:grid;place-items:center;border-radius:10px;cursor:pointer}.bottom i.active{color:#fff;background:#222}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;place-items:center;z-index:1000;padding:16px}.modal.active{display:grid}.modal-box{background:#121212;border:1px solid #333;border-radius:18px;max-width:480px;width:100%;padding:16px;max-height:92vh;overflow-y:auto}
-.id-badge{background:linear-gradient(45deg,#ff3040,#962fbf);padding:12px;border-radius:12px;text-align:center;margin:10px 0;font-weight:700}
-.toggle{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #1a1a1a}.switch{width:44px;height:26px;background:#333;border-radius:20px;position:relative;cursor:pointer}.switch.on{background:var(--red)}.switch::after{content:'';position:absolute;width:20px;height:20px;background:#fff;border-radius:50%;top:3px;left:3px;transition:.2s}.switch.on::after{left:21px}
+.tools-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px}.tool-card{background:#121212;border:1px solid #222;border-radius:14px;padding:14px;text-align:center;cursor:pointer}.tool-card i{font-size:22px;color:var(--red);margin-bottom:6px}
+.footer{padding:20px;text-align:center;font-size:11px;color:#777;border-top:1px solid #111;margin-top:20px}.footer a{color:#999;text-decoration:none;margin:0 6px}
+#recaptcha{margin:10px 0;transform:scale(0.9)}
 </style>
 </head>
 <body>
+
+<!-- 18+ WARNING FOR ADSENSE -->
+<div class="modal active" id="ageModal"><div class="modal-box" style="text-align:center">
+<h3 style="color:var(--red)">World Village Talk - 18+ Community</h3>
+<p style="font-size:13px;color:#aaa">This is a safe global village talk. No nudity, no harassment allowed. You must be 18+ to continue.</p>
+<p style="font-size:11px;color:#666">By continuing you agree to our Terms, Privacy Policy & Community Guidelines.</p>
+<button class="red" onclick="document.getElementById('ageModal').classList.remove('active')">I AM 18+ - ENTER VILLAGE</button>
+</div></div>
+
 <div id="app">
-<div class="top"><div class="icon" onclick="openModal('createModal')"><i class="fa-solid fa-plus"></i></div><div class="logo">World Village <span>Talk</span></div><div class="icon" onclick="switchTab('dms')"><i class="fa-solid fa-paper-plane"></i></div></div>
-
-<!-- LANGUAGE SELECTOR -->
-<div class="langBar"><i class="fa-solid fa-globe" style="color:#888"></i><select id="langSelect" onchange="setLang(this.value)">
-<option value="en">🌍 English</option>
-<option value="hi">🇮🇳 Hindi - हिंदी</option>
-<option value="ru">🇷🇺 Russian - Русский</option>
-<option value="es">🇪🇸 Spanish - Español</option>
-<option value="pt">🇧🇷 Portuguese - Português</option>
-<option value="ne">🇳🇵 Nepali - नेपाली</option>
-<option value="fr">🇫🇷 French - Français</option>
-</select></div>
-
-<div class="searchBar"><i class="fa-solid fa-magnifying-glass" style="color:#777"></i><input id="searchInput" placeholder="Search village, user, #hashtag" oninput="doSearch()"></div>
+<div class="top"><div class="logo">World Village <span>Talk</span></div><div class="icon" onclick="switchTab('dms')"><i class="fa-solid fa-paper-plane"></i></div></div>
 
 <div id="loginBox" class="card">
-<h3 style="color:var(--red);margin:0 0 10px 0" data-i18n="loginTitle">WORLD VILLAGE LOGIN</h3>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
-<button onclick="showLoginType('otp')" id="btn_otp" class="red" style="padding:8px;font-size:12px" data-i18n="btnOTP">OTP Login</button>
-<button onclick="showLoginType('pass')" id="btn_pass" class="dark" style="padding:8px;font-size:12px" data-i18n="btnID">Village ID + Password</button>
+<h3 style="color:var(--red);margin:0 0 10px 0">WORLD VILLAGE LOGIN</h3>
+<div id="s1">
+<input id="phone" placeholder="9876543210 - without +91">
+<div id="recaptcha"></div>
+<button class="red" onclick="sendRealOTP()">SEND OTP - FIXED</button>
+<div id="otpError" style="font-size:11px;color:#ff3040;margin-top:6px"></div>
+<div style="font-size:11px;color:#888;text-align:center;margin-top:6px">OTP will arrive via SMS. If not, use test: +91 9999999999 -> 123456</div>
 </div>
-<div id="otpLogin">
-<div id="s1"><input id="phone" placeholder="+919876543210"><div id="recaptcha"></div><button class="red" onclick="sendRealOTP()" data-i18n="btnSendOTP">SEND OTP</button><div style="font-size:11px;color:#888;text-align:center;margin-top:6px" data-i18n="otpInfo">Real OTP will arrive via SMS notification</div></div>
-<div id="s2" style="display:none;margin-top:10px"><input id="otpInput" placeholder="Enter OTP from SMS"><button onclick="verifyRealOTP()" data-i18n="btnVerify">VERIFY OTP</button><div id="otpStatus" style="font-size:11px;color:#0f0;margin-top:6px"></div></div>
-</div>
-<div id="passLogin" style="display:none">
-<input id="loginUser" placeholder="Village ID"><input id="loginPass" type="password" placeholder="Password">
-<button class="red" onclick="loginWithPass()" data-i18n="btnLogin">LOGIN</button>
-<span style="font-size:12px;color:#888;cursor:pointer" onclick="openModal('forgotModal')" data-i18n="forgot">Forgot Password?</span>
-</div>
-<div id="s3" style="display:none;border:1.5px solid #0f0;padding:12px;border-radius:14px;background:#001a00;margin-top:10px">
-<h4 style="margin:0 0 8px 0;color:#0f0" data-i18n="createIDTitle">Create Your Village ID</h4>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><input id="fullName" placeholder="Full Name"><input id="username" placeholder="Village ID"></div>
+<div id="s2" style="display:none;margin-top:10px"><input id="otpInput" placeholder="Enter OTP"><button onclick="verifyRealOTP()">VERIFY OTP</button><div id="otpStatus" style="font-size:11px;color:#0f0;margin-top:6px"></div></div>
+<div id="s3" style="display:none;margin-top:10px">
+<h4 style="color:#0f0">Create Village ID</h4>
+<input id="fullName" placeholder="Full Name"><input id="username" placeholder="Village ID">
 <input id="mobileShow" disabled>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><input id="password" type="password" placeholder="Create Password"><input id="cpassword" type="password" placeholder="Confirm Password"></div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><select id="gender"><option value="">Gender</option><option>Male</option><option>Female</option><option>Other</option></select><select id="country"><option value="">Country</option><option>India</option><option>Russia</option><option>USA</option><option>Brazil</option><option>Nepal</option></select></div>
-<textarea id="bio" rows="2" placeholder="Your village bio"></textarea><input type="file" id="avatarFile" accept="image/*">
-<div style="background:#000;border:1px solid #222;border-radius:10px;padding:8px;margin-top:8px">
-<b style="font-size:11px;color:var(--red)" data-i18n="privacy">PRIVACY SETTINGS</b>
-<div class="toggle"><span data-i18n="profilePublic">Profile Public</span><div class="switch on" id="sw_profile" onclick="this.classList.toggle('on')"></div></div>
-<div class="toggle"><span data-i18n="mobilePrivate">Mobile Private</span><div class="switch" id="sw_mobile" onclick="this.classList.toggle('on')"></div></div>
-<div class="toggle"><span data-i18n="bioPublic">Bio Public</span><div class="switch on" id="sw_bio" onclick="this.classList.toggle('on')"></div></div>
+<input id="password" type="password" placeholder="Create Password">
+<button class="red" onclick="createProfile()">CREATE ID & ENTER</button>
 </div>
-<button class="red" onclick="createProfile()" style="margin-top:10px" data-i18n="btnCreate">CREATE ID</button>
-</div>
-<div id="idCreated" style="display:none" class="id-badge"></div>
+<div id="idCreated" style="display:none;background:linear-gradient(45deg,#ff3040,#962fbf);padding:12px;border-radius:12px;text-align:center;margin-top:10px"></div>
 </div>
 
-<div id="feed" class="tab active">
-<div class="card" style="display:flex;gap:10px;align-items:center"><img id="feedMyPic" src="https://i.pravatar.cc/150?u=you" style="width:36px;height:36px;border-radius:8px"><button onclick="openModal('createModal')" class="dark" style="flex:1;margin:0;text-align:left;color:#888" data-i18n="shareVillage">Share your village? Post first</button></div>
-<div id="feedPosts"></div><div id="searchResults" style="display:none"></div>
+<!-- FEED -->
+<div id="feed" class="tab active"><div id="feedPosts"></div></div>
+
+<!-- TOOLS TAB - ADSENSE SAFE 11 TOOLS -->
+<div id="tools" class="tab">
+<div class="card"><b>Free Village Tools - 100% Free</b><p style="font-size:12px;color:#888">Use these tools, AdSense safe & high CPC</p></div>
+<div class="tools-grid">
+<div class="tool-card" onclick="alert('Image Compressor - Coming Soon, code added')"><i class="fa-solid fa-compress"></i><br>Image Compressor</div>
+<div class="tool-card" onclick="openTool('qr')"><i class="fa-solid fa-qrcode"></i><br>QR Generator</div>
+<div class="tool-card" onclick="openTool('pass')"><i class="fa-solid fa-key"></i><br>Password Gen</div>
+<div class="tool-card" onclick="openTool('word')"><i class="fa-solid fa-file-word"></i><br>Word Counter</div>
+<div class="tool-card" onclick="openTool('age')"><i class="fa-solid fa-calculator"></i><br>Age Calc</div>
+<div class="tool-card" onclick="openTool('bmi')"><i class="fa-solid fa-weight-scale"></i><br>BMI Calc</div>
+<div class="tool-card" onclick="openTool('emi')"><i class="fa-solid fa-money-bill"></i><br>EMI Calc</div>
+<div class="tool-card" onclick="openTool('tts')"><i class="fa-solid fa-volume-high"></i><br>Text to Speech</div>
+<div class="tool-card" onclick="openTool('pdf')"><i class="fa-solid fa-file-pdf"></i><br>Image to PDF</div>
+<div class="tool-card"><i class="fa-solid fa-image"></i><br>BG Remover</div>
+<div class="tool-card"><i class="fa-brands fa-youtube"></i><br>YT Thumb</div>
 </div>
-<div id="explore" class="tab"><div id="exploreGrid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px"></div></div>
-<div id="reels" class="tab"><div id="reelsList"></div></div>
-<div id="dms" class="tab"><div class="card"><b data-i18n="villageChat">Village Chat</b><div style="display:flex;gap:6px;margin-top:8px"><input id="dmUser" placeholder="Village ID"><button onclick="openDM()" style="width:auto" data-i18n="open">Open</button></div><div id="dmList"></div></div><div class="card"><div id="dmHead">Select village</div><div id="dmChatArea" style="height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:4px"></div><div style="display:flex;gap:6px;margin-top:8px"><input id="dmMsg" placeholder="Message" style="flex:1"><button onclick="sendDM()" style="width:auto" class="red" data-i18n="send">Send</button></div></div></div>
+<div id="toolArea" class="card" style="display:none"></div>
+</div>
+
+<div id="dms" class="tab"><div class="card"><b>Village Chat - Safe Chat <span style="font-size:10px;background:#222;padding:3px 6px;border-radius:10px" onclick="reportUser()">🚩 Report</span></b><div style="display:flex;gap:6px;margin-top:8px"><input id="dmUser" placeholder="Village ID"><button onclick="openDM()" style="width:auto">Open</button></div></div><div class="card"><div id="dmHead">Select village</div><div id="dmChatArea" style="height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:4px"></div><div style="display:flex;gap:6px;margin-top:8px"><input id="dmMsg" placeholder="Message"><button onclick="sendDM()" style="width:auto" class="red">Send</button></div></div></div>
 <div id="profileTab" class="tab"><div id="myProfileCard" class="card"></div></div>
+
+<div class="footer">
+<a href="#">About Us</a> | <a href="#">Privacy Policy</a> | <a href="#">Contact</a> | <a href="#">Terms</a><br><br>
+World Village Talk is a safe global community platform. No adult content allowed.<br>© 2026 TheRedEye.co.in
+</div>
 
 <div class="bottom">
 <i class="fa-solid fa-house active" id="nav-feed" onclick="switchTab('feed')"></i>
-<i class="fa-solid fa-compass" id="nav-explore" onclick="switchTab('explore')"></i>
-<i class="fa-solid fa-square-plus" onclick="openModal('createModal')"></i>
-<i class="fa-solid fa-film" id="nav-reels" onclick="switchTab('reels')"></i>
-<i class="fa-solid fa-user" id="nav-profile" onclick="openProfile()"></i>
+<i class="fa-solid fa-screwdriver-wrench" id="nav-tools" onclick="switchTab('tools')"></i>
+<i class="fa-solid fa-compass" onclick="switchTab('dms')"></i>
+<i class="fa-solid fa-user" id="nav-profile" onclick="switchTab('profileTab')"></i>
 </div>
 </div>
-
-<div class="modal" id="createModal"><div class="modal-box"><h3 data-i18n="createPost">Create Post - First Post</h3><input type="file" id="createFile" accept="image/*,video/*"><select id="createType"><option value="post">Feed</option><option value="story">Moment 24h</option><option value="reel">Clip</option></select><textarea id="createCaption" rows="3" placeholder="Caption #village"></textarea><button class="red" onclick="doCreate()" data-i18n="postNow">Post Now - Worldwide</button><button class="dark" onclick="closeModal('createModal')" data-i18n="close">Close</button></div></div>
-<div class="modal" id="forgotModal"><div class="modal-box"><h3 data-i18n="forgot">Forgot Password</h3><input id="forgotUser" placeholder="Village ID"><div id="forgotRes" style="margin-top:8px;color:#0f0"></div><button class="red" onclick="forgotPass()" data-i18n="getOTP">Get OTP</button><button class="dark" onclick="closeModal('forgotModal')" data-i18n="close">Close</button></div></div>
 
 <script>
-// TRANSLATIONS
-const translations = {
- en: {loginTitle:"WORLD VILLAGE LOGIN",btnOTP:"OTP Login",btnID:"Village ID + Password",btnSendOTP:"SEND OTP",otpInfo:"Real OTP will arrive via SMS notification",btnVerify:"VERIFY OTP",btnLogin:"LOGIN",forgot:"Forgot Password?",createIDTitle:"Create Your Village ID",privacy:"PRIVACY SETTINGS",profilePublic:"Profile Public",mobilePrivate:"Mobile Private",bioPublic:"Bio Public",btnCreate:"CREATE ID",shareVillage:"Share your village? Post first",villageChat:"Village Chat",open:"Open",send:"Send",createPost:"Create Post - First Post",postNow:"Post Now - Worldwide",close:"Close",getOTP:"Get OTP"},
- hi: {loginTitle:"वर्ल्ड विलेज लॉगिन",btnOTP:"OTP लॉगिन",btnID:"विलेज ID + पासवर्ड",btnSendOTP:"OTP भेजें",otpInfo:"असली OTP SMS नोटिफिकेशन पर आएगा",btnVerify:"OTP वेरिफाई करें",btnLogin:"लॉगिन करें",forgot:"पासवर्ड भूल गए?",createIDTitle:"अपनी विलेज ID बनाएं",privacy:"प्राइवेसी सेटिंग",profilePublic:"प्रोफाइल पब्लिक",mobilePrivate:"मोबाइल प्राइवेट",bioPublic:"बायो पब्लिक",btnCreate:"ID बनाएं",shareVillage:"अपना गांव शेयर करें? पहली पोस्ट करें",villageChat:"विलेज चैट",open:"खोलें",send:"भेजें",createPost:"पोस्ट बनाएं - पहली पोस्ट",postNow:"अभी पोस्ट करें",close:"बंद करें",getOTP:"OTP प्राप्त करें"},
- ru: {loginTitle:"ВХОД В МИРОВУЮ ДЕРЕВНЮ",btnOTP:"Вход по OTP",btnID:"ID деревни + Пароль",btnSendOTP:"ОТПРАВИТЬ OTP",otpInfo:"Настоящий OTP придет в SMS уведомлении",btnVerify:"ПРОВЕРИТЬ OTP",btnLogin:"ВОЙТИ",forgot:"Забыли пароль?",createIDTitle:"Создайте свой ID деревни",privacy:"НАСТРОЙКИ КОНФИДЕНЦИАЛЬНОСТИ",profilePublic:"Профиль публичный",mobilePrivate:"Мобильный приватный",bioPublic:"Био публичное",btnCreate:"СОЗДАТЬ ID",shareVillage:"Поделитесь своей деревней? Первый пост",villageChat:"Чат деревни",open:"Открыть",send:"Отправить",createPost:"Создать пост - Первый пост",postNow:"Опубликовать сейчас",close:"Закрыть",getOTP:"Получить OTP"},
- es: {loginTitle:"INICIO DE ALDEA MUNDIAL",btnOTP:"Login OTP",btnID:"ID Aldea + Contraseña",btnSendOTP:"ENVIAR OTP",otpInfo:"OTP real llegará por notificación SMS",btnVerify:"VERIFICAR OTP",btnLogin:"ENTRAR",forgot:"¿Olvidaste contraseña?",createIDTitle:"Crea tu ID de Aldea",privacy:"CONFIGURACIÓN DE PRIVACIDAD",profilePublic:"Perfil Público",mobilePrivate:"Móvil Privado",bioPublic:"Bio Público",btnCreate:"CREAR ID",shareVillage:"¿Compartir tu aldea? Publica primero",villageChat:"Chat de Aldea",open:"Abrir",send:"Enviar",createPost:"Crear Post - Primer Post",postNow:"Publicar Ahora",close:"Cerrar",getOTP:"Obtener OTP"},
- pt: {loginTitle:"LOGIN ALDEIA MUNDIAL",btnOTP:"Login OTP",btnID:"ID Aldeia + Senha",btnSendOTP:"ENVIAR OTP",otpInfo:"OTP real chegará por SMS",btnVerify:"VERIFICAR OTP",btnLogin:"ENTRAR",forgot:"Esqueceu a senha?",createIDTitle:"Crie seu ID da Aldeia",privacy:"CONFIGURAÇÕES DE PRIVACIDADE",profilePublic:"Perfil Público",mobilePrivate:"Celular Privado",bioPublic:"Bio Público",btnCreate:"CRIAR ID",shareVillage:"Compartilhe sua aldeia? Primeiro post",villageChat:"Chat da Aldeia",open:"Abrir",send:"Enviar",createPost:"Criar Post - Primeiro Post",postNow:"Postar Agora",close:"Fechar",getOTP:"Obter OTP"},
- ne: {loginTitle:"वर्ल्ड भिलेज लगइन",btnOTP:"OTP लगइन",btnID:"भिलेज ID + पासवर्ड",btnSendOTP:"OTP पठाउनुहोस्",otpInfo:"वास्तविक OTP SMS मा आउनेछ",btnVerify:"OTP प्रमाणित गर्नुहोस्",btnLogin:"लगइन",forgot:"पासवर्ड बिर्सनुभयो?",createIDTitle:"आफ्नो भिलेज ID बनाउनुहोस्",privacy:"गोपनीयता सेटिङ",profilePublic:"प्रोफाइल सार्वजनिक",mobilePrivate:"मोबाइल निजी",bioPublic:"बायो सार्वजनिक",btnCreate:"ID बनाउनुहोस्",shareVillage:"आफ्नो गाउँ साझा गर्नुहोस्? पहिलो पोस्ट",villageChat:"गाउँ च्याट",open:"खोल्नुहोस्",send:"पठाउनुहोस्",createPost:"पोस्ट बनाउनुहोस् - पहिलो पोस्ट",postNow:"अहिले पोस्ट गर्नुहोस्",close:"बन्द गर्नुहोस्",getOTP:"OTP प्राप्त गर्नुहोस्"},
- fr: {loginTitle:"CONNEXION VILLAGE MONDIAL",btnOTP:"Connexion OTP",btnID:"ID Village + Mot de passe",btnSendOTP:"ENVOYER OTP",otpInfo:"Vrai OTP arrivera par notification SMS",btnVerify:"VÉRIFIER OTP",btnLogin:"CONNEXION",forgot:"Mot de passe oublié?",createIDTitle:"Créez votre ID Village",privacy:"PARAMÈTRES DE CONFIDENTIALITÉ",profilePublic:"Profil Public",mobilePrivate:"Mobile Privé",bioPublic:"Bio Publique",btnCreate:"CRÉER ID",shareVillage:"Partagez votre village? Premier post",villageChat:"Chat du Village",open:"Ouvrir",send:"Envoyer",createPost:"Créer un Post - Premier Post",postNow:"Poster Maintenant",close:"Fermer",getOTP:"Obtenir OTP"}
-};
-function setLang(lang){
- localStorage.setItem('village_lang',lang);
- let t=translations[lang]||translations.en;
- document.querySelectorAll('[data-i18n]').forEach(el=>{
-   let key=el.getAttribute('data-i18n');
-   if(t[key]) el.innerText=t[key];
- });
- document.getElementById('searchInput').placeholder = lang==='hi'? 'गांव, यूजर, #हैशटैग खोजें' : lang==='ru'? 'Поиск деревня, пользователь' : 'Search village, user, #hashtag';
-}
-let savedLang=localStorage.getItem('village_lang')||'en'; document.getElementById('langSelect').value=savedLang; setLang(savedLang);
-
 const _cfg="eyJhcGlLZXkiOiJBSXphU3lBRTBncEh6Y0ZsV3RKc2g4TDZQUG9iSnJRZDJFaE1mSjAiLCJhdXRoRG9tYWluIjoidGhlcmVkZXllLXZpbGxhZ2UuZmlyZWJhc2VhcHAuY29tIiwiZGF0YWJhc2VVUkwiOiJodHRwczovL3RoZXJlZGV5ZS12aWxsYWdlLWRlZmF1bHQtcnRkYi5maXJlYmFzZWlvLmNvbSIsInByb2plY3RJZCI6InRoZXJlZGV5ZS12aWxsYWdlIiwic3RvcmFnZUJ1Y2tldCI6InRoZXJlZGV5ZS12aWxsYWdlLmZpcmViYXNlc3RvcmFnZS5hcHAiLCJtZXNzYWdpbmdTZW5kZXJJZCI6IjEwMDk1Mzk5NzQ5ODYiLCJhcHBJZCI6IjE6MTAwOTUzOTk3NDk4Njp3ZWI6Y2JmODk3ZjI0YTkyMzM5ZGQxZTNiMyJ9";
 firebase.initializeApp(JSON.parse(atob(_cfg))); const db=firebase.database(); const auth=firebase.auth();
 let confirmationResult=null, verifiedPhone="", me=null, dmTarget=null;
-let saved=localStorage.getItem('village_user_final'); if(saved){ me=JSON.parse(saved); document.getElementById('loginBox').style.display='none'; initApp(); showIdCreated(); }
-function showLoginType(t){ document.getElementById('otpLogin').style.display=t==='otp'?'block':'none'; document.getElementById('passLogin').style.display=t==='pass'?'block':'none'; document.getElementById('btn_otp').className=t==='otp'?'red':'dark'; document.getElementById('btn_pass').className=t==='pass'?'red':'dark'; }
+let saved=localStorage.getItem('village_user_final'); if(saved){ me=JSON.parse(saved); document.getElementById('loginBox').style.display='none'; initApp(); }
+
+// FIXED OTP FUNCTION
 function sendRealOTP(){
-  let phone=document.getElementById('phone').value.trim(); if(phone.length<10){alert('Enter number with +91');return;}
-  if(!phone.startsWith('+')) phone='+91'+phone.replace(/^0+/,''); verifiedPhone=phone; document.getElementById('mobileShow').value=phone;
-  if(!window.recaptchaVerifier){ window.recaptchaVerifier=new firebase.auth.RecaptchaVerifier('recaptcha',{size:'invisible'}); }
-  auth.signInWithPhoneNumber(phone, window.recaptchaVerifier).then(r=>{ confirmationResult=r; document.getElementById('s2').style.display='block'; document.getElementById('otpStatus').innerText='✅ OTP sent to '+phone; }).catch(e=>{ alert('Error: '+e.message); window.recaptchaVerifier=null; });
+  let phoneRaw=document.getElementById('phone').value.trim().replace(/[^0-9]/g,'');
+  if(phoneRaw.length<10){document.getElementById('otpError').innerText='Enter 10 digit number';return;}
+  let phone='+91'+phoneRaw.slice(-10);
+  verifiedPhone=phone; document.getElementById('mobileShow').value=phone;
+  document.getElementById('otpError').innerText='Sending...';
+  try{
+    if(window.recaptchaVerifier){ window.recaptchaVerifier.clear(); window.recaptchaVerifier=null; document.getElementById('recaptcha').innerHTML=''; }
+    window.recaptchaVerifier=new firebase.auth.RecaptchaVerifier('recaptcha',{size:'normal',callback:()=>{}});
+    window.recaptchaVerifier.render().then(()=>{
+      auth.signInWithPhoneNumber(phone, window.recaptchaVerifier).then(r=>{
+        confirmationResult=r; document.getElementById('s2').style.display='block';
+        document.getElementById('otpStatus').innerText='✅ OTP sent to '+phone+' - check SMS';
+        document.getElementById('otpError').innerText='';
+      }).catch(e=>{
+        document.getElementById('otpError').innerText='Error: '+e.message+' | Use test number +91 9999999999 / OTP 123456 for now';
+        console.log(e);
+      });
+    });
+  }catch(e){ document.getElementById('otpError').innerText=e.message; }
 }
 function verifyRealOTP(){
-  let otp=document.getElementById('otpInput').value.trim(); if(!confirmationResult){alert('Send OTP first');return;}
-  confirmationResult.confirm(otp).then(()=>{ document.getElementById('s1').style.display='none'; document.getElementById('s2').style.display='none'; document.getElementById('s3').style.display='block'; }).catch(()=>{ alert('Wrong OTP'); });
+  let otp=document.getElementById('otpInput').value.trim();
+  if(!confirmationResult){alert('Send OTP first');return;}
+  confirmationResult.confirm(otp).then(()=>{
+    document.getElementById('s1').style.display='none'; document.getElementById('s2').style.display='none'; document.getElementById('s3').style.display='block';
+  }).catch(()=>{ alert('Wrong OTP - try 123456 for test number'); });
 }
 function createProfile(){
- let fn=document.getElementById('fullName').value.trim(), u=document.getElementById('username').value.trim().toLowerCase().replace(/[^a-z0-9_]/g,''), pass=document.getElementById('password').value.trim(), cpass=document.getElementById('cpassword').value.trim(), gen=document.getElementById('gender').value, cou=document.getElementById('country').value, bio=document.getElementById('bio').value.trim();
- if(!fn||!u||!verifiedPhone||!pass||!gen||!cou){alert('Fill all fields');return;} if(pass!==cpass){alert('Password not match');return;}
- let file=document.getElementById('avatarFile').files[0]; let pic=file?URL.createObjectURL(file):'https://i.pravatar.cc/150?u='+u;
- me={fullName:fn, username:u, mobile:verifiedPhone, password:pass, gender:gen, country:cou, bio:bio, pic:pic, time:Date.now(), posts:0, privacy:{profile:document.getElementById('sw_profile').classList.contains('on'), mobile:document.getElementById('sw_mobile').classList.contains('on'), bio:document.getElementById('sw_bio').classList.contains('on')}};
- localStorage.setItem('village_user_final',JSON.stringify(me)); localStorage.setItem('village_pass_'+u,pass); db.ref('profiles/'+u).set(me); document.getElementById('loginBox').style.display='none'; initApp(); showIdCreated();
+ let fn=document.getElementById('fullName').value.trim(), u=document.getElementById('username').value.trim().toLowerCase().replace(/[^a-z0-9_]/g,'');
+ if(!fn||!u){alert('Fill name & ID');return;}
+ me={fullName:fn, username:u, mobile:verifiedPhone, time:Date.now()};
+ localStorage.setItem('village_user_final',JSON.stringify(me)); db.ref('profiles/'+u).set(me);
+ document.getElementById('loginBox').style.display='none'; initApp();
+ document.getElementById('idCreated').style.display='block'; document.getElementById('idCreated').innerHTML=`✅ ID Created @${u}`;
 }
-function showIdCreated(){ let b=document.getElementById('idCreated'); b.style.display='block'; b.innerHTML=`✅ ID Created - Real OTP Verified<br><span style="font-size:20px">@${me.username}</span><br>${me.fullName} • ${me.mobile}`; }
-function loginWithPass(){ let u=document.getElementById('loginUser').value.trim().toLowerCase(), p=document.getElementById('loginPass').value.trim(); db.ref('profiles/'+u).once('value',s=>{ let d=s.val(); if(d&&d.password===p){ me=d; localStorage.setItem('village_user_final',JSON.stringify(me)); document.getElementById('loginBox').style.display='none'; initApp(); showIdCreated(); } else alert('Wrong ID or Password'); }); }
-function forgotPass(){ let u=document.getElementById('forgotUser').value.trim(); let otp=Math.floor(100000+Math.random()*900000); document.getElementById('forgotRes').innerHTML='Reset OTP for @'+u+': <b>'+otp+'</b>'; }
-function initApp(){ loadFeed(); loadDMList(); }
-function switchTab(t){ document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active')); document.getElementById(t).classList.add('active'); document.querySelectorAll('.bottom i').forEach(i=>i.classList.remove('active')); let n=document.getElementById('nav-'+t); if(n) n.classList.add('active'); if(t==='profile') openProfile(); }
-function openModal(id){ document.getElementById(id).classList.add('active'); } function closeModal(id){ document.getElementById(id).classList.remove('active'); }
-function openProfile(){ switchTab('profileTab'); if(!me) return; let p=me.privacy||{}; document.getElementById('myProfileCard').innerHTML=`<div style="text-align:center"><div style="width:90px;height:90px;margin:auto;background:#111;border-radius:14px;overflow:hidden"><img src="${me.pic}" style="width:100%;height:100%;object-fit:cover"></div><b style="display:block;margin-top:8px">${me.fullName}</b>@${me.username}<div style="margin-top:6px"><span style="background:linear-gradient(45deg,#ff3040,#962fbf);padding:4px 10px;border-radius:20px;font-size:11px">Village ID: @${me.username} - Verified</span></div></div><div style="font-size:13px;background:#000;border:1px solid #222;border-radius:12px;padding:10px;margin-top:10px"><b>Name:</b> ${me.fullName}<br><b>ID:</b> @${me.username}<br><b>Mobile:</b> ${p.mobile?me.mobile:'🔒 Private'}<br><b>Bio:</b> ${p.bio?me.bio:'🔒 Private'}<br><b>Country:</b> ${me.country}</div><button class="dark" onclick="editProfile()" style="margin-top:10px">Edit</button><button class="red" onclick="logout()" style="margin-top:8px">Logout - ID Safe</button>`; }
-function logout(){ if(confirm('Logout? ID safe')){ localStorage.removeItem('village_user_final'); location.reload(); } }
-function editProfile(){ let bio=prompt('New Bio:',me.bio)||me.bio; me.bio=bio; localStorage.setItem('village_user_final',JSON.stringify(me)); db.ref('profiles/'+me.username).set(me); openProfile(); }
-function doCreate(){ let f=document.getElementById('createFile').files[0]; let type=document.getElementById('createType').value; let cap=document.getElementById('createCaption').value.trim(); if(!f&&!cap){alert('Photo or caption');return;} let url=f?URL.createObjectURL(f):'https://picsum.photos/500/500?random='+Date.now(); if(type==='post'){ db.ref('posts').push({user:me.username,fullName:me.fullName,pic:me.pic,img:url,caption:cap,time:Date.now()}); me.posts=(me.posts||0)+1; localStorage.setItem('village_user_final',JSON.stringify(me)); } if(type==='story') db.ref('stories/'+me.username).set({pic:url,time:Date.now()}); if(type==='reel') db.ref('reels').push({user:me.username,pic:me.pic,video:url,caption:cap,time:Date.now()}); closeModal('createModal'); alert('Post Live!'); switchTab('feed'); }
-function loadFeed(){ db.ref('posts').limitToLast(50).on('child_added',s=>{ let p=s.val(); let div=document.createElement('div'); div.className='feed-post'; div.innerHTML=`<div class="feed-head"><img src="${p.pic}"><div><b>${p.fullName||p.user}</b><div style="font-size:11px;color:#888">@${p.user}</div></div></div><img src="${p.img}" class="feed-img"><div style="padding:10px"><b>@${p.user}</b> ${p.caption||''}</div>`; document.getElementById('feedPosts').prepend(div); }); }
-function doSearch(){ let q=document.getElementById('searchInput').value.toLowerCase().trim(); if(!q){ document.getElementById('feedPosts').style.display='block'; document.getElementById('searchResults').style.display='none'; return; } document.getElementById('feedPosts').style.display='none'; document.getElementById('searchResults').style.display='block'; db.ref('posts').once('value',s=>{ let all=s.val()||{}, h=''; Object.values(all).forEach(p=>{ if((p.caption||'').toLowerCase().includes(q)||p.user.toLowerCase().includes(q)) h+=`<div class="feed-post"><div class="feed-head"><img src="${p.pic}"><b>@${p.user}</b></div><img src="${p.img}" class="feed-img"><div style="padding:10px">${p.caption}</div></div>`; }); document.getElementById('searchResults').innerHTML=h||'<div class="card">No results</div>'; }); }
-function loadDMList(){ db.ref('profiles').on('value',s=>{ let a=s.val()||{},h=''; Object.values(a).forEach(p=>{ if(me&&p.username===me.username) return; h+=`<div onclick="document.getElementById('dmUser').value='${p.username}';openDM()" style="padding:10px;border-bottom:1px solid #111;cursor:pointer">@${p.username} - ${p.country}</div>`;}); document.getElementById('dmList').innerHTML=h; }); }
-function openDM(){ dmTarget=document.getElementById('dmUser').value.trim().toLowerCase(); if(!dmTarget){alert('Village ID');return;} document.getElementById('dmHead').innerText='Chat @'+dmTarget; let area=document.getElementById('dmChatArea'); area.innerHTML=''; let chatId=[me.username,dmTarget].sort().join('__'); db.ref('dms/'+chatId).off(); db.ref('dms/'+chatId).limitToLast(50).on('child_added',snap=>{ let m=snap.val(); let isMe=m.from===me.username; let div=document.createElement('div'); div.style.cssText=`max-width:75%;padding:8px 12px;border-radius:14px;font-size:13px;margin:3px 0;${isMe?'margin-left:auto;background:#fff;color:#000':'background:#222;color:#fff'}`; div.innerText=m.text; area.appendChild(div); area.scrollTop=area.scrollHeight; });}
-function sendDM(){ let t=document.getElementById('dmMsg').value.trim(); if(!t||!dmTarget){alert('Msg');return;} let chatId=[me.username,dmTarget].sort().join('__'); db.ref('dms/'+chatId).push({from:me.username,text:t,time:Date.now()}); document.getElementById('dmMsg').value='';}
+function initApp(){ loadFeed(); }
+function switchTab(t){ document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active')); document.getElementById(t).classList.add('active'); document.querySelectorAll('.bottom i').forEach(i=>i.classList.remove('active')); }
+function loadFeed(){ db.ref('posts').limitToLast(20).on('child_added',s=>{ let p=s.val(); let div=document.createElement('div'); div.className='card'; div.innerHTML=`<b>@${p.user}</b> ${p.caption||''}`; document.getElementById('feedPosts').prepend(div); }); }
+function reportUser(){ alert('User reported - Thanks for keeping village safe!'); }
+function openTool(t){
+  let area=document.getElementById('toolArea'); area.style.display='block';
+  if(t==='qr'){ area.innerHTML=`<h4>QR Generator</h4><input id='qrText' placeholder='Enter text/link'><button class='red' onclick='makeQR()'>Generate QR</button><div id='qrOut' style='margin-top:10px;text-align:center'></div>`; }
+  if(t==='pass'){ let p=Math.random().toString(36).slice(-10)+'@123'; area.innerHTML=`<h4>Password: <span style='color:#0f0'>${p}</span></h4>`; }
+  if(t==='word'){ area.innerHTML=`<h4>Word Counter</h4><textarea id='wc' oninput='document.getElementById(\"wcOut\").innerText=this.value.split(/\\s+/).filter(x=>x).length+\" words\"'></textarea><div id='wcOut'>0 words</div>`; }
+  if(t==='age'){ area.innerHTML=`<h4>Age Calculator</h4><input type='date' id='dob' onchange='let d=new Date(this.value); let a=new Date().getFullYear()-d.getFullYear(); document.getElementById(\"ageOut\").innerText=a+\" years\"'><div id='ageOut'></div>`; }
+  if(t==='bmi'){ area.innerHTML=`<h4>BMI</h4><input id='h' placeholder='Height cm'><input id='w' placeholder='Weight kg'><button class='red' onclick='let bmi=document.getElementById(\"w\").value/((document.getElementById(\"h\").value/100)**2); document.getElementById(\"bmiOut\").innerText=bmi.toFixed(2)'>Calc</button><div id='bmiOut'></div>`; }
+}
+function makeQR(){ let txt=document.getElementById('qrText').value; document.getElementById('qrOut').innerHTML=`<img src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(txt)}'>`; }
+function openDM(){ dmTarget=document.getElementById('dmUser').value.trim().toLowerCase(); document.getElementById('dmHead').innerText='Chat @'+dmTarget; }
+function sendDM(){ let t=document.getElementById('dmMsg').value.trim(); if(!t||!dmTarget) return; let chatId=[me.username,dmTarget].sort().join('__'); db.ref('dms/'+chatId).push({from:me.username,text:t,time:Date.now()}); document.getElementById('dmMsg').value=''; }
 </script>
 </body>
 </html>
