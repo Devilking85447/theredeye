@@ -1,160 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>World Village Talk - Global Language + Free Tools</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Grand+Hotel&display=swap" rel="stylesheet">
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Red Eye Village - Tools</title>
 <style>
-:root{--red:#ff3040}*{box-sizing:border-box}body{margin:0;background:#000;color:#fff;font-family:'Space Grotesk',sans-serif}
-#app{max-width:520px;margin:auto;background:#000;min-height:100vh;padding-bottom:90px;border-left:1px solid #111;border-right:1px solid #111}
-.top{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;position:sticky;top:0;background:#000;z-index:100;border-bottom:1px solid #111}
-.logo{font-family:'Grand Hotel',cursive;font-size:26px}.logo span{color:var(--red)}
-.icon{width:36px;height:36px;display:grid;place-items:center;background:#151515;border:1px solid #222;border-radius:10px;cursor:pointer}
-.card{background:#121212;border:1px solid #222;border-radius:16px;margin:10px;padding:12px}
-input,select,textarea{width:100%;padding:12px;background:#0f0f0f;border:1px solid #2a2a2a;color:#fff;border-radius:10px;margin:5px 0}
-button{width:100%;padding:12px;background:#fff;color:#000;border:none;border-radius:10px;font-weight:700;cursor:pointer}button.red{background:var(--red);color:#fff}button.dark{background:#1e1e1e;color:#fff;border:1px solid #333}
-.tab{display:none}.tab.active{display:block}
-.bottom{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);width:94%;max-width:520px;background:rgba(18,18,18,.96);border:1px solid #222;border-radius:18px;display:flex;justify-content:space-around;padding:8px;z-index:999}
-.bottom i{font-size:20px;color:#777;width:44px;height:44px;display:grid;place-items:center;border-radius:10px;cursor:pointer}.bottom i.active{color:#fff;background:#222}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;place-items:center;z-index:1000;padding:16px}.modal.active{display:grid}.modal-box{background:#121212;border:1px solid #333;border-radius:18px;max-width:480px;width:100%;padding:16px;max-height:92vh;overflow-y:auto}
-.tools-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px}.tool-card{background:#121212;border:1px solid #222;border-radius:14px;padding:14px;text-align:center;cursor:pointer}.tool-card i{font-size:22px;color:var(--red);margin-bottom:6px}
-.footer{padding:20px;text-align:center;font-size:11px;color:#777;border-top:1px solid #111;margin-top:20px}.footer a{color:#999;text-decoration:none;margin:0 6px}
-#recaptcha{margin:10px 0;transform:scale(0.9)}
+body{margin:0;background:#0a0a0a;color:#fff;font-family:system-ui}
+.header{text-align:center;padding:40px 20px;border-bottom:1px solid #222}
+.header h1{color:#ff2a2a;margin:0;font-size:32px;letter-spacing:2px}
+.btn{display:inline-block;margin-top:20px;background:#ff2a2a;color:#fff;padding:14px 32px;border-radius:10px;text-decoration:none;font-weight:bold;font-size:18px}
+.grid{max-width:1100px;margin:30px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;padding:20px}
+.tool{background:#151515;border:1px solid #222;border-radius:12px;padding:18px}
+.tool h3{margin:0 0 10px;color:#fff;font-size:16px}
+.tool input,.tool textarea{width:100%;padding:8px;background:#000;color:#fff;border:1px solid #333;border-radius:6px;box-sizing:border-box}
+.tool button{margin-top:8px;width:100%;padding:8px;background:#222;color:#fff;border:0;border-radius:6px;cursor:pointer}
+.footer{text-align:center;color:#666;padding:30px;border-top:1px solid #222;margin-top:20px}
 </style>
 </head>
 <body>
-
-<!-- 18+ WARNING FOR ADSENSE -->
-<div class="modal active" id="ageModal"><div class="modal-box" style="text-align:center">
-<h3 style="color:var(--red)">World Village Talk - 18+ Community</h3>
-<p style="font-size:13px;color:#aaa">This is a safe global village talk. No nudity, no harassment allowed. You must be 18+ to continue.</p>
-<p style="font-size:11px;color:#666">By continuing you agree to our Terms, Privacy Policy & Community Guidelines.</p>
-<button class="red" onclick="document.getElementById('ageModal').classList.remove('active')">I AM 18+ - ENTER VILLAGE</button>
-</div></div>
-
-<div id="app">
-<div class="top"><div class="logo">World Village <span>Talk</span></div><div class="icon" onclick="switchTab('dms')"><i class="fa-solid fa-paper-plane"></i></div></div>
-
-<div id="loginBox" class="card">
-<h3 style="color:var(--red);margin:0 0 10px 0">WORLD VILLAGE LOGIN</h3>
-<div id="s1">
-<input id="phone" placeholder="9876543210 - without +91">
-<div id="recaptcha"></div>
-<button class="red" onclick="sendRealOTP()">SEND OTP - FIXED</button>
-<div id="otpError" style="font-size:11px;color:#ff3040;margin-top:6px"></div>
-<div style="font-size:11px;color:#888;text-align:center;margin-top:6px">OTP will arrive via SMS. If not, use test: +91 9999999999 -> 123456</div>
-</div>
-<div id="s2" style="display:none;margin-top:10px"><input id="otpInput" placeholder="Enter OTP"><button onclick="verifyRealOTP()">VERIFY OTP</button><div id="otpStatus" style="font-size:11px;color:#0f0;margin-top:6px"></div></div>
-<div id="s3" style="display:none;margin-top:10px">
-<h4 style="color:#0f0">Create Village ID</h4>
-<input id="fullName" placeholder="Full Name"><input id="username" placeholder="Village ID">
-<input id="mobileShow" disabled>
-<input id="password" type="password" placeholder="Create Password">
-<button class="red" onclick="createProfile()">CREATE ID & ENTER</button>
-</div>
-<div id="idCreated" style="display:none;background:linear-gradient(45deg,#ff3040,#962fbf);padding:12px;border-radius:12px;text-align:center;margin-top:10px"></div>
+<div class="header">
+<h1>THE RED EYE VILLAGE</h1>
+<p>Official Tools - theredeye.co.in</p>
+<a class="btn" href="/talk.html">▶ Start World Village Talk</a>
+<p style="color:#888;margin-top:10px">10+ Online Now</p>
 </div>
 
-<!-- FEED -->
-<div id="feed" class="tab active"><div id="feedPosts"></div></div>
-
-<!-- TOOLS TAB - ADSENSE SAFE 11 TOOLS -->
-<div id="tools" class="tab">
-<div class="card"><b>Free Village Tools - 100% Free</b><p style="font-size:12px;color:#888">Use these tools, AdSense safe & high CPC</p></div>
-<div class="tools-grid">
-<div class="tool-card" onclick="alert('Image Compressor - Coming Soon, code added')"><i class="fa-solid fa-compress"></i><br>Image Compressor</div>
-<div class="tool-card" onclick="openTool('qr')"><i class="fa-solid fa-qrcode"></i><br>QR Generator</div>
-<div class="tool-card" onclick="openTool('pass')"><i class="fa-solid fa-key"></i><br>Password Gen</div>
-<div class="tool-card" onclick="openTool('word')"><i class="fa-solid fa-file-word"></i><br>Word Counter</div>
-<div class="tool-card" onclick="openTool('age')"><i class="fa-solid fa-calculator"></i><br>Age Calc</div>
-<div class="tool-card" onclick="openTool('bmi')"><i class="fa-solid fa-weight-scale"></i><br>BMI Calc</div>
-<div class="tool-card" onclick="openTool('emi')"><i class="fa-solid fa-money-bill"></i><br>EMI Calc</div>
-<div class="tool-card" onclick="openTool('tts')"><i class="fa-solid fa-volume-high"></i><br>Text to Speech</div>
-<div class="tool-card" onclick="openTool('pdf')"><i class="fa-solid fa-file-pdf"></i><br>Image to PDF</div>
-<div class="tool-card"><i class="fa-solid fa-image"></i><br>BG Remover</div>
-<div class="tool-card"><i class="fa-brands fa-youtube"></i><br>YT Thumb</div>
-</div>
-<div id="toolArea" class="card" style="display:none"></div>
+<div class="grid">
+<div class="tool"><h3>QR Generator</h3><input id="qrText" placeholder="Enter text"><button onclick="genQR()">Generate</button><div id="qrOut" style="margin-top:8px"></div></div>
+<div class="tool"><h3>Password Generator</h3><button onclick="genPass()">Generate 16-char</button><input id="passOut" readonly></div>
+<div class="tool"><h3>Word Counter</h3><textarea id="wcText" placeholder="Type..."></textarea><p id="wcOut">0 words</p></div>
+<div class="tool"><h3>Age Calculator</h3><input type="date" id="ageDob"><button onclick="calcAge()">Calculate</button><p id="ageOut"></p></div>
+<div class="tool"><h3>BMI Calculator</h3><input id="bmiH" placeholder="Height cm"><input id="bmiW" placeholder="Weight kg"><button onclick="calcBmi()">Calculate</button><p id="bmiOut"></p></div>
+<div class="tool"><h3>EMI Calculator</h3><input id="emiP" placeholder="Principal"><input id="emiR" placeholder="Rate %"><input id="emiN" placeholder="Months"><button onclick="calcEmi()">Calculate</button><p id="emiOut"></p></div>
+<div class="tool"><h3>Case Converter</h3><textarea id="caseText"></textarea><button onclick="toUpper()">UPPER</button><button onclick="toLower()">lower</button></div>
+<div class="tool"><h3>Image Compressor</h3><input type="file" id="imgComp" accept="image/*"><p style="font-size:12px;color:#888">Compress in browser (coming)</p></div>
+<div class="tool"><h3>Image to PDF</h3><input type="file" accept="image/*"><p style="font-size:12px;color:#888">Convert (coming)</p></div>
+<div class="tool"><h3>Text to Speech</h3><textarea id="ttsText"></textarea><button onclick="speak()">Speak</button></div>
+<div class="tool"><h3>YT Thumbnail Downloader</h3><input id="ytLink" placeholder="YouTube Link"><button onclick="getThumb()">Get Thumbnail</button><div id="ytOut"></div></div>
 </div>
 
-<div id="dms" class="tab"><div class="card"><b>Village Chat - Safe Chat <span style="font-size:10px;background:#222;padding:3px 6px;border-radius:10px" onclick="reportUser()">🚩 Report</span></b><div style="display:flex;gap:6px;margin-top:8px"><input id="dmUser" placeholder="Village ID"><button onclick="openDM()" style="width:auto">Open</button></div></div><div class="card"><div id="dmHead">Select village</div><div id="dmChatArea" style="height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:4px"></div><div style="display:flex;gap:6px;margin-top:8px"><input id="dmMsg" placeholder="Message"><button onclick="sendDM()" style="width:auto" class="red">Send</button></div></div></div>
-<div id="profileTab" class="tab"><div id="myProfileCard" class="card"></div></div>
-
-<div class="footer">
-<a href="#">About Us</a> | <a href="#">Privacy Policy</a> | <a href="#">Contact</a> | <a href="#">Terms</a><br><br>
-World Village Talk is a safe global community platform. No adult content allowed.<br>© 2026 TheRedEye.co.in
-</div>
-
-<div class="bottom">
-<i class="fa-solid fa-house active" id="nav-feed" onclick="switchTab('feed')"></i>
-<i class="fa-solid fa-screwdriver-wrench" id="nav-tools" onclick="switchTab('tools')"></i>
-<i class="fa-solid fa-compass" onclick="switchTab('dms')"></i>
-<i class="fa-solid fa-user" id="nav-profile" onclick="switchTab('profileTab')"></i>
-</div>
-</div>
+<div class="footer">© 2026 The Red Eye Village | <a href="#" style="color:#666">Privacy</a> | <a href="#" style="color:#666">About</a></div>
 
 <script>
-const _cfg="eyJhcGlLZXkiOiJBSXphU3lBRTBncEh6Y0ZsV3RKc2g4TDZQUG9iSnJRZDJFaE1mSjAiLCJhdXRoRG9tYWluIjoidGhlcmVkZXllLXZpbGxhZ2UuZmlyZWJhc2VhcHAuY29tIiwiZGF0YWJhc2VVUkwiOiJodHRwczovL3RoZXJlZGV5ZS12aWxsYWdlLWRlZmF1bHQtcnRkYi5maXJlYmFzZWlvLmNvbSIsInByb2plY3RJZCI6InRoZXJlZGV5ZS12aWxsYWdlIiwic3RvcmFnZUJ1Y2tldCI6InRoZXJlZGV5ZS12aWxsYWdlLmZpcmViYXNlc3RvcmFnZS5hcHAiLCJtZXNzYWdpbmdTZW5kZXJJZCI6IjEwMDk1Mzk5NzQ5ODYiLCJhcHBJZCI6IjE6MTAwOTUzOTk3NDk4Njp3ZWI6Y2JmODk3ZjI0YTkyMzM5ZGQxZTNiMyJ9";
-firebase.initializeApp(JSON.parse(atob(_cfg))); const db=firebase.database(); const auth=firebase.auth();
-let confirmationResult=null, verifiedPhone="", me=null, dmTarget=null;
-let saved=localStorage.getItem('village_user_final'); if(saved){ me=JSON.parse(saved); document.getElementById('loginBox').style.display='none'; initApp(); }
-
-// FIXED OTP FUNCTION
-function sendRealOTP(){
-  let phoneRaw=document.getElementById('phone').value.trim().replace(/[^0-9]/g,'');
-  if(phoneRaw.length<10){document.getElementById('otpError').innerText='Enter 10 digit number';return;}
-  let phone='+91'+phoneRaw.slice(-10);
-  verifiedPhone=phone; document.getElementById('mobileShow').value=phone;
-  document.getElementById('otpError').innerText='Sending...';
-  try{
-    if(window.recaptchaVerifier){ window.recaptchaVerifier.clear(); window.recaptchaVerifier=null; document.getElementById('recaptcha').innerHTML=''; }
-    window.recaptchaVerifier=new firebase.auth.RecaptchaVerifier('recaptcha',{size:'normal',callback:()=>{}});
-    window.recaptchaVerifier.render().then(()=>{
-      auth.signInWithPhoneNumber(phone, window.recaptchaVerifier).then(r=>{
-        confirmationResult=r; document.getElementById('s2').style.display='block';
-        document.getElementById('otpStatus').innerText='✅ OTP sent to '+phone+' - check SMS';
-        document.getElementById('otpError').innerText='';
-      }).catch(e=>{
-        document.getElementById('otpError').innerText='Error: '+e.message+' | Use test number +91 9999999999 / OTP 123456 for now';
-        console.log(e);
-      });
-    });
-  }catch(e){ document.getElementById('otpError').innerText=e.message; }
-}
-function verifyRealOTP(){
-  let otp=document.getElementById('otpInput').value.trim();
-  if(!confirmationResult){alert('Send OTP first');return;}
-  confirmationResult.confirm(otp).then(()=>{
-    document.getElementById('s1').style.display='none'; document.getElementById('s2').style.display='none'; document.getElementById('s3').style.display='block';
-  }).catch(()=>{ alert('Wrong OTP - try 123456 for test number'); });
-}
-function createProfile(){
- let fn=document.getElementById('fullName').value.trim(), u=document.getElementById('username').value.trim().toLowerCase().replace(/[^a-z0-9_]/g,'');
- if(!fn||!u){alert('Fill name & ID');return;}
- me={fullName:fn, username:u, mobile:verifiedPhone, time:Date.now()};
- localStorage.setItem('village_user_final',JSON.stringify(me)); db.ref('profiles/'+u).set(me);
- document.getElementById('loginBox').style.display='none'; initApp();
- document.getElementById('idCreated').style.display='block'; document.getElementById('idCreated').innerHTML=`✅ ID Created @${u}`;
-}
-function initApp(){ loadFeed(); }
-function switchTab(t){ document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active')); document.getElementById(t).classList.add('active'); document.querySelectorAll('.bottom i').forEach(i=>i.classList.remove('active')); }
-function loadFeed(){ db.ref('posts').limitToLast(20).on('child_added',s=>{ let p=s.val(); let div=document.createElement('div'); div.className='card'; div.innerHTML=`<b>@${p.user}</b> ${p.caption||''}`; document.getElementById('feedPosts').prepend(div); }); }
-function reportUser(){ alert('User reported - Thanks for keeping village safe!'); }
-function openTool(t){
-  let area=document.getElementById('toolArea'); area.style.display='block';
-  if(t==='qr'){ area.innerHTML=`<h4>QR Generator</h4><input id='qrText' placeholder='Enter text/link'><button class='red' onclick='makeQR()'>Generate QR</button><div id='qrOut' style='margin-top:10px;text-align:center'></div>`; }
-  if(t==='pass'){ let p=Math.random().toString(36).slice(-10)+'@123'; area.innerHTML=`<h4>Password: <span style='color:#0f0'>${p}</span></h4>`; }
-  if(t==='word'){ area.innerHTML=`<h4>Word Counter</h4><textarea id='wc' oninput='document.getElementById(\"wcOut\").innerText=this.value.split(/\\s+/).filter(x=>x).length+\" words\"'></textarea><div id='wcOut'>0 words</div>`; }
-  if(t==='age'){ area.innerHTML=`<h4>Age Calculator</h4><input type='date' id='dob' onchange='let d=new Date(this.value); let a=new Date().getFullYear()-d.getFullYear(); document.getElementById(\"ageOut\").innerText=a+\" years\"'><div id='ageOut'></div>`; }
-  if(t==='bmi'){ area.innerHTML=`<h4>BMI</h4><input id='h' placeholder='Height cm'><input id='w' placeholder='Weight kg'><button class='red' onclick='let bmi=document.getElementById(\"w\").value/((document.getElementById(\"h\").value/100)**2); document.getElementById(\"bmiOut\").innerText=bmi.toFixed(2)'>Calc</button><div id='bmiOut'></div>`; }
-}
-function makeQR(){ let txt=document.getElementById('qrText').value; document.getElementById('qrOut').innerHTML=`<img src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(txt)}'>`; }
-function openDM(){ dmTarget=document.getElementById('dmUser').value.trim().toLowerCase(); document.getElementById('dmHead').innerText='Chat @'+dmTarget; }
-function sendDM(){ let t=document.getElementById('dmMsg').value.trim(); if(!t||!dmTarget) return; let chatId=[me.username,dmTarget].sort().join('__'); db.ref('dms/'+chatId).push({from:me.username,text:t,time:Date.now()}); document.getElementById('dmMsg').value=''; }
+function genQR(){document.getElementById('qrOut').innerHTML=`<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(document.getElementById('qrText').value)}">`}
+function genPass(){const c="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$";let p="";for(let i=0;i<16;i++)p+=c[Math.floor(Math.random()*c.length)];document.getElementById('passOut').value=p}
+document.getElementById('wcText')?.addEventListener('input',e=>{const w=e.target.value.trim().split(/\s+/).filter(x=>x).length;document.getElementById('wcOut').innerText=w+" words"})
+function calcAge(){const dob=new Date(document.getElementById('ageDob').value);const diff=Date.now()-dob.getTime();const age=new Date(diff).getUTCFullYear()-1970;document.getElementById('ageOut').innerText=age+" years"}
+function calcBmi(){const h=document.getElementById('bmiH').value/100,w=document.getElementById('bmiW').value;document.getElementById('bmiOut').innerText=(w/(h*h)).toFixed(1)+" BMI"}
+function calcEmi(){const P=+document.getElementById('emiP').value,R=+document.getElementById('emiR').value/12/100,N=+document.getElementById('emiN').value;const emi=P*R*Math.pow(1+R,N)/(Math.pow(1+R,N)-1);document.getElementById('emiOut').innerText="₹"+emi.toFixed(0)+"/mo"}
+function toUpper(){document.getElementById('caseText').value=document.getElementById('caseText').value.toUpperCase()}
+function toLower(){document.getElementById('caseText').value=document.getElementById('caseText').value.toLowerCase()}
+function speak(){speechSynthesis.speak(new SpeechSynthesisUtterance(document.getElementById('ttsText').value))}
+function getThumb(){const link=document.getElementById('ytLink').value;const id=link.split('v=')[1]?.split('&')[0]||link.split('/').pop();document.getElementById('ytOut').innerHTML=`<img src="https://img.youtube.com/vi/${id}/maxresdefault.jpg" style="width:100%;margin-top:8px;border-radius:6px">`}
 </script>
 </body>
 </html>
