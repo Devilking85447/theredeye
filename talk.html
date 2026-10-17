@@ -3,50 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>World Village Talk - The Red Eye Village</title>
+<title>World Village Talk</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#000;color:#fff;font-family:system-ui;height:100vh;display:flex;flex-direction:column}
-.top{padding:12px 16px;background:#111;border-bottom:1px solid #222;display:flex;justify-content:space-between;align-items:center}
+.top{padding:12px 16px;background:#111;border-bottom:1px solid #222;display:flex;justify-content:space-between}
 .top h2{margin:0;color:#ff2a2a;font-size:18px}
-#online{color:#0f0;font-size:12px}
 .login{max-width:380px;margin:80px auto;background:#151515;padding:24px;border-radius:16px;border:1px solid #222;text-align:center}
 .login input{width:100%;padding:12px;margin:8px 0;background:#000;color:#fff;border:1px solid #333;border-radius:8px}
 .login button{width:100%;padding:12px;background:#ff2a2a;border:0;border-radius:8px;color:#fff;font-weight:bold;cursor:pointer;margin-top:8px}
+.login button:disabled{background:#444}
 #chatArea{display:none;flex:1;flex-direction:column;max-width:700px;margin:0 auto;width:100%;border-left:1px solid #222;border-right:1px solid #222}
 #messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
-.msg{background:#151515;padding:10px 12px;border-radius:10px;max-width:80%;border:1px solid #222}
+.msg{background:#151515;padding:10px 12px;border-radius:10px;max-width:80%;border:1px solid #222;word-break:break-word}
 .msg.me{align-self:flex-end;background:#2a0a0a;border-color:#ff2a2a}
-.msg .meta{font-size:10px;color:#888;margin-bottom:4px}
 .bottom{display:flex;gap:8px;padding:12px;background:#111;border-top:1px solid #222}
 .bottom input{flex:1;padding:12px;background:#000;color:#fff;border:1px solid #333;border-radius:8px}
-.bottom button{padding:12px 18px;background:#ff2a2a;border:0;border-radius:8px;color:#fff;font-weight:bold;cursor:pointer}
-#popup{position:fixed;inset:0;background:rgba(0,0,0,0.9);display:flex;align-items:center;justify-content:center;z-index:99}
-#popup .box{background:#151515;padding:24px;border-radius:16px;border:1px solid #ff2a2a;text-align:center;max-width:320px}
-.report{font-size:11px;color:#888;cursor:pointer;margin-top:4px}
+.bottom button{padding:12px 18px;background:#ff2a2a;border:0;border-radius:8px;color:#fff;font-weight:bold}
 </style>
 </head>
 <body>
 
-<div id="popup">
-<div class="box">
-<h3 style="color:#ff2a2a;margin-top:0">18+ Warning</h3>
-<p style="color:#ccc;font-size:14px">This is a public chat village. Be respectful. No spam, no nude. You can be reported.</p>
-<button onclick="document.getElementById('popup').style.display='none'" style="width:100%;padding:10px;background:#ff2a2a;border:0;border-radius:8px;color:#fff;font-weight:bold;cursor:pointer">I am 18+ & Agree</button>
-</div>
-</div>
-
 <div class="top">
-<h2>RED EYE VILLAGE TALK</h2>
-<div><span id="online">● 10 Online</span> <a href="/" style="color:#888;text-decoration:none;margin-left:12px;font-size:13px">Exit</a></div>
+<h2>RED EYE VILLAGE</h2>
+<div style="color:#0f0;font-size:12px">● Worldwide</div>
 </div>
 
 <div class="login" id="loginBox">
 <h3>Enter Village</h3>
-<input id="phone" placeholder="+91 9876543210">
-<button id="sendOtp">Send OTP</button>
-<input id="otp" placeholder="Enter OTP" style="display:none">
-<button id="verifyOtp" style="display:none">Verify</button>
-<p id="status" style="color:#ffaa00;font-size:13px;margin-top:10px"></p>
+<p style="font-size:13px;color:#aaa">Email daalo, link aayega, click karke andar</p>
+<input id="email" placeholder="you@gmail.com" type="email">
+<button id="sendLink">Send Login Link</button>
+<p id="status" style="color:#ffaa00;font-size:13px;margin-top:12px"></p>
 </div>
 
 <div id="chatArea">
@@ -59,8 +46,8 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getDatabase, ref, push, onChildAdded, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getAuth, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAE0gpHzcFlWtJsh8L6PPobJrQd2EhMfJ0",
@@ -73,69 +60,72 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
 const db = getDatabase(app);
+const auth = getAuth(app);
 
-window.recaptchaVerifier = new RecaptchaVerifier(auth, 'sendOtp', {'size':'invisible'});
-let confirmationResult;
-let myPhone="";
-
-document.getElementById('sendOtp').onclick = async ()=>{
-  const phone=document.getElementById('phone').value.trim();
-  const s=document.getElementById('status');
-  if(!phone.startsWith('+')){s.innerText='+91 ke saath daal: +9198...';return}
-  s.innerText='Sending OTP...';
-  try{
-    confirmationResult=await signInWithPhoneNumber(auth, phone, window.recaptchaVerifier);
-    s.innerText='OTP Sent!';
-    document.getElementById('otp').style.display='block';
-    document.getElementById('verifyOtp').style.display='block';
-    myPhone=phone;
-  }catch(e){s.innerText=e.message}
+const actionCodeSettings = {
+  url: window.location.href,
+  handleCodeInApp: true
 };
 
-document.getElementById('verifyOtp').onclick = async ()=>{
-  const code=document.getElementById('otp').value;
-  const s=document.getElementById('status');
+const loginBox = document.getElementById('loginBox');
+const chatArea = document.getElementById('chatArea');
+const status = document.getElementById('status');
+const emailInput = document.getElementById('email');
+
+// 1. Send Link
+document.getElementById('sendLink').onclick = async () => {
+  const email = emailInput.value.trim();
+  if(!email.includes('@')){ status.innerText='Sahi email daal'; return; }
+  status.innerText='Sending link... Firebase bhej raha hai...';
   try{
-    await confirmationResult.confirm(code);
-    s.innerText='Verified!';
-    document.getElementById('loginBox').style.display='none';
-    document.getElementById('chatArea').style.display='flex';
-    startChat();
-  }catch(e){s.innerText=e.message}
+    await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+    window.localStorage.setItem('emailForSignIn', email);
+    status.innerHTML = `<span style="color:#0f0">Link bhej diya! ${email} check karo<br>Inbox / Spam dono dekho</span>`;
+  }catch(e){
+    status.innerText='Error: '+e.message;
+  }
 };
 
-function startChat(){
+// 2. Check if user came from email link
+if (isSignInWithEmailLink(auth, window.location.href)) {
+  let email = window.localStorage.getItem('emailForSignIn');
+  if (!email) {
+    email = window.prompt('Apna email confirm karo');
+  }
+  signInWithEmailLink(auth, email, window.location.href).then((result)=>{
+    window.localStorage.removeItem('emailForSignIn');
+    loginBox.style.display='none';
+    chatArea.style.display='flex';
+    startChat(result.user.email);
+  }).catch((e)=>{
+    status.innerText='Link expire ho gaya, phir se bhejo: '+e.message;
+  });
+}
+
+function startChat(myEmail){
   const messagesRef = ref(db, 'village_messages');
   const messagesDiv = document.getElementById('messages');
   
   onChildAdded(messagesRef, (snap)=>{
     const data=snap.val();
     const div=document.createElement('div');
-    div.className='msg'+(data.phone===myPhone?' me':'');
-    div.innerHTML=`<div class="meta">${data.phone.slice(-4)} • ${new Date(data.time).toLocaleTimeString()}</div>${escapeHtml(data.text)}<div class="report" onclick="reportMsg('${snap.key}')">Report</div>`;
+    div.className='msg'+(data.email===myEmail?' me':'');
+    div.innerHTML=`<div style="font-size:10px;color:#888">${data.email.split('@')[0]} • ${new Date(data.time).toLocaleTimeString()}</div>${data.text}`;
     messagesDiv.appendChild(div);
     messagesDiv.scrollTop=messagesDiv.scrollHeight;
   });
 
-  document.getElementById('sendBtn').onclick=send;
-  document.getElementById('msgInput').addEventListener('keypress',e=>{if(e.key==='Enter')send()});
-
-  function send(){
+  const send = ()=>{
     const input=document.getElementById('msgInput');
     const text=input.value.trim();
     if(!text)return;
-    push(messagesRef,{phone:myPhone,text:text,time:Date.now()});
+    push(messagesRef,{email:myEmail,text:text,time:Date.now()});
     input.value='';
-  }
+  };
+  document.getElementById('sendBtn').onclick=send;
+  document.getElementById('msgInput').addEventListener('keypress',e=>{if(e.key==='Enter')send()});
 }
-
-function escapeHtml(t){const d=document.createElement('div');d.innerText=t;return d.innerHTML}
-window.reportMsg=(key)=>{alert('Reported: '+key+' - Admin will check'); set(ref(db, 'reports/'+key),{time:Date.now(),by:myPhone})}
-
-// Fake online counter
-let online=10; setInterval(()=>{online+=Math.floor(Math.random()*3)-1; if(online<5)online=5; document.getElementById('online').innerText='● '+online+' Online'},3000);
 </script>
 </body>
 </html>
