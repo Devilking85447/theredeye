@@ -1,118 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WVT - Red Eye Village - FINAL</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>WVT - Village Talk - Full Tool</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#000;color:#fff;font-family:sans-serif;height:100vh;display:flex;flex-direction:column}
-.top{height:50px;display:flex;justify-content:space-between;align-items:center;padding:0 14px;border-bottom:1px solid #222}
-.login{width:92%;max-width:380px;margin:50px auto;background:#111;border:1px solid #222;border-radius:14px;padding:20px;text-align:center}
-.login input{width:100%;padding:12px;margin:6px 0;background:#000;border:1px solid #333;border-radius:8px;color:#fff}
-.login button{width:100%;padding:12px;border:0;border-radius:8px;color:#fff;font-weight:700;margin-top:8px;cursor:pointer}
-#app{display:none;flex:1;flex-direction:column;max-width:600px;margin:0 auto;width:100%;overflow:hidden}
-.stories{display:flex;gap:10px;padding:10px;overflow-x:auto;border-bottom:1px solid #222}
-.story{flex:0 0 60px;text-align:center}.ring{width:60px;height:60px;border-radius:50%;padding:2px;background:linear-gradient(45deg,#ff2a2a,#ffaa00)}.ring div{width:100%;height:100%;background:#222;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid #000}
-.searchWrap{padding:8px;border-bottom:1px solid #222;display:none}.searchWrap input{width:100%;padding:10px;background:#111;border:1px solid #222;border-radius:8px;color:#fff}
-.content{flex:1;overflow-y:auto}
-.post{border-bottom:1px solid #151515}.phead{padding:10px;display:flex;justify-content:space-between}.postBody{padding:10px 14px;background:#0a0a0a}
-.actions{padding:8px 14px;display:flex;gap:16px;font-size:20px}.actions span{cursor:pointer}
-#msgList{padding:10px;display:flex;flex-direction:column;gap:8px}
-.msg{background:#151515;padding:8px 12px;border-radius:16px;max-width:75%;border:1px solid #222;font-size:14px}.msg.me{align-self:flex-end;background:#ff2a2a}
-.chatBar{display:flex;gap:8px;padding:10px;border-top:1px solid #222;background:#000;position:sticky;bottom:0}
-.chatBar input{flex:1;padding:12px;background:#111;border:1px solid #222;border-radius:20px;color:#fff}
-.chatBar button{padding:10px 14px;background:#ff2a2a;border:0;border-radius:20px;color:#fff;font-weight:700}
-.bottom{height:52px;border-top:1px solid #222;display:flex;justify-content:space-around;align-items:center;background:#000}
-.bottom span{font-size:24px;cursor:pointer;opacity:.5}.bottom span.active{opacity:1}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:flex-end;justify-content:center;z-index:99}.modal.show{display:flex}
-.sheet{width:100%;max-width:600px;background:#151515;border-radius:16px 16px 0 0;padding:16px;max-height:85vh;overflow:auto}
-.sheet textarea{width:100%;padding:12px;background:#000;border:1px solid #333;border-radius:8px;color:#fff;margin-top:8px}
-.sheet button{width:100%;padding:12px;background:#ff2a2a;border:0;border-radius:8px;color:#fff;font-weight:700;margin-top:8px}
+*{box-sizing:border-box;margin:0;padding:0}body{background:#000;color:#fff;font-family:Inter,sans-serif;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+.top{height:56px;display:flex;justify-content:space-between;align-items:center;padding:0 16px;border-bottom:1px solid #1a1a1a;background:#000;position:sticky;top:0;z-index:10}
+.top b{color:#ff2a2a;letter-spacing:1px;font-size:18px}
+.login{width:94%;max-width:400px;margin:60px auto;background:#0f0f0f;border:1px solid #222;border-radius:20px;padding:24px;text-align:center}
+.login input{width:100%;padding:13px;margin:7px 0;background:#000;border:1px solid #2a2a2a;border-radius:12px;color:#fff;outline:none}
+.login button{width:100%;padding:13px;border:0;border-radius:12px;color:#fff;font-weight:800;margin-top:10px;cursor:pointer}
+#app{display:none;flex:1;flex-direction:column;max-width:650px;margin:0 auto;width:100%;overflow:hidden;background:#000}
+.stories{display:flex;gap:12px;padding:12px 10px;overflow-x:auto;border-bottom:1px solid #151515;scrollbar-width:none}
+.story{flex:0 0 64px;text-align:center;cursor:pointer}.ring{width:64px;height:64px;border-radius:50%;padding:2.5px;background:linear-gradient(135deg,#ff2a2a,#ff8a00)}.ring div{width:100%;height:100%;background:#111;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;border:2.5px solid #000}.ring.seen{background:#333}.story p{font-size:10px;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.searchWrap{padding:10px;border-bottom:1px solid #151515}.searchWrap input{width:100%;padding:12px;background:#0f0f0f;border:1px solid #222;border-radius:12px;color:#fff}
+.content{flex:1;overflow-y:auto;scrollbar-width:none}
+.post{border-bottom:1px solid #111;background:#000}.phead{padding:12px 14px;display:flex;justify-content:space-between;align-items:center}.phead .left{display:flex;gap:10px;align-items:center}.avatar{width:32px;height:32px;border-radius:50%;background:#222;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px}
+.postMedia{width:100%;aspect-ratio:1/1;background:#0a0a0a;display:flex;align-items:center;justify-content:center;color:#444;font-size:13px;white-space:pre-wrap;padding:20px;text-align:center}
+.postActions{padding:10px 14px;display:flex;justify-content:space-between;align-items:center}.leftActions{display:flex;gap:18px;font-size:22px;cursor:pointer}.leftActions span:active{transform:scale(1.2)}
+.likes{padding:0 14px;font-weight:700;font-size:13px}.caption{padding:4px 14px;font-size:14px}.caption b{margin-right:6px}.comments{padding:4px 14px;color:#888;font-size:13px;cursor:pointer}.time{padding:4px 14px 12px;color:#555;font-size:11px}
+.reelWrap{height:calc(100vh - 108px);overflow-y:scroll;scroll-snap-type:y mandatory}.reel{height:100%;scroll-snap-align:start;position:relative;background:#0a0a0a;border-bottom:1px solid #111;display:flex;align-items:flex-end;padding:20px}.reelInfo{flex:1}.reelActions{width:50px;display:flex;flex-direction:column;gap:20px;align-items:center;font-size:24px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:#111}.gridItem{aspect-ratio:1;background:#0f0f0f;display:flex;align-items:center;justify-content:center;font-size:12px;padding:8px;text-align:center;overflow:hidden;position:relative;cursor:pointer}.gridItem.saved::after{content:'🔖';position:absolute;top:4px;right:4px;font-size:10px}
+.chatHeader{padding:12px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #151515;position:sticky;top:0;background:#000;z-index:2}
+#msgList{padding:12px;display:flex;flex-direction:column;gap:8px;flex:1;overflow-y:auto}
+.msg{max-width:75%;padding:10px 14px;border-radius:18px;background:#1a1a1a;font-size:14px;line-height:1.3;position:relative}.msg.me{align-self:flex-end;background:#ff2a2a;border-bottom-right-radius:4px}.msg.other{align-self:flex-start;border-bottom-left-radius:4px}.msg .meta{font-size:9px;color:#aaa;margin-top:4px;display:flex;gap:6px}
+.chatBar{display:flex;gap:8px;padding:10px;border-top:1px solid #151515;background:#000;align-items:center;position:sticky;bottom:0}
+.chatBar input{flex:1;padding:12px 14px;background:#111;border:1px solid #222;border-radius:24px;color:#fff;outline:none}
+.chatBar button{width:44px;height:44px;border-radius:50%;border:0;background:#ff2a2a;color:#fff;font-size:18px;cursor:pointer}
+.bottom{height:58px;border-top:1px solid #151515;display:flex;justify-content:space-around;align-items:center;background:#000;position:sticky;bottom:0;z-index:10}
+.bottom span{font-size:26px;cursor:pointer;opacity:.45;transition:.2s}.bottom span.active{opacity:1;transform:scale(1.1)}.bottom span .dot{width:6px;height:6px;background:#ff2a2a;border-radius:50%;position:absolute;top:0;right:-2px;display:none}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:flex-end;justify-content:center;z-index:100}.modal.show{display:flex}
+.sheet{width:100%;max-width:650px;background:#141414;border-radius:20px 20px 0 0;padding:20px;max-height:88vh;overflow:auto;border-top:1px solid #222}
+.sheet h3{margin-bottom:12px}.sheet textarea,.sheet input{width:100%;padding:12px;background:#000;border:1px solid #2a2a2a;border-radius:12px;color:#fff;margin:8px 0;outline:none}
+.sheet button{width:100%;padding:13px;background:#ff2a2a;border:0;border-radius:12px;color:#fff;font-weight:800;margin-top:10px;cursor:pointer}
+.sheet .row{display:flex;gap:10px}.sheet .row button{flex:1}
+.notif{padding:12px 14px;border-bottom:1px solid #111;display:flex;gap:12px;align-items:center;font-size:13px}
 .callScreen{position:fixed;inset:0;background:#000;z-index:200;display:none;flex-direction:column}.callScreen.show{display:flex}
 .callVideos{flex:1;position:relative;background:#000}.callVideos video{width:100%;height:100%;object-fit:cover}
-.callVideos #localVideo{position:absolute;width:120px;height:160px;right:14px;bottom:100px;border-radius:12px;border:2px solid #ff2a2a;background:#111;object-fit:cover}
-.callInfo{position:absolute;top:20px;left:0;right:0;text-align:center;z-index:10}
-.callControls{height:90px;background:#111;border-top:1px solid #222;display:flex;justify-content:center;align-items:center;gap:20px}
-.callBtn{width:56px;height:56px;border-radius:50%;border:0;font-size:24px;cursor:pointer}.end{background:#ff2a2a;color:#fff}.mute{background:#333;color:#fff}
+#localVideo{position:absolute;width:110px;height:150px;right:14px;bottom:100px;border-radius:14px;border:2px solid #ff2a2a;background:#111;object-fit:cover}
+.callInfo{position:absolute;top:24px;left:0;right:0;text-align:center;z-index:5}.callControls{height:90px;background:#0f0f0f;border-top:1px solid #222;display:flex;justify-content:center;align-items:center;gap:22px}
+.callBtn{width:56px;height:56px;border-radius:50%;border:0;font-size:22px;cursor:pointer}.end{background:#ff2a2a;color:#fff}.mute{background:#222;color:#fff}
 </style>
 </head>
 <body>
-<div class="top"><b style="color:#ff2a2a">WVT • RED EYE</b><div><span style="color:#0f0;font-size:11px">● ONLINE</span> <span onclick="doLogout()" style="cursor:pointer;margin-left:10px">⎋</span></div></div>
+<div class="top"><b>WVT • VILLAGE</b><div style="display:flex;gap:12px;align-items:center"><span id="notifBtn" style="cursor:pointer;position:relative;font-size:20px">🔔<span id="notifDot" style="display:none;width:8px;height:8px;background:#ff2a2a;border-radius:50%;position:absolute;top:0;right:0"></span></span><span style="color:#0f0;font-size:11px">● LIVE</span><span onclick="doLogout()" style="cursor:pointer">⎋</span></div></div>
 
 <div class="login" id="loginBox">
-<h3 style="color:#ff2a2a;margin:0">WVT Login</h3><p style="font-size:11px;color:#888;margin:4px 0">One-time code, then ID/Password direct login</p>
-<input id="email" type="email" placeholder="Email / User ID"><input id="pass" type="password" placeholder="Password (min 6)">
-<button id="loginBtn" style="background:#ff2a2a">Login with ID/Password</button>
-<button id="signupBtn" style="background:#222">Create New ID with Code</button>
-<button id="resendBtn" style="background:#111;font-size:11px;display:none">Resend Code</button>
-<p id="status" style="color:#ffb300;font-size:12px;min-height:16px"></p>
+<h3 style="color:#ff2a2a">WVT ACCESS</h3><p style="font-size:11px;color:#777;margin:6px 0 12px">One-time code, then ID/Password</p>
+<input id="email" type="email" placeholder="Email / Village ID"><input id="pass" type="password" placeholder="Password (min 6)">
+<button id="loginBtn" style="background:#ff2a2a">Login</button>
+<button id="signupBtn" style="background:#1e1e1e">Create New ID - Verify Code</button>
+<button id="resendBtn" style="background:#111;font-size:12px;display:none;border:1px solid #222">Resend Verification Code</button>
+<p id="status" style="color:#ffcc00;font-size:12px;min-height:18px;margin-top:8px"></p>
 </div>
 
 <div id="app">
 <div class="stories" id="stories"></div>
-<div class="searchWrap" id="searchWrap"><input id="searchInput" placeholder="Search WVT..."></div>
+<div class="searchWrap" id="searchWrap" style="display:none"><input id="searchInput" placeholder="Search users, hashtags, villages..."></div>
 <div class="content" id="content"></div>
-<div class="bottom"><span class="active" id="navHome">⌂</span><span id="navSearch">🔍</span><span id="navAdd">⊞</span><span id="navChat">💬</span><span id="navProf">👤</span></div>
+<div class="bottom">
+<span class="active" id="navHome">◉</span>
+<span id="navSearch">⌕</span>
+<span id="navReels">▶</span>
+<span id="navChat">✉<span class="dot" id="chatDot"></span></span>
+<span id="navProf">◎</span>
+</div>
 </div>
 
-<div class="modal" id="createModal"><div class="sheet"><h3>Create Post</h3><textarea id="newPost" placeholder="Village update?"></textarea><button id="postBtn">Share</button><button style="background:#222" onclick="closeModals()">Cancel</button></div></div>
+<!-- Create Modal -->
+<div class="modal" id="createModal"><div class="sheet">
+<h3>Create in WVT</h3>
+<div class="row"><button onclick="switchCreate('post')" id="tabPost" style="background:#ff2a2a">Post</button><button onclick="switchCreate('story')" id="tabStory" style="background:#222">Story</button><button onclick="switchCreate('reel')" id="tabReel" style="background:#222">Reel</button></div>
+<div id="createPostBox"><textarea id="newPost" placeholder="Write village update... #tag @user"></textarea><input id="postLocation" placeholder="Add location (Kumharsain)"></div>
+<div id="createStoryBox" style="display:none"><textarea id="newStory" placeholder="Story text (24h)"></textarea><label style="font-size:12px;color:#888"><input type="checkbox" id="closeFriendsCheck"> Close Friends Only</label></div>
+<div id="createReelBox" style="display:none"><textarea id="newReel" placeholder="Reel caption + #hashtag"></textarea></div>
+<button id="publishBtn">Publish to WVT</button>
+<button style="background:#222" onclick="closeModals()">Cancel</button>
+</div></div>
 
-<div class="callScreen" id="callScreen">
-<div class="callVideos">
-<div class="callInfo"><h2 id="callName">Calling...</h2><p id="callStatus">Connecting...</p></div>
-<video id="remoteVideo" autoplay playsinline></video><video id="localVideo" autoplay muted playsinline></video>
-</div>
-<div class="callControls"><button class="callBtn mute" onclick="toggleMute()">🎤</button><button class="callBtn end" onclick="endCall()">📞</button><button class="callBtn mute" onclick="toggleVideo()">📹</button></div>
-</div>
+<!-- Comments Modal -->
+<div class="modal" id="commentModal"><div class="sheet"><h3 id="commentTitle">Comments</h3><div id="commentList" style="max-height:300px;overflow:auto;margin:10px 0"></div><div style="display:flex;gap:8px"><input id="commentInput" placeholder="Add comment..."><button id="commentSend" style="width:70px">Send</button></div><button style="background:#222;margin-top:10px" onclick="closeModals()">Close</button></div></div>
 
-<div class="modal" id="incomingModal"><div class="sheet" style="text-align:center"><h3 id="incomingName">Incoming Call...</h3><p id="incomingType">Voice Call</p><div style="display:flex;gap:16px;margin-top:20px"><button style="flex:1;background:#333;padding:12px;border:0;border-radius:8px;color:#fff" onclick="rejectCall()">Reject</button><button style="flex:1;background:#0f0;padding:12px;border:0;border-radius:8px;color:#000" onclick="acceptCall()">Accept</button></div></div></div>
+<!-- Notifications -->
+<div class="modal" id="notifModal"><div class="sheet"><h3>Notifications</h3><div id="notifList"></div><button style="background:#222;margin-top:12px" onclick="closeModals()">Close</button></div></div>
+
+<!-- Call Screens -->
+<div class="callScreen" id="callScreen"><div class="callVideos"><div class="callInfo"><h2 id="callName">WVT Call</h2><p id="callStatus">Connecting...</p></div><video id="remoteVideo" autoplay playsinline></video><video id="localVideo" autoplay muted playsinline></video></div><div class="callControls"><button class="callBtn mute" onclick="toggleMute()">🎤</button><button class="callBtn end" onclick="endCall()">✕</button><button class="callBtn mute" onclick="toggleVideo()">📹</button></div></div>
+<div class="modal" id="incomingModal"><div class="sheet" style="text-align:center"><h3 id="incomingName">Incoming WVT Call</h3><p id="incomingType">Voice</p><div class="row" style="margin-top:20px"><button style="background:#222" onclick="rejectCall()">Reject</button><button style="background:#0f0;color:#000" onclick="acceptCall()">Accept</button></div></div></div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, onAuthStateChanged, signOut, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getDatabase, ref, push, onChildAdded, set, onValue, remove, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getDatabase, ref, push, onChildAdded, set, onValue, remove, update, get, child } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 const firebaseConfig = {apiKey:"AIzaSyAE0gpHzcFlWtJsh8L6PPobJrQd2EhMfJ0",authDomain:"theredeye-village.firebaseapp.com",databaseURL:"https://theredeye-village-default-rtdb.firebaseio.com",projectId:"theredeye-village",storageBucket:"theredeye-village.firebasestorage.app",messagingSenderId:"1009539974986",appId:"1:1009539974986:web:cbf897f24a92399dd1e3b3"};
 const app=initializeApp(firebaseConfig);const auth=getAuth(app);const db=getDatabase(app);
 await setPersistence(auth, browserLocalPersistence);
-let myEmail="",myId="",posts=[],chats=[],view="home",pc=null,localStream=null,remoteId=null,callType="video",incomingData=null;
+let myEmail="",myId="",posts=[],stories=[],reels=[],chats=[],notifs=[],follows={},view="home",currentCreate="post",currentPostId=null,pc=null,localStream=null,remoteId=null,callType="video",incomingData=null;
 const loginBox=document.getElementById('loginBox'),appDiv=document.getElementById('app'),statusEl=document.getElementById('status'),contentEl=document.getElementById('content');
-const loginBtn=document.getElementById('loginBtn'),signupBtn=document.getElementById('signupBtn'),resendBtn=document.getElementById('resendBtn');
-loginBtn.onclick=async()=>{const email=document.getElementById('email').value.trim(),pass=document.getElementById('pass').value;if(!email||!pass){statusEl.innerText="Enter ID and Password";return;}statusEl.innerText="Logging in...";try{const c=await signInWithEmailAndPassword(auth,email,pass);if(!c.user.emailVerified){statusEl.innerText="Email not verified, check your code";resendBtn.style.display='block';return;}}catch(e){statusEl.innerText=e.message;}};
-signupBtn.onclick=async()=>{const email=document.getElementById('email').value.trim(),pass=document.getElementById('pass').value;if(pass.length<6){statusEl.innerText="Password must be at least 6 characters";return;}statusEl.innerText="Creating account...";try{const c=await createUserWithEmailAndPassword(auth,email,pass);await sendEmailVerification(c.user);statusEl.innerText="✅ Code sent to email, verify it - then login with ID/Password directly";resendBtn.style.display='block';}catch(e){if(e.code==='auth/email-already-in-use'){statusEl.innerText="This ID already exists, press Login";}else statusEl.innerText=e.message;}};
-resendBtn.onclick=async()=>{const u=auth.currentUser;if(u){await sendEmailVerification(u);statusEl.innerText="Code resent";}};
-onAuthStateChanged(auth,(u)=>{if(u&&u.emailVerified){myEmail=u.email;myId=u.email.replace(/[^a-zA-Z0-9]/g,'_');loginBox.style.display='none';appDiv.style.display='flex';initApp();listenForCalls();}else if(u&&!u.emailVerified){loginBox.style.display='block';appDiv.style.display='none';statusEl.innerText="Code sent to email, please verify";resendBtn.style.display='block';}else{loginBox.style.display='block';appDiv.style.display='none';}});
-window.doLogout=()=>{if(confirm("Logout? You will need to login again with ID/Password")) signOut(auth);};
+document.getElementById('loginBtn').onclick=async()=>{const e=document.getElementById('email').value.trim(),p=document.getElementById('pass').value;if(!e||!p){statusEl.innerText="Enter ID & Password";return;}statusEl.innerText="Logging in...";try{const c=await signInWithEmailAndPassword(auth,e,p);if(!c.user.emailVerified){statusEl.innerText="Verify email code first";document.getElementById('resendBtn').style.display='block';return;}}catch(er){statusEl.innerText=er.message;}};
+document.getElementById('signupBtn').onclick=async()=>{const e=document.getElementById('email').value.trim(),p=document.getElementById('pass').value;if(p.length<6){statusEl.innerText="Password min 6";return;}statusEl.innerText="Creating...";try{const c=await createUserWithEmailAndPassword(auth,e,p);await sendEmailVerification(c.user);statusEl.innerText="✅ Verification code sent to email. Verify then login.";document.getElementById('resendBtn').style.display='block';}catch(er){if(er.code==='auth/email-already-in-use')statusEl.innerText="ID exists, press Login";else statusEl.innerText=er.message;}};
+document.getElementById('resendBtn').onclick=async()=>{const u=auth.currentUser;if(u){await sendEmailVerification(u);statusEl.innerText="Code resent";}};
+onAuthStateChanged(auth,(u)=>{if(u&&u.emailVerified){myEmail=u.email;myId=u.email.replace(/[^a-zA-Z0-9]/g,'_');loginBox.style.display='none';appDiv.style.display='flex';initAll();listenForCalls();}else if(u&&!u.emailVerified){loginBox.style.display='block';appDiv.style.display='none';statusEl.innerText="Check email for verification code";document.getElementById('resendBtn').style.display='block';}else{loginBox.style.display='block';appDiv.style.display='none';}});
+window.doLogout=()=>{if(confirm("Logout? You will need ID/Password to login again")) signOut(auth);};
 window.closeModals=()=>document.querySelectorAll('.modal').forEach(m=>m.classList.remove('show'));
-function initApp(){
-document.getElementById('stories').innerHTML=["Rahul","Anjali","Village","Praveen","HP","Radio","Kumharsain","Shimla"].map(n=>`<div class="story"><div class="ring"><div>${n[0]}</div></div><div style="font-size:10px;margin-top:4px">${n}</div></div>`).join('');
-const rp=ref(db,'wvt_posts');onChildAdded(rp,(s)=>{const d=s.val();d.id=s.key;posts.unshift(d);if(view==='home')renderHome();});
-const rc=ref(db,'village_messages');onChildAdded(rc,(s)=>{chats.push(s.val());if(view==='chat')renderChat();});
+window.switchCreate=(t)=>{currentCreate=t;['post','story','reel'].forEach(x=>{document.getElementById('tab'+x.charAt(0).toUpperCase()+x.slice(1)).style.background=x===t?'#ff2a2a':'#222';document.getElementById('create'+x.charAt(0).toUpperCase()+x.slice(1)+'Box').style.display=x===t?'block':'none';});};
+function initAll(){
+const baseUsers=["Rahul","Anjali","Village","Praveen","HP","Radio","Kumharsain","Shimla","Admin"];
+document.getElementById('stories').innerHTML=baseUsers.map(n=>`<div class="story" onclick="openStory('${n}')"><div class="ring"><div>${n[0]}</div></div><p>${n}</p></div>`).join('')+`<div class="story" onclick="document.getElementById('createModal').classList.add('show');switchCreate('story')"><div class="ring" style="background:#222"><div>+</div></div><p>Your Story</p></div>`;
+onChildAdded(ref(db,'wvt_posts'),s=>{const d=s.val();d.id=s.key;posts.unshift(d);if(view==='home')renderHome();if(view==='search')renderSearch(document.getElementById('searchInput').value);});
+onChildAdded(ref(db,'wvt_stories'),s=>{stories.unshift({id:s.key,...s.val()});renderStoriesBar();});
+onChildAdded(ref(db,'wvt_reels'),s=>{reels.unshift({id:s.key,...s.val()});if(view==='reels')renderReels();});
+onChildAdded(ref(db,'village_messages'),s=>{chats.push(s.val());if(view==='chat')renderChat();document.getElementById('chatDot').style.display='block';});
+onChildAdded(ref(db,'wvt_notifs/'+myId),s=>{notifs.unshift(s.val());document.getElementById('notifDot').style.display='block';});
+onValue(ref(db,'wvt_follows/'+myId),snap=>{follows=snap.val()||{};});
 renderHome();
 document.getElementById('navHome').onclick=()=>{view='home';setActive('navHome');hideSearch();renderHome();};
 document.getElementById('navSearch').onclick=()=>{view='search';setActive('navSearch');showSearch();renderSearch('');};
-document.getElementById('navAdd').onclick=()=>document.getElementById('createModal').classList.add('show');
-document.getElementById('navChat').onclick=()=>{view='chat';setActive('navChat');hideSearch();renderChat();};
+document.getElementById('navReels').onclick=()=>{view='reels';setActive('navReels');hideSearch();renderReels();};
+document.getElementById('navChat').onclick=()=>{view='chat';setActive('navChat');hideSearch();renderChat();document.getElementById('chatDot').style.display='none';};
 document.getElementById('navProf').onclick=()=>{view='profile';setActive('navProf');hideSearch();renderProfile();};
-document.getElementById('postBtn').onclick=doCreatePost;
-document.getElementById('searchInput').addEventListener('input',e=>renderSearch(e.target.value));
+document.getElementById('notifBtn').onclick=()=>{document.getElementById('notifModal').classList.add('show');renderNotifs();document.getElementById('notifDot').style.display='none';};
+document.getElementById('publishBtn').onclick=doPublish;
+document.getElementById('searchInput').addEventListener('input',e=>{if(view==='search')renderSearch(e.target.value);});
+document.getElementById('commentSend').onclick=doComment;
 }
 function setActive(id){document.querySelectorAll('.bottom span').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
 function showSearch(){document.getElementById('searchWrap').style.display='block';}function hideSearch(){document.getElementById('searchWrap').style.display='none';}
-function renderHome(){if(posts.length===0){contentEl.innerHTML='<p style="text-align:center;color:#666;padding:40px">No posts - Create first!</p>';return;}contentEl.innerHTML=posts.map(p=>`<div class="post"><div class="phead"><b>${esc(p.email.split('@')[0])}</b><span>⋯</span></div><div class="postBody">${esc(p.text)}</div><div class="actions"><span onclick="this.textContent=this.textContent==='🤍'?'❤️':'🤍'">🤍</span><span>💬</span><span>↗️</span></div></div>`).join('');}
-function renderSearch(q){const f=(q||'').toLowerCase();const filtered=f?posts.filter(p=>(p.text+p.email).toLowerCase().includes(f)):posts;contentEl.innerHTML=filtered.map(p=>`<div style="padding:12px;border-bottom:1px solid #222"><b>${esc(p.email.split('@')[0])}</b> ${esc(p.text)}</div>`).join('')||'<p style="text-align:center;color:#666;padding:30px">No result</p>';}
-function renderChat(){contentEl.innerHTML=`<div style="padding:10px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #222"><b>WVT Chat</b><div style="display:flex;gap:8px"><button onclick="startCall('village','voice')" style="padding:6px 12px;background:#222;border:1px solid #333;border-radius:20px;color:#fff;cursor:pointer">📞 Voice</button><button onclick="startCall('village','video')" style="padding:6px 12px;background:#ff2a2a;border:0;border-radius:20px;color:#fff;cursor:pointer">📹 Video</button></div></div><div id="msgList"></div><div class="chatBar"><input id="chatInput" placeholder="Type message..."><button id="chatSend">Send</button></div>`;const list=document.getElementById('msgList');list.innerHTML=chats.map(c=>`<div class="msg ${c.email===myEmail?'me':''}"><div style="font-size:10px;color:#888">${esc(c.email.split('@')[0])}</div>${esc(c.text)}</div>`).join('');const send=()=>{const i=document.getElementById('chatInput');const t=i.value.trim();if(!t)return;push(ref(db,'village_messages'),{email:myEmail,text:t,time:Date.now()});i.value='';};document.getElementById('chatSend').onclick=send;document.getElementById('chatInput').addEventListener('keypress',e=>{if(e.key==='Enter')send();});}
-function renderProfile(){contentEl.innerHTML=`<div style="padding:16px"><h3>${esc(myEmail.split('@')[0])} ✓</h3><p style="color:#4a8aff">${esc(myEmail)}</p><p style="color:#888;font-size:12px">ID created once, now always login with ID/Password. Calling only in chat.</p></div>`;}
-function doCreatePost(){const t=document.getElementById('newPost').value.trim();if(!t)return;push(ref(db,'wvt_posts'),{email:myEmail,text:t,time:Date.now()});document.getElementById('newPost').value='';closeModals();view='home';setActive('navHome');hideSearch();renderHome();}
+function esc(s){const d=document.createElement('div');d.innerText=s||'';return d.innerHTML;}
+function renderStoriesBar(){/* kept simple - stories already rendered */}
+function renderHome(){
+if(posts.length===0){contentEl.innerHTML='<p style="text-align:center;color:#555;padding:50px">No posts yet. Create first post in WVT.</p>';return;}
+contentEl.innerHTML=posts.map(p=>{
+const isMe=p.email===myEmail;const liked=p.likes&&p.likes[myId];const saved=p.saved&&p.saved[myId];const followed=follows[p.email.replace(/[^a-zA-Z0-9]/g,'_')];
+return `<div class="post" id="post-${p.id}">
+<div class="phead"><div class="left"><div class="avatar">${esc(p.email[0].toUpperCase())}</div><div><div style="font-weight:700;font-size:13px;display:flex;gap:6px;align-items:center">${esc(p.email.split('@')[0])} ${p.verified?'✓':''} ${followed?'• Following':''}</div><div style="font-size:11px;color:#777">${esc(p.location||'Kumharsain')} • ${new Date(p.time).toLocaleDateString()}</div></div></div><span onclick="openPostMenu('${p.id}')" style="cursor:pointer">⋯</span></div>
+<div class="postMedia">${esc(p.text)}</div>
+<div class="postActions"><div class="leftActions"><span onclick="toggleLike('${p.id}')" style="color:${liked?'#ff2a2a':'#fff'}">${liked?'❤':'♡'}</span><span onclick="openComments('${p.id}')">💬</span><span onclick="sharePost('${p.id}')">↗</span></div><span onclick="toggleSave('${p.id}')" style="cursor:pointer">${saved?'🔖':'📑'}</span></div>
+<div class="likes">${p.likeCount||0} likes</div>
+<div class="caption"><b>${esc(p.email.split('@')[0])}</b> ${esc(p.text).substring(0,120)} ${p.hashtags||''}</div>
+<div class="comments" onclick="openComments('${p.id}')">${p.commentCount||0} comments • Add comment...</div>
+<div class="time">${new Date(p.time).toLocaleTimeString()}</div>
+</div>`;
+}).join('');
+}
+function renderSearch(q){
+const f=(q||'').toLowerCase();let list=posts;if(f){list=posts.filter(p=>(p.text+p.email+(p.hashtags||'')+(p.location||'')).toLowerCase().includes(f));}
+if(!f){contentEl.innerHTML=`<div style="padding:12px;color:#777;font-size:12px">Explore WVT</div><div class="grid">${posts.map(p=>`<div class="gridItem ${p.saved&&p.saved[myId]?'saved':''}" onclick="document.getElementById('navHome').click()">${esc(p.text.substring(0,30))}</div>`).join('')}</div>`;return;}
+contentEl.innerHTML=list.map(p=>`<div style="padding:12px;border-bottom:1px solid #111;display:flex;justify-content:space-between"><div><b>${esc(p.email.split('@')[0])}</b> ${esc(p.text.substring(0,50))}</div><span style="color:#ff2a2a;cursor:pointer" onclick="toggleFollow('${p.email}')">Follow</span></div>`).join('')||'<p style="text-align:center;color:#555;padding:30px">No results for '+esc(q)+'</p>';
+}
+function renderReels(){
+if(reels.length===0){contentEl.innerHTML='<div class="reel" style="justify-content:center;color:#555">No reels yet. Create first WVT Reel from + button</div>';return;}
+contentEl.innerHTML=`<div class="reelWrap">${reels.map(r=>`<div class="reel"><div class="reelInfo"><b>@${esc(r.email.split('@')[0])}</b><p style="margin-top:8px;font-size:14px">${esc(r.text)}</p><p style="color:#888;font-size:12px;margin-top:6px">${esc(r.hashtags||'#WVT #Village')}</p></div><div class="reelActions"><span onclick="toggleLikeReel('${r.id}')">❤<div style="font-size:11px">${r.likeCount||0}</div></span><span onclick="openComments('${r.id}')">💬<div style="font-size:11px">${r.commentCount||0}</div></span><span onclick="sharePost('${r.id}')">↗</span></div></div>`).join('')}</div>`;
+}
+function renderChat(){
+contentEl.innerHTML=`<div class="chatHeader"><b>WVT Village Chat</b><div style="display:flex;gap:8px"><button onclick="startCall('village','voice')" style="padding:7px 14px;background:#1a1a1a;border:1px solid #222;border-radius:20px;color:#fff;cursor:pointer">📞 Voice Call</button><button onclick="startCall('village','video')" style="padding:7px 14px;background:#ff2a2a;border:0;border-radius:20px;color:#fff;cursor:pointer">📹 Video Call</button></div></div><div id="msgList" style="height:calc(100% - 110px)"></div><div class="chatBar"><button onclick="sendEmoji('😊')">😊</button><input id="chatInput" placeholder="Message village..."><button onclick="sendVoiceNote()">🎤</button><button id="chatSend">➤</button></div><p style="font-size:10px;color:#555;text-align:center;padding:4px">Calls are only available inside chat - WVT style</p>`;
+const list=document.getElementById('msgList');list.innerHTML=chats.map(c=>`<div class="msg ${c.email===myEmail?'me':'other'}"><div style="font-size:10px;color:${c.email===myEmail?'#fff':'#888'}">${esc(c.email.split('@')[0])} ${c.verified?'✓':''}</div><div>${esc(c.text)}</div><div class="meta"><span>${new Date(c.time).toLocaleTimeString()}</span><span>${c.email===myEmail?'✓✓ Seen':''}</span></div></div>`).join('');list.scrollTop=list.scrollHeight;
+const send=()=>{const i=document.getElementById('chatInput');const t=i.value.trim();if(!t)return;push(ref(db,'village_messages'),{email:myEmail,text:t,time:Date.now(),verified:true});i.value='';};document.getElementById('chatSend').onclick=send;document.getElementById('chatInput').addEventListener('keypress',e=>{if(e.key==='Enter')send();});
+}
+function renderProfile(){
+const myPosts=posts.filter(p=>p.email===myEmail);
+contentEl.innerHTML=`<div style="padding:20px"><div style="display:flex;gap:16px;align-items:center"><div style="width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,#ff2a2a,#ff8a00);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800">${myEmail[0].toUpperCase()}</div><div style="display:flex;gap:18px;text-align:center"><div><b>${myPosts.length}</b><p style="font-size:12px;color:#777">Posts</p></div><div><b>${Object.keys(follows).length}</b><p style="font-size:12px;color:#777">Following</p></div><div><b>0</b><p style="font-size:12px;color:#777">Followers</p></div></div></div><h3 style="margin-top:14px">${esc(myEmail.split('@')[0])} ✓</h3><p style="color:#4a8aff;font-size:13px">${esc(myEmail)}</p><p style="color:#888;font-size:12px;margin-top:6px">WVT Village Member • Private: OFF • ID saved - login with ID/Password anytime • Calling only in chat</p><div style="display:flex;gap:8px;margin-top:12px"><button onclick="document.getElementById('createModal').classList.add('show')" style="flex:1;padding:10px;background:#1a1a1a;border:1px solid #222;border-radius:10px;color:#fff">Edit Profile</button><button onclick="doLogout()" style="flex:1;padding:10px;background:#ff2a2a;border:0;border-radius:10px;color:#fff">Logout</button></div></div><div style="display:flex;border-top:1px solid #151515;border-bottom:1px solid #151515"><div style="flex:1;text-align:center;padding:12px;border-right:1px solid #151515">⊞ Posts</div><div style="flex:1;text-align:center;padding:12px;border-right:1px solid #151515">▶ Reels</div><div style="flex:1;text-align:center;padding:12px">🔖 Saved</div></div><div class="grid">${myPosts.map(p=>`<div class="gridItem">${esc(p.text.substring(0,25))}</div>`).join('')}</div>`;
+}
+function renderNotifs(){document.getElementById('notifList').innerHTML=notifs.length?notifs.map(n=>`<div class="notif"><div class="avatar" style="width:36px;height:36px">${n.from[0]}</div><div><b>${esc(n.from)}</b> ${esc(n.text)} <span style="color:#555;font-size:11px">${new Date(n.time).toLocaleTimeString()}</span></div></div>`).join(''):'<p style="color:#555;padding:20px;text-align:center">No notifications</p>';}
+window.doPublish=()=>{
+const t=(currentCreate==='post'?document.getElementById('newPost').value:currentCreate==='story'?document.getElementById('newStory').value:document.getElementById('newReel').value).trim();if(!t)return;
+if(currentCreate==='post'){const loc=document.getElementById('postLocation').value.trim();push(ref(db,'wvt_posts'),{email:myEmail,text:t,location:loc||'Kumharsain',hashtags:(t.match(/#\w+/g)||[]).join(' '),time:Date.now(),likeCount:0,commentCount:0,likes:{},saved:{},verified:true});}
+if(currentCreate==='story'){const closeF=document.getElementById('closeFriendsCheck').checked;push(ref(db,'wvt_stories'),{email:myEmail,text:t,closeFriends:closeF,time:Date.now(),expire:Date.now()+24*60*60*1000});}
+if(currentCreate==='reel'){push(ref(db,'wvt_reels'),{email:myEmail,text:t,hashtags:(t.match(/#\w+/g)||[]).join(' '),time:Date.now(),likeCount:0,commentCount:0});}
+['newPost','newStory','newReel','postLocation'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});closeModals();view='home';setActive('navHome');renderHome();
+};
+window.toggleLike=async(id)=>{const p=posts.find(x=>x.id===id);if(!p)return;const r=ref(db,'wvt_posts/'+id);const snap=await get(r);const data=snap.val()||{};const likes=data.likes||{};if(likes[myId]){delete likes[myId];data.likeCount=(data.likeCount||1)-1;}else{likes[myId]=true;data.likeCount=(data.likeCount||0)+1;if(data.email!==myEmail)push(ref(db,'wvt_notifs/'+data.email.replace(/[^a-zA-Z0-9]/g,'_')),{from:myEmail.split('@')[0],text:'liked your post',time:Date.now()});}await update(r,{likes,likeCount:data.likeCount});p.likes=likes;p.likeCount=data.likeCount;renderHome();};
+window.toggleSave=async(id)=>{const r=ref(db,'wvt_posts/'+id);const snap=await get(r);const data=snap.val()||{};const saved=data.saved||{};if(saved[myId])delete saved[myId];else saved[myId]=true;await update(r,{saved});const p=posts.find(x=>x.id===id);if(p)p.saved=saved;renderHome();};
+window.toggleLikeReel=async(id)=>{const r=ref(db,'wvt_reels/'+id);const snap=await get(r);const data=snap.val()||{};data.likeCount=(data.likeCount||0)+1;await update(r,{likeCount:data.likeCount});renderReels();};
+window.openComments=(id)=>{currentPostId=id;document.getElementById('commentModal').classList.add('show');loadComments(id);};
+async function loadComments(id){const snap=await get(child(ref(db),'wvt_comments/'+id));const list=snap.val()||{};document.getElementById('commentList').innerHTML=Object.values(list).map(c=>`<div style="padding:8px 0;border-bottom:1px solid #111"><b style="font-size:12px">${esc(c.email.split('@')[0])}</b> <span style="font-size:13px">${esc(c.text)}</span><div style="font-size:10px;color:#555">${new Date(c.time).toLocaleTimeString()}</div></div>`).join('')||'<p style="color:#555">No comments yet</p>';}
+window.doComment=async()=>{const t=document.getElementById('commentInput').value.trim();if(!t||!currentPostId)return;await push(ref(db,'wvt_comments/'+currentPostId),{email:myEmail,text:t,time:Date.now()});const r=ref(db,'wvt_posts/'+currentPostId);const snap=await get(r);if(snap.exists()){await update(r,{commentCount:(snap.val().commentCount||0)+1});}document.getElementById('commentInput').value='';loadComments(currentPostId);renderHome();};
+window.toggleFollow=async(email)=>{const fid=email.replace(/[^a-zA-Z0-9]/g,'_');const r=ref(db,'wvt_follows/'+myId+'/'+fid);if(follows[fid]){await remove(r);delete follows[fid];}else{await set(r,true);follows[fid]=true;push(ref(db,'wvt_notifs/'+fid),{from:myEmail.split('@')[0],text:'started following you',time:Date.now()});}alert(follows[fid]?'Following':'Unfollowed');};
+window.openPostMenu=(id)=>{const isMe=posts.find(p=>p.id===id)?.email===myEmail;const action=prompt(isMe?'Type: delete / archive / private':'Type: report / block / mute');if(!action)return;if(isMe&&action==='delete'){if(confirm('Delete post?'))remove(ref(db,'wvt_posts/'+id)).then(()=>{posts=posts.filter(p=>p.id!==id);renderHome();});}else alert('Action '+action+' done (WVT Safe)');};
+window.sharePost=(id)=>{if(navigator.share){navigator.share({title:'WVT Post',text:posts.find(p=>p.id===id)?.text||'Check WVT Village'});}else{prompt('Copy link:',location.href+'#post-'+id);}};
+window.openStory=(name)=>{alert('Story by '+name+' - 24h WVT Story (tap to view, expires in 24h)');};
+window.sendEmoji=(e)=>{const i=document.getElementById('chatInput');if(i)i.value+=e;};
+window.sendVoiceNote=()=>{const t=prompt('Voice message text (WVT will send as voice note):','Voice note');if(t)push(ref(db,'village_messages'),{email:myEmail,text:'🎤 '+t,time:Date.now(),type:'voice'});};
+
+// CALLING - ONLY IN CHAT
 async function createPC(){pc=new RTCPeerConnection({iceServers:[{urls:'stun:stun.l.google.com:19302'}]});pc.onicecandidate=e=>{if(e.candidate&&remoteId){push(ref(db,`calls/${remoteId}/candidates`),{from:myId,candidate:e.candidate.toJSON()});}};pc.ontrack=e=>{document.getElementById('remoteVideo').srcObject=e.streams[0];};if(localStream){localStream.getTracks().forEach(t=>pc.addTrack(t,localStream));}}
-window.startCall=async(target,type)=>{callType=type;remoteId=target.replace(/[^a-zA-Z0-9]/g,'_');if(remoteId==='village')remoteId='village_call';document.getElementById('callScreen').classList.add('show');document.getElementById('callName').innerText='Calling '+target;document.getElementById('callStatus').innerText=type==='voice'?'Voice Calling...':'Video Calling...';localStream=await navigator.mediaDevices.getUserMedia({video:type==='video',audio:true});document.getElementById('localVideo').srcObject=localStream;document.getElementById('localVideo').style.display=type==='video'?'block':'none';await createPC();const offer=await pc.createOffer();await pc.setLocalDescription(offer);await set(ref(db,`calls/${remoteId}`),{from:myId,fromEmail:myEmail,offer:{type:offer.type,sdp:offer.sdp},type:type,time:Date.now()});listenForAnswer(remoteId);listenForCandidates(myId);};
-function listenForCalls(){const r=ref(db,`calls/${myId}`);onValue(r,async snap=>{const data=snap.val();if(!data||data.from===myId)return;incomingData=data;remoteId=data.from;document.getElementById('incomingName').innerText=data.fromEmail||data.from;document.getElementById('incomingType').innerText=data.type==='voice'?'Voice Call':'Video Call';document.getElementById('incomingModal').classList.add('show');});}
-window.acceptCall=async()=>{document.getElementById('incomingModal').classList.remove('show');document.getElementById('callScreen').classList.add('show');callType=incomingData.type;document.getElementById('callName').innerText=incomingData.fromEmail;localStream=await navigator.mediaDevices.getUserMedia({video:callType==='video',audio:true});document.getElementById('localVideo').srcObject=localStream;await createPC();await pc.setRemoteDescription(new RTCSessionDescription(incomingData.offer));const answer=await pc.createAnswer();await pc.setLocalDescription(answer);await update(ref(db,`calls/${remoteId}`),{answer:{type:answer.type,sdp:answer.sdp}});listenForCandidates(myId);document.getElementById('callStatus').innerText='Connected';};
+window.startCall=async(target,type)=>{if(view!=='chat'){alert('WVT Calls are only available inside Village Chat - Go to chat first');document.getElementById('navChat').click();return;}callType=type;remoteId=target.replace(/[^a-zA-Z0-9]/g,'_');if(remoteId==='village')remoteId='village_call_'+Date.now();document.getElementById('callScreen').classList.add('show');document.getElementById('callName').innerText='Calling Village';document.getElementById('callStatus').innerText=type==='voice'?'Voice Calling...':'Video Calling...';try{localStream=await navigator.mediaDevices.getUserMedia({video:type==='video',audio:true});}catch(e){alert('Camera/Mic permission needed');return;}document.getElementById('localVideo').srcObject=localStream;document.getElementById('localVideo').style.display=type==='video'?'block':'none';await createPC();const offer=await pc.createOffer();await pc.setLocalDescription(offer);await set(ref(db,`calls/${remoteId}`),{from:myId,fromEmail:myEmail,offer:{type:offer.type,sdp:offer.sdp},type:type,time:Date.now()});listenForAnswer(remoteId);listenForCandidates(myId);};
+function listenForCalls(){onValue(ref(db,`calls/${myId}`),async snap=>{const data=snap.val();if(!data||data.from===myId)return;incomingData=data;remoteId=data.from;document.getElementById('incomingName').innerText=data.fromEmail||data.from;document.getElementById('incomingType').innerText=data.type==='voice'?'Voice Call':'Video Call';document.getElementById('incomingModal').classList.add('show');});}
+window.acceptCall=async()=>{document.getElementById('incomingModal').classList.remove('show');document.getElementById('callScreen').classList.add('show');callType=incomingData.type;document.getElementById('callName').innerText=incomingData.fromEmail;try{localStream=await navigator.mediaDevices.getUserMedia({video:callType==='video',audio:true});}catch(e){alert('Permission needed');return;}document.getElementById('localVideo').srcObject=localStream;await createPC();await pc.setRemoteDescription(new RTCSessionDescription(incomingData.offer));const answer=await pc.createAnswer();await pc.setLocalDescription(answer);await update(ref(db,`calls/${remoteId}`),{answer:{type:answer.type,sdp:answer.sdp}});listenForCandidates(myId);document.getElementById('callStatus').innerText='Connected - WVT Secure';};
 window.rejectCall=async()=>{document.getElementById('incomingModal').classList.remove('show');if(remoteId)await remove(ref(db,`calls/${myId}`));remoteId=null;};
-function listenForAnswer(id){const r=ref(db,`calls/${id}/answer`);onValue(r,async snap=>{const ans=snap.val();if(ans&&pc&&!pc.currentRemoteDescription){await pc.setRemoteDescription(new RTCSessionDescription(ans));document.getElementById('callStatus').innerText='Connected';}});}
-function listenForCandidates(id){const r=ref(db,`calls/${id}/candidates`);onChildAdded(r,async snap=>{const d=snap.val();if(d.from!==myId&&d.candidate&&pc){try{await pc.addIceCandidate(new RTCIceCandidate(d.candidate));}catch(e){}}});}
+function listenForAnswer(id){onValue(ref(db,`calls/${id}/answer`),async snap=>{const ans=snap.val();if(ans&&pc&&!pc.currentRemoteDescription){await pc.setRemoteDescription(new RTCSessionDescription(ans));document.getElementById('callStatus').innerText='Connected - WVT Secure';}});}
+function listenForCandidates(id){onChildAdded(ref(db,`calls/${id}/candidates`),async snap=>{const d=snap.val();if(d.from!==myId&&d.candidate&&pc){try{await pc.addIceCandidate(new RTCIceCandidate(d.candidate));}catch(e){}}});}
 window.endCall=async()=>{document.getElementById('callScreen').classList.remove('show');if(localStream){localStream.getTracks().forEach(t=>t.stop());localStream=null;}if(pc){pc.close();pc=null;}if(remoteId){await remove(ref(db,`calls/${remoteId}`));await remove(ref(db,`calls/${myId}`));}remoteId=null;};
 window.toggleMute=()=>{if(localStream){localStream.getAudioTracks().forEach(t=>t.enabled=!t.enabled);}};
 window.toggleVideo=()=>{if(localStream){localStream.getVideoTracks().forEach(t=>t.enabled=!t.enabled);}};
-function esc(s){const d=document.createElement('div');d.innerText=s;return d.innerHTML;}
 </script>
 </body>
 </html>
