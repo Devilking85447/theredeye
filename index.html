@@ -1,53 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Red Eye Village - Free World Talk</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Red Eye Village - Tools</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#000;color:#fff;font-family:system-ui, -apple-system, sans-serif;line-height:1.5}
-.top{padding:14px 16px;background:#111;border-bottom:1px solid #222;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
-.top h2{margin:0;color:#ff2a2a;letter-spacing:1px}
-.nav a{color:#aaa;text-decoration:none;margin-left:12px;font-size:13px}
-.nav a:hover{color:#fff}
-.hero{padding:70px 20px;text-align:center;border-bottom:1px solid #111}
-.hero h1{font-size:42px;color:#ff2a2a;margin:0;line-height:1.1}
-.hero p{color:#aaa;max-width:600px;margin:14px auto;font-size:17px}
-.btn{display:inline-block;padding:14px 32px;background:#ff2a2a;color:#fff;border-radius:10px;text-decoration:none;font-weight:bold;margin-top:20px;font-size:16px}
-.btn:hover{background:#ff4444}
-.section{max-width:900px;margin:50px auto;padding:0 20px}
-.section h2{color:#ff2a2a;border-left:4px solid #ff2a2a;padding-left:12px;margin-bottom:12px}
-.card{background:#111;border:1px solid #222;padding:18px;border-radius:12px;margin:12px 0;color:#ccc}
-.footer{background:#0a0a0a;border-top:1px solid #222;padding:35px 20px;margin-top:60px;text-align:center;color:#666;font-size:13px}
-.footer a{color:#888;text-decoration:none;margin:0 8px}
-.footer a:hover{color:#fff}
+body{margin:0;background:#0a0a0a;color:#fff;font-family:system-ui;line-height:1.5}
+.header{text-align:center;padding:40px 20px;border-bottom:1px solid #222}
+.header h1{color:#ff2a2a;margin:0;font-size:32px;letter-spacing:2px}
+.btn{display:inline-block;margin-top:20px;background:#ff2a2a;color:#fff;padding:14px 32px;border-radius:10px;text-decoration:none;font-weight:bold;font-size:18px}
+.grid{max-width:1100px;margin:30px auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;padding:20px}
+.tool{background:#151515;border:1px solid #222;border-radius:12px;padding:18px}
+.tool h3{margin:0 0 10px;color:#fff;font-size:16px}
+.tool input,.tool textarea{width:100%;padding:8px;background:#000;color:#fff;border:1px solid #333;border-radius:6px;box-sizing:border-box;margin-top:6px}
+.tool button{margin-top:8px;width:100%;padding:8px;background:#222;color:#fff;border:0;border-radius:6px;cursor:pointer}
+.tool button:hover{background:#333}
+.section{max-width:1100px;margin:40px auto;padding:0 20px}
+.section h2{color:#ff2a2a;border-left:4px solid #ff2a2a;padding-left:12px}
+.card{background:#151515;border:1px solid #222;padding:18px;border-radius:12px;color:#ccc}
+.footer{text-align:center;color:#666;padding:30px;border-top:1px solid #222;margin-top:20px}
+.footer a{color:#888;text-decoration:none;margin:0 6px}
 </style>
 </head>
 <body>
-
-<div class="top">
-<h2>RED EYE</h2>
-<div class="nav">
-<a href="#about">About</a>
-<a href="#team">Team</a>
-<a href="#privacy">Privacy</a>
-<a href="talk.html">Enter Village</a>
-</div>
+<div class="header">
+<h1>THE RED EYE VILLAGE</h1>
+<p>Official Tools - theredeye.co.in - By Praveen Bansal</p>
+<a class="btn" href="/talk.html">▶ Start World Village Talk (WVT)</a>
+<p style="color:#888;margin-top:10px">12 Tools + WVT • 10+ Online Now</p>
 </div>
 
-<div class="hero">
-<h1>Welcome to The Red Eye Village</h1>
-<p>World's free village talk - India, USA, UK, Dubai sab ke liye. No phone number needed, just enter and talk.</p>
-<a class="btn" href="talk.html">Enter Village Talk</a>
+<div class="grid">
+<div class="tool"><h3>QR Generator</h3><input id="qrText" placeholder="Enter text"><button onclick="genQR()">Generate</button><div id="qrOut" style="margin-top:8px"></div></div>
+<div class="tool"><h3>Password Generator</h3><button onclick="genPass()">Generate 16-char</button><input id="passOut" readonly></div>
+<div class="tool"><h3>Word Counter</h3><textarea id="wcText" placeholder="Type..."></textarea><p id="wcOut">0 words</p></div>
+<div class="tool"><h3>Age Calculator</h3><input type="date" id="ageDob"><button onclick="calcAge()">Calculate</button><p id="ageOut"></p></div>
+<div class="tool"><h3>BMI Calculator</h3><input id="bmiH" placeholder="Height cm"><input id="bmiW" placeholder="Weight kg"><button onclick="calcBmi()">Calculate</button><p id="bmiOut"></p></div>
+<div class="tool"><h3>EMI Calculator</h3><input id="emiP" placeholder="Principal"><input id="emiR" placeholder="Rate %"><input id="emiN" placeholder="Months"><button onclick="calcEmi()">Calculate</button><p id="emiOut"></p></div>
+<div class="tool"><h3>Case Converter</h3><textarea id="caseText"></textarea><button onclick="toUpper()">UPPER</button><button onclick="toLower()">lower</button></div>
+<div class="tool"><h3>Image Compressor</h3><input type="file" id="imgComp" accept="image/*"><p style="font-size:12px;color:#888">Compress in browser (coming)</p></div>
+<div class="tool"><h3>Image to PDF</h3><input type="file" accept="image/*"><p style="font-size:12px;color:#888">Convert (coming)</p></div>
+<div class="tool"><h3>Text to Speech</h3><textarea id="ttsText"></textarea><button onclick="speak()">Speak</button></div>
+<div class="tool"><h3>YT Thumbnail Downloader</h3><input id="ytLink" placeholder="YouTube Link"><button onclick="getThumb()">Get Thumbnail</button><div id="ytOut"></div></div>
 </div>
 
 <div class="section" id="about">
 <h2>About Us</h2>
 <div class="card">
-<b>The Red Eye Village</b> is a free worldwide chat village started from Kumharsain, Himachal Pradesh.<br><br>
-Our mission is simple: Puri duniya ek gaon ki tarah baat kar sake - bina paise, bina number, sirf email se. Yaha India, USA, UK, Dubai - sab log ek sath baat kar sakte hain.<br><br>
-We believe in free speech, respect, and real connection. No ads, no tracking, just pure baat-cheet.
+<b>The Red Eye Village</b> is a free worldwide village started from Kumharsain, Himachal Pradesh by <b>Praveen Bansal</b> in 2026.<br><br>
+Mission: Puri duniya ek gaon ki tarah baat kar sake - bina paise, bina phone number ke. 12 free tools + WVT (World Village Talk).
 </div>
 </div>
 
@@ -56,46 +56,45 @@ We believe in free speech, respect, and real connection. No ads, no tracking, ju
 <div class="card">
 <b>Founder: Praveen Bansal</b><br>
 From Kumharsain, Himachal Pradesh, India<br><br>
-Founder of The Red Eye Village (2026). Started with a vision to create a free worldwide village where anyone from any country can talk without limits. Building it solo, for the world. Free forever.
+Founder of The Red Eye Village (2026). Created 12 tools + WVT - World Village Talk. Building solo, for the world. Free forever.
 </div>
 </div>
 
 <div class="section" id="privacy">
 <h2>Privacy Policy</h2>
 <div class="card">
-We respect your privacy.<br><br>
-- We only collect email for login (no phone number).<br>
-- We do not share your data with anyone.<br>
-- Chat messages are stored securely in Firebase.<br>
-- We do not sell your data.<br>
-- You can request data deletion anytime via contact.
+We only collect email for login (No phone number). Tools work in your browser, we don't store your files. Chats stored securely in Firebase. No data selling.
 </div>
 </div>
 
 <div class="section" id="disclaimer">
 <h2>Disclaimer</h2>
 <div class="card">
-This is a public chat platform. Please do not share personal, financial or sensitive information. We are not responsible for user-generated content. All users are responsible for their own messages. Use at your own discretion.
+All tools are free and work in browser. We are not responsible for user-generated content. Use at your own discretion.
 </div>
 </div>
 
 <div class="section" id="terms">
 <h2>Terms & Conditions</h2>
 <div class="card">
-1. No abusive language or hate speech<br>
-2. No spam, ads, or promotion<br>
-3. Be respectful to all countries and users<br>
-4. No illegal or adult content<br>
-5. We can remove/ban any user who violates rules<br>
-6. This service is free and provided as-is
+1. No abuse 2. No spam 3. Respect all users 4. No illegal content 5. Ban on violation 6. Free as-is service
 </div>
 </div>
 
-<div class="footer">
-© 2026 The Red Eye Village - theredeye.co.in<br>
-Founded by Praveen Bansal<br><br>
-<a href="#about">About</a> | <a href="#team">Team</a> | <a href="#privacy">Privacy Policy</a> | <a href="#disclaimer">Disclaimer</a> | <a href="#terms">Terms & Conditions</a>
-</div>
+<div class="footer">© 2026 The Red Eye Village - Founded by Praveen Bansal<br>
+<a href="#about">About</a> | <a href="#team">Team</a> | <a href="#privacy">Privacy</a> | <a href="#disclaimer">Disclaimer</a> | <a href="#terms">Terms</a> | <a href="/talk.html">WVT</a></div>
 
+<script>
+function genQR(){document.getElementById('qrOut').innerHTML=`<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(document.getElementById('qrText').value)}">`}
+function genPass(){const c="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$";let p="";for(let i=0;i<16;i++)p+=c[Math.floor(Math.random()*c.length)];document.getElementById('passOut').value=p}
+document.getElementById('wcText')?.addEventListener('input',e=>{const w=e.target.value.trim().split(/\s+/).filter(x=>x).length;document.getElementById('wcOut').innerText=w+" words"})
+function calcAge(){const dob=new Date(document.getElementById('ageDob').value);const diff=Date.now()-dob.getTime();const age=new Date(diff).getUTCFullYear()-1970;document.getElementById('ageOut').innerText=age+" years"}
+function calcBmi(){const h=document.getElementById('bmiH').value/100,w=document.getElementById('bmiW').value;document.getElementById('bmiOut').innerText=(w/(h*h)).toFixed(1)+" BMI"}
+function calcEmi(){const P=+document.getElementById('emiP').value,R=+document.getElementById('emiR').value/12/100,N=+document.getElementById('emiN').value;const emi=P*R*Math.pow(1+R,N)/(Math.pow(1+R,N)-1);document.getElementById('emiOut').innerText="₹"+emi.toFixed(0)+"/mo"}
+function toUpper(){document.getElementById('caseText').value=document.getElementById('caseText').value.toUpperCase()}
+function toLower(){document.getElementById('caseText').value=document.getElementById('caseText').value.toLowerCase()}
+function speak(){speechSynthesis.speak(new SpeechSynthesisUtterance(document.getElementById('ttsText').value))}
+function getThumb(){const link=document.getElementById('ytLink').value;const id=link.split('v=')[1]?.split('&')[0]||link.split('/').pop();document.getElementById('ytOut').innerHTML=`<img src="https://img.youtube.com/vi/${id}/maxresdefault.jpg" style="width:100%;margin-top:8px;border-radius:6px">`}
+</script>
 </body>
 </html>
