@@ -1,53 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>World Village Talk</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WVT - The Red Eye Village</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#000;color:#fff;font-family:system-ui;height:100vh;display:flex;flex-direction:column}
-.top{padding:12px 16px;background:#111;border-bottom:1px solid #222;display:flex;justify-content:space-between}
-.top h2{margin:0;color:#ff2a2a;font-size:18px}
-.login{max-width:380px;margin:80px auto;background:#151515;padding:24px;border-radius:16px;border:1px solid #222;text-align:center}
+*{box-sizing:border-box}body{margin:0;background:#000;color:#fff;font-family:system-ui;display:flex;flex-direction:column;min-height:100vh}
+.top{padding:12px 16px;background:#111;border-bottom:1px solid #222;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:20}
+.login{max-width:380px;margin:60px auto;background:#151515;padding:24px;border-radius:16px;border:1px solid #222;text-align:center;width:90%}
 .login input{width:100%;padding:12px;margin:8px 0;background:#000;color:#fff;border:1px solid #333;border-radius:8px}
 .login button{width:100%;padding:12px;background:#ff2a2a;border:0;border-radius:8px;color:#fff;font-weight:bold;cursor:pointer;margin-top:8px}
-.login button:disabled{background:#444}
-#chatArea{display:none;flex:1;flex-direction:column;max-width:700px;margin:0 auto;width:100%;border-left:1px solid #222;border-right:1px solid #222}
-#messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
-.msg{background:#151515;padding:10px 12px;border-radius:10px;max-width:80%;border:1px solid #222;word-break:break-word}
-.msg.me{align-self:flex-end;background:#2a0a0a;border-color:#ff2a2a}
-.bottom{display:flex;gap:8px;padding:12px;background:#111;border-top:1px solid #222}
-.bottom input{flex:1;padding:12px;background:#000;color:#fff;border:1px solid #333;border-radius:8px}
-.bottom button{padding:12px 18px;background:#ff2a2a;border:0;border-radius:8px;color:#fff;font-weight:bold}
+#mainArea{display:none;flex:1;max-width:600px;margin:0 auto;width:100%;padding-bottom:90px}
+.p-head{display:flex;gap:20px;align-items:center}.avatar{width:84px;height:84px;border-radius:50%;background:#222;border:2px solid #ff2a2a;display:flex;align-items:center;justify-content:center;font-size:32px}
+.stats{display:flex;gap:18px;text-align:center}.stats b{display:block;font-size:18px}
+.settings{margin-top:16px;background:#111;border:1px solid #222;border-radius:12px;padding:12px}
+.set-row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #222;cursor:pointer}
+.switch{width:44px;height:26px;background:#333;border-radius:20px;position:relative}.switch.on{background:#ff2a2a}.switch i{position:absolute;width:20px;height:20px;background:#fff;border-radius:50%;top:3px;left:3px;transition:.2s}.switch.on i{left:21px}
+.tabs{display:flex;margin-top:16px;border-top:1px solid #222}.tab{flex:1;text-align:center;padding:12px;color:#666;cursor:pointer}.tab.active{color:#fff;border-top:1px solid #fff}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}.grid div{aspect-ratio:1;background:#111;display:flex;align-items:center;justify-content:center;border:1px solid #222;cursor:pointer}
+#messages{height:300px;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:10px;background:#0a0a0a}
+.msg{background:#151515;padding:10px;border-radius:10px;max-width:80%;border:1px solid #222}.msg.me{align-self:flex-end;background:#2a0a0a;border-color:#ff2a2a}
+.chat-input{display:flex;gap:8px;padding:12px;background:#111;border-top:1px solid #222}.chat-input input{flex:1;padding:12px;background:#000;color:#fff;border:1px solid #333;border-radius:8px}.chat-input button{padding:12px 18px;background:#ff2a2a;border:0;border-radius:8px;color:#fff}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#000;border-top:1px solid #222;display:flex;justify-content:space-around;padding:12px 0}
+.bottom span{font-size:22px;cursor:pointer}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:99;padding:20px}.modal.show{display:flex}
+.box{background:#151515;padding:20px;border-radius:12px;border:1px solid #222;width:100%;max-width:380px}.box input,.box textarea{width:100%;padding:10px;background:#000;color:#fff;border:1px solid #333;border-radius:8px;margin-top:8px}.box button{width:100%;padding:10px;margin-top:8px;background:#ff2a2a;border:0;border-radius:8px;color:#fff}
+.panel{position:fixed;top:0;right:0;bottom:0;width:100%;max-width:380px;background:#0a0a0a;border-left:1px solid #222;transform:translateX(100%);transition:.3s;z-index:60;padding:16px}.panel.show{transform:translateX(0)}
 </style>
 </head>
 <body>
 
 <div class="top">
-<h2>RED EYE VILLAGE</h2>
-<div style="color:#0f0;font-size:12px">● Worldwide</div>
+<h2 style="color:#ff2a2a;margin:0;font-size:18px">RED EYE VILLAGE TALK</h2>
+<div style="display:flex;gap:12px"><span>🔔</span><span>💬</span><span onclick="logout()" style="cursor:pointer">⎋ Logout</span></div>
 </div>
 
 <div class="login" id="loginBox">
-<h3>Enter Village</h3>
-<p style="font-size:13px;color:#aaa">Email daalo, link aayega, click karke andar</p>
-<input id="email" placeholder="you@gmail.com" type="email">
-<button id="sendLink">Send Login Link</button>
-<p id="status" style="color:#ffaa00;font-size:13px;margin-top:12px"></p>
+<h3>Enter WVT</h3>
+<p style="color:#888;font-size:12px">Email verification must - No OTP</p>
+<input id="email" type="email" placeholder="Email">
+<input id="pass" type="password" placeholder="Password min 6">
+<button onclick="handleAuth()">Login / Signup</button>
+<button onclick="sendVerify()" style="background:#222">Resend Verification Email</button>
+<p id="status" style="color:#ffaa00;font-size:13px;margin-top:10px"></p>
 </div>
 
-<div id="chatArea">
-<div id="messages"></div>
-<div class="bottom">
-<input id="msgInput" placeholder="Type message...">
-<button id="sendBtn">Send</button>
+<div id="mainArea">
+<div style="padding:16px">
+<div class="p-head"><div class="avatar">P</div><div class="stats"><div><b id="postCount">0</b>Posts</div><div><b>1.2K</b>Followers</div><div><b>340</b>Following</div></div></div>
+<h3 id="pName">Praveen Bansal ✓</h3><p id="userEmail" style="color:#4a8aff;font-size:12px"></p>
+<div style="display:flex;gap:8px;margin-top:10px"><button style="flex:1;padding:10px;background:#fff;color:#000;border:0;border-radius:8px;font-weight:bold" onclick="document.getElementById('editModal').classList.add('show')">✏️ Edit Profile</button><button style="flex:1;padding:10px;background:#222;color:#fff;border:0;border-radius:8px" onclick="navigator.clipboard.writeText(location.href);alert('Copied')">↗️ Share</button></div>
+
+<div class="settings">
+<div class="set-row" onclick="this.querySelector('.switch').classList.toggle('on')"><span>🔒 Private Account</span><div class="switch on"><i></i></div></div>
+<div class="set-row" onclick="this.querySelector('.switch').classList.toggle('on')"><span>🟢 Show Activity Status</span><div class="switch on"><i></i></div></div>
+<div class="set-row"><span>🔔 Notifications</span><span>›</span></div>
+<div class="set-row"><span>📦 Archive</span><span>›</span></div>
+</div>
+
+<div class="tabs">
+<div class="tab active" onclick="switchTab(this,'posts')">⊞ POSTS</div>
+<div class="tab" onclick="switchTab(this,'chat')">💬 CHAT</div>
+<div class="tab" onclick="switchTab(this,'reels')">▶ REELS</div>
+</div>
+
+<div id="postsTab"><div class="grid"><div onclick="document.getElementById('createModal').classList.add('show')">➕ New Post</div><div>IMG</div><div>IMG</div></div><div id="feed"></div></div>
+<div id="chatTab" style="display:none"><div id="messages"></div><div class="chat-input"><input id="msgInput" placeholder="Type message..."><button onclick="sendMsg()">Send</button></div></div>
+<div id="reelsTab" style="display:none"><div class="grid"><div>REEL</div><div>REEL</div></div></div>
 </div>
 </div>
+
+<div class="bottom"><span>⌂</span><span>🔍</span><span onclick="document.getElementById('createModal').classList.add('show')">⊞</span><span>▶</span><span>👤</span></div>
+
+<div class="modal" id="editModal"><div class="box"><h3>Edit Profile</h3><input id="eName" placeholder="Name"><textarea id="eBio" placeholder="Bio"></textarea><button onclick="document.getElementById('pName').innerText=document.getElementById('eName').value||'Praveen Bansal';document.getElementById('editModal').classList.remove('show')">Save</button><button style="background:#222" onclick="document.getElementById('editModal').classList.remove('show')">Cancel</button></div></div>
+<div class="modal" id="createModal"><div class="box"><h3>Create Post</h3><textarea id="newPost" placeholder="What's happening?"></textarea><button onclick="createPost()">Post</button><button style="background:#222" onclick="document.getElementById('createModal').classList.remove('show')">Cancel</button></div></div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-import { getAuth, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAE0gpHzcFlWtJsh8L6PPobJrQd2EhMfJ0",
@@ -60,72 +90,84 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
 const auth = getAuth(app);
+const db = getDatabase(app);
 
-const actionCodeSettings = {
-  url: window.location.href,
-  handleCodeInApp: true
-};
-
-const loginBox = document.getElementById('loginBox');
-const chatArea = document.getElementById('chatArea');
-const status = document.getElementById('status');
-const emailInput = document.getElementById('email');
-
-// 1. Send Link
-document.getElementById('sendLink').onclick = async () => {
-  const email = emailInput.value.trim();
-  if(!email.includes('@')){ status.innerText='Sahi email daal'; return; }
-  status.innerText='Sending link... Firebase bhej raha hai...';
+window.handleAuth = async ()=>{
+  const email=document.getElementById('email').value.trim();
+  const pass=document.getElementById('pass').value;
+  const s=document.getElementById('status');
+  if(!email||pass.length<6){s.innerText="Email + 6 char password needed";return;}
   try{
-    await sendSignInLinkToEmail(auth, email, actionCodeSettings);
-    window.localStorage.setItem('emailForSignIn', email);
-    status.innerHTML = `<span style="color:#0f0">Link bhej diya! ${email} check karo<br>Inbox / Spam dono dekho</span>`;
+    const cred=await createUserWithEmailAndPassword(auth,email,pass);
+    await sendEmailVerification(cred.user);
+    s.innerText="✅ Verification email sent! Check inbox/spam. Then Login.";
   }catch(e){
-    status.innerText='Error: '+e.message;
+    if(e.code==='auth/email-already-in-use'){
+      try{
+        const cred=await signInWithEmailAndPassword(auth,email,pass);
+        if(!cred.user.emailVerified){s.innerText="❌ Not verified yet. Click Resend.";return;}
+      }catch(err){s.innerText=err.message;}
+    }else s.innerText=e.message;
   }
 };
 
-// 2. Check if user came from email link
-if (isSignInWithEmailLink(auth, window.location.href)) {
-  let email = window.localStorage.getItem('emailForSignIn');
-  if (!email) {
-    email = window.prompt('Apna email confirm karo');
+window.sendVerify = async ()=>{
+  const user=auth.currentUser;
+  if(user){await sendEmailVerification(user);document.getElementById('status').innerText="Resent!";}
+  else document.getElementById('status').innerText="Login first, then Resend.";
+};
+
+onAuthStateChanged(auth,(user)=>{
+  if(user&&user.emailVerified){
+    document.getElementById('loginBox').style.display='none';
+    document.getElementById('mainArea').style.display='block';
+    document.getElementById('userEmail').innerText=user.email+" • Verified ✓";
+    startChat(user.email);
+  }else{
+    document.getElementById('loginBox').style.display='block';
+    document.getElementById('mainArea').style.display='none';
   }
-  signInWithEmailLink(auth, email, window.location.href).then((result)=>{
-    window.localStorage.removeItem('emailForSignIn');
-    loginBox.style.display='none';
-    chatArea.style.display='flex';
-    startChat(result.user.email);
-  }).catch((e)=>{
-    status.innerText='Link expire ho gaya, phir se bhejo: '+e.message;
-  });
-}
+});
+
+window.logout=()=>signOut(auth);
 
 function startChat(myEmail){
-  const messagesRef = ref(db, 'village_messages');
-  const messagesDiv = document.getElementById('messages');
-  
-  onChildAdded(messagesRef, (snap)=>{
-    const data=snap.val();
-    const div=document.createElement('div');
-    div.className='msg'+(data.email===myEmail?' me':'');
-    div.innerHTML=`<div style="font-size:10px;color:#888">${data.email.split('@')[0]} • ${new Date(data.time).toLocaleTimeString()}</div>${data.text}`;
-    messagesDiv.appendChild(div);
-    messagesDiv.scrollTop=messagesDiv.scrollHeight;
+  const refMsg=ref(db,'village_messages');
+  const div=document.getElementById('messages'); div.innerHTML='';
+  onChildAdded(refMsg,(snap)=>{
+    const d=snap.val();
+    const el=document.createElement('div');
+    el.className='msg'+(d.email===myEmail?' me':'');
+    el.innerHTML=`<div style="font-size:10px;color:#888">${d.email.split('@')[0]}</div>${d.text}`;
+    div.appendChild(el); div.scrollTop=div.scrollHeight;
   });
-
-  const send = ()=>{
-    const input=document.getElementById('msgInput');
-    const text=input.value.trim();
-    if(!text)return;
-    push(messagesRef,{email:myEmail,text:text,time:Date.now()});
-    input.value='';
+  window.sendMsg=()=>{
+    const inp=document.getElementById('msgInput');
+    const t=inp.value.trim(); if(!t)return;
+    push(refMsg,{email:myEmail,text:t,time:Date.now()});
+    inp.value='';
   };
-  document.getElementById('sendBtn').onclick=send;
-  document.getElementById('msgInput').addEventListener('keypress',e=>{if(e.key==='Enter')send()});
 }
+
+window.createPost=()=>{
+  const t=document.getElementById('newPost').value; if(!t)return;
+  const feed=document.getElementById('feed');
+  const d=document.createElement('div');
+  d.style.cssText='background:#111;border:1px solid #222;border-radius:12px;padding:12px;margin:8px';
+  d.innerHTML=`<b>Praveen</b><p>${t}</p><div style="display:flex;gap:12px"><span>❤️</span><span>💬</span><span>↗️</span></div>`;
+  feed.prepend(d);
+  document.getElementById('createModal').classList.remove('show');
+  document.getElementById('newPost').value='';
+  document.getElementById('postCount').innerText=+document.getElementById('postCount').innerText+1;
+};
+
+window.switchTab=(el,name)=>{
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active')); el.classList.add('active');
+  document.getElementById('postsTab').style.display=name==='posts'?'block':'none';
+  document.getElementById('chatTab').style.display=name==='chat'?'block':'none';
+  document.getElementById('reelsTab').style.display=name==='reels'?'block':'none';
+};
 </script>
 </body>
 </html>
