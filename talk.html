@@ -81,12 +81,22 @@ onAuthStateChanged(auth,(u)=>{if(u&&u.emailVerified){myEmail=u.email;myId=u.emai
 window.closeM=()=>document.querySelectorAll('.modal').forEach(m=>m.classList.remove('show'));
 function esc(s){const d=document.createElement('div');d.innerText=s||'';return d.innerHTML;}
 function initAll(){
-// HARDCODED FOR TRAFFIC - Demo names + diamond shape
-const base=["Rahul","Anjali","Village","Praveen","HP","Kumharsain","Shimla"];
-let html = base.map(n=>`<div class="s" onclick="openStory('${n}')"><div class="ring"><div>${n[0]}</div></div><p>${n}</p></div>`).join('');
-html += `<div class="s" onclick="document.getElementById('galInputStory').click()"><div class="ring seen"><div>◊</div></div><p>You</p></div>`;
-storiesDiv.innerHTML = html;
-onChildAdded(ref(db,'wvt_stories'),s=>{const d=s.val();d.id=s.key;if(Date.now() < (d.expire||0)){realStories.unshift(d);let extra = realStories.map(st=>`<div class="s" onclick="openStory('${st.email}')"><div class="ring"><div>${esc(st.email[0].toUpperCase())}</div></div><p>${esc(st.email.split('@')[0].substring(0,7))}</p></div>`).join('');storiesDiv.innerHTML = html + extra;}});
+// ✅ FINAL - DIAMOND SHAPE SAME - NO DEMO - REAL ONLY
+let yourStory = `<div class="s" onclick="document.getElementById('galInputStory').click()"><div class="ring seen"><div>◊</div></div><p>You</p></div>`;
+storiesDiv.innerHTML = yourStory;
+
+// Sirf real stories - Firebase se - demo hataya
+onChildAdded(ref(db,'wvt_stories'),s=>{
+  const d=s.val(); if(!d) return; d.id=s.key;
+  if(Date.now() < (d.expire||0)){
+    // apni story ko dobara add mat karo, sirf dusro ki
+    if(d.email === myEmail) return;
+    realStories.unshift(d);
+    let extra = realStories.map(st=>`<div class="s" onclick="openStory('${esc(st.email)}')"><div class="ring"><div>${esc(st.email[0].toUpperCase())}</div></div><p>${esc(st.email.split('@')[0].substring(0,7))}</p></div>`).join('');
+    storiesDiv.innerHTML = yourStory + extra;
+  }
+});
+
 onChildAdded(ref(db,'wvt_posts'),s=>{const d=s.val();d.id=s.key;posts.unshift(d);if(view==='home')renderHome();});
 onChildAdded(ref(db,'wvt_reels'),s=>{const d=s.val();d.id=s.key;reels.unshift(d);if(view==='reels')renderReels();});
 onChildAdded(ref(db,'village_messages'),s=>{chats.push(s.val());if(view==='chat')renderChat();});
