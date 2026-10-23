@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GLOBAL TO WORLD | theredeye.co.in - Converted from WVT</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+body{background:#000;color:#fff}
+.top{padding:12px;display:flex;justify-content:space-between;border-bottom:1px solid #1a1a1a;background:#000;position:sticky;top:0;z-index:10}
+.emailGate{position:fixed;inset:0;background:#000;z-index:100;display:flex;align-items:center;justify-content:center;padding:20px}
+.cardBox{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:16px;padding:20px;width:100%;max-width:360px}
+.input{width:100%;padding:12px;border-radius:10px;border:1px solid #222;background:#000;color:#fff;margin:6px 0}
+.btn{width:100%;padding:12px;border-radius:10px;border:none;background:#ff1a1a;color:#fff;font-weight:800;cursor:pointer}
+.storiesBar{display:flex;gap:10px;padding:10px;overflow-x:auto;border-bottom:1px solid #111}
+.ring{width:58px;height:58px;border-radius:50%;padding:2px;background:linear-gradient(45deg,#ff1a1a,#8b0000)}
+.ring img{width:100%;height:100%;border-radius:50%;border:2px solid #000}
+.tabs{display:flex;gap:5px;padding:8px;border-bottom:1px solid #111}
+.tabs div{flex:1;padding:8px;text-align:center;background:#111;border-radius:8px;font-size:10px;cursor:pointer}
+.tabs .active{background:#ff1a1a}
+.main{padding-bottom:85px}
+.postCard{border-bottom:1px solid #141414;padding:10px}
+.media{margin:8px 0;border-radius:12px;overflow:hidden;background:#0f0f0f;border:1px solid #1a1a1a}
+.media img,.media video{width:100%;display:block}
+.bottomNav{position:fixed;bottom:0;left:0;right:0;background:#000;border-top:1px solid #1a1a1a;display:flex;justify-content:space-around;padding:8px 0}
+.nav{font-size:10px;text-align:center;cursor:pointer}
+.view{display:none}.view.active{display:block}
+</style>
+</head>
+<body>
+
+<!-- EMAIL VERIFICATION GATE - FREE WALA (OTP SMS NAHI) -->
+<div id="emailGate" class="emailGate">
+<div class="cardBox">
+<h2 style="text-align:center">GLOBAL TO <span style="color:#ff1a1a">WORLD</span></h2>
+<p style="text-align:center;font-size:10px;letter-spacing:3px;color:#555;margin-bottom:15px">theredeye.co.in • Converted from WVT</p>
+<p style="font-size:11px;color:#888;margin-bottom:10px">Email Verification - FREE (SMS OTP earning ke baad)</p>
+<input id="emailIn" class="input" placeholder="Apna Email likho">
+<button class="btn" onclick="sendEmailCode()">Email Code Bhejo</button>
+<div id="codeArea" style="display:none;margin-top:12px">
+<input id="codeIn" class="input" placeholder="4 Digit Code (demo: 1234)">
+<button class="btn" style="background:#fff;color:#000" onclick="verifyCode()">Verify & Enter GLOBAL TO WORLD</button>
+<p style="font-size:9px;color:#444;margin-top:8px;text-align:center">Demo Code = 1234 (FREE me email service baad me connect hoga)</p>
+</div>
+</div>
+</div>
+
+<div class="top"><b>GLOBAL TO <span style="color:#ff1a1a">WORLD</span></b><span style="font-size:9px;color:#555">WVT → GTW • theredeye.co.in</span></div>
+<div class="storiesBar" id="storiesBar"></div>
+<div class="tabs"><div class="active" id="t-feed" onclick="show('feed')">FEED</div><div id="t-reels" onclick="show('reels')">REELS</div><div id="t-dm" onclick="show('dm')">DM</div><div id="t-search" onclick="show('search')">SEARCH</div><div id="t-profile" onclick="show('profile')">PROFILE</div><div id="t-settings" onclick="show('settings')">SETTINGS</div></div>
+
+<div class="main">
+<div id="v-feed" class="view active"><div style="padding:10px;display:flex;gap:6px"><input id="postTxt" class="input" style="margin:0" placeholder="Post #hashtag Notes • WVT to GTW"><button class="btn" style="width:70px;margin:0" onclick="addPost()">POST</button></div><div style="padding:0 10px 8px;display:flex;gap:6px"><button class="btn" style="background:#111;border:1px solid #222" onclick="document.getElementById('img').click()">📷 Carousel</button><button class="btn" style="background:#111;border:1px solid #222" onclick="document.getElementById('vid').click()">🎬 Reels+Music</button><button class="btn" style="background:#111;border:1px solid #222" onclick="addStory()">⭕ Story 24h</button></div><input type="file" id="img" accept="image/*" hidden><input type="file" id="vid" accept="video/*" hidden><div id="feedList"></div></div>
+<div id="v-reels" class="view"><div id="reelsList"></div></div>
+<div id="v-dm" class="view" style="padding:10px"><input id="dmUser" class="input" placeholder="DM User 1-to-1 / Group / Requests"><div id="dmBox"></div><div style="display:flex;gap:6px;margin-top:8px"><input id="dmTxt" class="input" style="margin:0" placeholder="Message • /vanish • Voice • Call"><button class="btn" style="width:70px;margin:0" onclick="sendDM()">SEND</button></div><p style="font-size:9px;color:#444;margin-top:6px">Notes: DM ke upar Stories bar me dikhega • Vanish Mode: /vanish likho</p></div>
+<div id="v-search" class="view" style="padding:10px"><input id="sTxt" class="input" placeholder="Search User #hashtag Place Audio" oninput="doSearch()"><div id="sRes"></div><div id="exploreGrid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;margin-top:10px"></div></div>
+<div id="v-profile" class="view" style="padding:12px"><div style="display:flex;gap:12px"><img src="https://i.pravatar.cc/100?u=gtw" style="width:60px;height:60px;border-radius:50%"><div><b id="pName">you@gtw</b><br><span style="font-size:10px;color:#888">Bio • Link • Professional Dashboard • Archive • Your Activity • Posts 3x3 • Reels Grid • Tagged • Highlights</span></div></div><input id="bioIn" class="input" placeholder="Edit Bio + Link"><button class="btn" style="margin-top:6px" onclick="saveBio()">Save • Share Profile</button><div id="pGrid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;margin-top:12px"></div></div>
+<div id="v-settings" class="view"><div style="padding:12px;border-bottom:1px solid #111;display:flex;justify-content:space-between"><span>Privacy Private/Public</span><span id="priv" style="color:#ff1a1a;cursor:pointer" onclick="togglePriv()">Public</span></div><div style="padding:12px;border-bottom:1px solid #111">Block / Restrict / 2FA / Login Activity</div><div style="padding:12px;border-bottom:1px solid #111">Meta Verified Blue Tick • Live 4 People</div><footer style="text-align:center;padding:20px"><h4>GLOBAL TO <span style="color:#ff1a1a">WORLD</span></h4><p style="font-size:10px;letter-spacing:2px;color:#555">theredeye.co.in • Converted from World Village Talk</p><p style="font-size:9px;color:#333;margin-top:10px">© 2026 theredeye.co.in | Owned & Built by GLOBAL TO WORLD | AI Features Powered by Meta AI | Meta does not own this site</p></footer></div>
+</div>
+
+<div class="bottomNav"><div class="nav" onclick="show('feed')">FEED</div><div class="nav" onclick="show('reels')">REELS</div><div class="nav" onclick="show('dm')">DM</div><div class="nav" onclick="show('search')">SEARCH</div><div class="nav" onclick="show('profile')">PROFILE</div></div>
+
+<script>
+let posts=JSON.parse(localStorage.getItem('gtw_final')||'[]');let stories=JSON.parse(localStorage.getItem('gtw_story')||'[]');
+let verified=localStorage.getItem('gtw_verified')=='yes';
+if(verified) document.getElementById('emailGate').style.display='none';
+function sendEmailCode(){let e=document.getElementById('emailIn').value;if(!e.includes('@')){alert('Sahi Email likho');return;}alert('Demo Code 1234 bheja gaya (FREE system) - Earning ke baad real email jayega)');document.getElementById('codeArea').style.display='block';localStorage.setItem('gtw_email',e);}
+function verifyCode(){let c=document.getElementById('codeIn').value;if(c=='1234'){localStorage.setItem('gtw_verified','yes');document.getElementById('emailGate').style.display='none';document.getElementById('pName').innerText=localStorage.getItem('gtw_email')||'you@gtw';render();}else alert('Code galat - Demo code 1234 hai');}
+function show(v){document.querySelectorAll('.view').forEach(e=>e.classList.remove('active'));document.getElementById('v-'+v).classList.add('active');document.querySelectorAll('.tabs div').forEach(e=>e.classList.remove('active'));let t=document.getElementById('t-'+v);if(t) t.classList.add('active');}
+function addPost(){let txt=document.getElementById('postTxt').value;let imgF=document.getElementById('img').files[0];let vidF=document.getElementById('vid').files[0];if(!txt&&!imgF&&!vidF) return;let media=null,type='feed';if(imgF) media=URL.createObjectURL(imgF);if(vidF){media=URL.createObjectURL(vidF);type='reel';}posts.unshift({id:Date.now(),text:txt,media:media,type:type,hashtags:txt.match(/#\w+/g)||[]});localStorage.setItem('gtw_final',JSON.stringify(posts.map(p=>({...p,media:null}))));document.getElementById('postTxt').value='';render();}
+function addStory(){let t=prompt('Story / Poll / Question / Link Sticker');if(!t) return;stories.unshift({id:Date.now(),text:t,exp:Date.now()+86400000});localStorage.setItem('gtw_story',JSON.stringify(stories));render();}
+function render(){document.getElementById('storiesBar').innerHTML=stories.filter(s=>s.exp>Date.now()).map(s=>`<div style="text-align:center;min-width:60px;cursor:pointer" onclick="alert('${s.text}')"><div class="ring"><img src="https://i.pravatar.cc/100?u=${s.id}"></div><div style="font-size:8px;margin-top:3px">${s.text.slice(0,8)}</div></div>`).join('')||'<span style="font-size:10px;color:#444;padding:6px">No Stories - Instagram jaisi 24h wali</span>';document.getElementById('feedList').innerHTML=posts.filter(p=>p.type!='reel').map(p=>`<div class="postCard"><b>${localStorage.getItem('gtw_email')||'you'}</b> ${p.text} <span style="color:#ff1a1a">${(p.hashtags||[]).join(' ')}</span>${p.media?`<div class="media"><img src="${p.media}"></div>`:''}<div style="margin-top:6px;font-size:12px">🤍 Like • 💬 Comment • ✈ Share • 🔖 Save • Ads • Remix</div></div>`).join('')||'<p style="text-align:center;color:#444;padding:20px">Feed Empty</p>';document.getElementById('reelsList').innerHTML=posts.filter(p=>p.type=='reel').map(p=>`<div class="postCard"><b>you</b> ${p.text}${p.media?`<div class="media"><video src="${p.media}" controls></video></div>`:''}<div>🎵 Music • Remix</div></div>`).join('')||'<p style="text-align:center;color:#444;padding:20px">No Reels - WVT to GTW</p>';document.getElementById('pGrid').innerHTML=posts.map(p=>`<div style="background:#111;height:80px;border:1px solid #111;display:flex;align-items:center;justify-content:center;font-size:8px">${p.text.slice(0,12)}</div>`).join('');document.getElementById('exploreGrid').innerHTML=posts.map(p=>`<div style="background:#111;height:80px;border:1px solid #111;display:flex;align-items:center;justify-content:center;font-size:9px">${(p.hashtags||['POST'])[0]}</div>`).join('');}
+function sendDM(){let u=document.getElementById('dmUser').value||'friend';let txt=document.getElementById('dmTxt').value;if(!txt) return;document.getElementById('dmBox').innerHTML+=`<div style="padding:8px;background:${txt.includes('/vanish')?'#300':'#111'};margin:4px;border-radius:8px;font-size:12px"><b>${u}</b>: ${txt}</div>`;document.getElementById('dmTxt').value='';}
+function doSearch(){let q=document.getElementById('sTxt').value.toLowerCase();document.getElementById('sRes').innerHTML=posts.filter(p=>p.text.toLowerCase().includes(q)).map(p=>`<div style="padding:8px;border-bottom:1px solid #111">${p.text}</div>`).join('');}
+function saveBio(){alert('Bio Saved - GLOBAL TO WORLD');}
+function togglePriv(){let el=document.getElementById('priv');el.innerText=el.innerText=='Public'?'Private':'Public';}
+render();
+</script>
+</body>
+</html>
