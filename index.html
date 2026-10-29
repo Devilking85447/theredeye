@@ -19,13 +19,11 @@
 </style>
 </head>
 <body>
-
 <div class="header">
 <h1>THE RED EYE VILLAGE</h1>
 <p>12 Free Online Tools and Global To World - Solan, Himachal Pradesh</p>
 <a class="btn" href="/global.html">Start Global To World (GTW)</a>
 </div>
-
 <div class="grid">
 <div class="tool"><h3>QR Code Generator</h3><input id="qrText"><button onclick="genQR()" style="width:100%;padding:11px;background:#ff2a2a;color:#fff;border:0;border-radius:8px">Generate QR</button><div id="qrOut" style="margin-top:10px"></div></div>
 <div class="tool"><h3>Strong Password Generator</h3><input id="passOut" readonly><button onclick="genPass()" style="width:100%;padding:11px;background:#ff2a2a;color:#fff;border:0;border-radius:8px">Generate Password</button></div>
@@ -34,40 +32,34 @@
 <div class="tool"><h3>BMI Calculator</h3><input id="bmiH" placeholder="Height cm"><input id="bmiW" placeholder="Weight kg"><button onclick="calcBmi()" style="width:100%;padding:11px;background:#222;color:#fff;border:0;border-radius:8px">Calculate BMI</button><p id="bmiOut" style="color:#00ff7f"></p></div>
 <div class="tool"><h3>EMI Calculator</h3><input id="emiP" placeholder="Loan Amount"><input id="emiR" placeholder="Interest %"><input id="emiN" placeholder="Tenure"><button onclick="calcEmi()" style="width:100%;padding:11px;background:#222;color:#fff;border:0;border-radius:8px">Calculate EMI</button><p id="emiOut" style="color:#00ff7f"></p></div>
 </div>
-
 <div class="grid">
 <div class="tool"><h3>Case Converter</h3><textarea id="caseText"></textarea><button onclick="toUpper()">UPPERCASE</button><button onclick="toLower()">lowercase</button></div>
 <div class="tool"><h3>Image Compressor</h3><input type="file" accept="image/*"><p style="font-size:12px;color:#888">Private in-browser compression</p></div>
 <div class="tool"><h3>Image to PDF Converter</h3><input type="file" accept="image/*"></div>
 <div class="tool"><h3>Text to Speech</h3><textarea id="ttsText"></textarea><button onclick="speak()">Speak</button></div>
 <div class="tool"><h3>YouTube Thumbnail Downloader</h3><input id="ytLink" placeholder="YouTube Link"><button onclick="getThumb()">Get Thumbnail</button><div id="ytOut"></div></div>
-<div class="tool" style="border:1px solid #ff2a2a"><h3 style="color:#ff2a2a">GLOBAL TO WORLD</h3><p style="font-size:12px;color:#888">Instagram-like Platform - Feed, Reels, Stories, Notes, DM, Search, Live, Blue Tick - Solan, Himachal Pradesh</p><a href="/global.html" style="display:block;margin-top:10px;background:#ff2a2a;color:#fff;padding:11px;border-radius:8px;text-align:center;text-decoration:none;font-weight:700">Open GLOBAL TO WORLD</a></div>
+<div class="tool" style="border:1px solid #ff2a2a"><h3 style="color:#ff2a2a">GLOBAL TO WORLD</h3><p style="font-size:12px;color:#888">Global Social Platform - Feed, Reels, Stories, Notes, DM, Search, Live, Blue Tick - Solan, Himachal Pradesh</p><a href="/global.html" style="display:block;margin-top:10px;background:#ff2a2a;color:#fff;padding:11px;border-radius:8px;text-align:center;text-decoration:none;font-weight:700">Open GLOBAL TO WORLD</a></div>
 </div>
-
 <div class="section">
 <h2>About Us - The Red Eye Village Story - Solan, Himachal Pradesh</h2>
 <div class="card">
 <p>The Red Eye Village is a digital village started from <b>Solan, Himachal Pradesh</b> by founder Praveen Bansal in 2026. Inspired by real village culture of Himachal where people help each other like family.</p>
-<p>Our Journey: Started with 2 tools from Solan, Himachal Pradesh, now 12 tools + Global To World Instagram-like platform. Our mission from Solan, Himachal Pradesh to connect world.</p>
+<p>Our Journey: Started with 2 tools from Solan, Himachal Pradesh, now 12 tools + Global To World platform. Our mission from Solan, Himachal Pradesh to connect world.</p>
 <p><b>Contact via our email:</b> For any help, contact us via our email at <b>theredeyehelp@gmail.com</b> - Location: <b>Solan, Himachal Pradesh</b></p>
 </div>
-
 <h2 id="privacy">Privacy Policy - Solan, Himachal Pradesh</h2>
 <div class="card">
 <p>At The Red Eye Village, operated from <b>Solan, Himachal Pradesh</b>, your privacy is priority. All tools run in browser.</p>
 <p>For any harassment report in Global To World, contact us via our email at <b>theredeyehelp@gmail.com</b> - Location: <b>Solan, Himachal Pradesh</b></p>
 <p>For any privacy questions, contact us via our email at <b>theredeyehelp@gmail.com</b> - Location: <b>Solan, Himachal Pradesh</b> - Last Updated: Oct 2026</p>
 </div>
-
 <h2 id="disclaimer">Disclaimer - Contact via our email</h2>
 <div class="card">
 <p>All information from Solan, Himachal Pradesh is for general purpose only.</p>
 <p><b>Contact via our email:</b> For any query, contact us via our email at <b>theredeyehelp@gmail.com</b> - Location: <b>Solan, Himachal Pradesh</b></p>
 </div>
 </div>
-
 <div class="footer">© 2026 The Red Eye Village - Contact via our email at theredeyehelp@gmail.com - Location: Solan, Himachal Pradesh</div>
-
 <script>
 function genQR(){const v=document.getElementById('qrText').value.trim();document.getElementById('qrOut').innerHTML='<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data='+encodeURIComponent(v)+'" style="max-width:200px;border-radius:8px">';}
 function genPass(){const c="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";let p="";for(let i=0;i<16;i++){p+=c[Math.floor(Math.random()*c.length)];}document.getElementById('passOut').value=p;}
