@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Global To World - Login | Meet New People</title>
 <meta name="description" content="Login to Global To World - Meet new people, make friends, chat safely. 18+ Only.">
-<link rel="canonical" href="https://theredeye.co.in/global.html">
+<link rel="canonical" href="https://theredeye.co.in/">
 <style>
 *{box-sizing:border-box}body{margin:0;background:#0a0a0a;color:#fff;font-family:system-ui,sans-serif}
 .top{background:#111;border-bottom:1px solid #222;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
@@ -24,6 +24,9 @@ button.gray{background:#222}.tabs{display:flex;gap:8px;margin-bottom:14px}.tabs 
 .msg{background:#222;padding:9px 12px;border-radius:12px;margin-bottom:8px;max-width:85%}.msg.me{background:#ff2a2a;margin-left:auto}
 .small{font-size:12px;color:#888}.warn{border:1px solid #ff2a2a;color:#ff2a2a;padding:10px;border-radius:10px;font-size:13px;font-weight:700;text-align:center}
 .hide{display:none}.badge{color:#00aaff;font-weight:800}
+.footer{max-width:480px;margin:0 auto;padding:20px;text-align:center;font-size:12px;color:#888}
+.footer a{color:#aaa;text-decoration:none;margin:0 8px}
+.verify-box{border:1px solid #ffaa00;color:#ffcc00;padding:12px;border-radius:10px;font-size:13px;margin-top:10px}
 </style>
 </head>
 <body>
@@ -31,16 +34,17 @@ button.gray{background:#222}.tabs{display:flex;gap:8px;margin-bottom:14px}.tabs 
 
 <div class="wrap">
 
-<!-- LOGIN / SIGNUP -->
 <div id="authPage">
 <div class="card" style="text-align:center"><h2 style="color:#ff2a2a;margin:0">GLOBAL TO WORLD</h2><p class="small">Meet New People, Make Friends, Chat Safely<br>18+ Only | Your ID Will Be Banned For Wrong Activity</p></div>
 <div class="tabs"><button id="loginTab" class="active" onclick="switchAuth('login')">Login</button><button id="signupTab" onclick="switchAuth('signup')">Sign Up</button></div>
 
 <div id="loginBox" class="card">
-<input id="loginEmail" placeholder="Email">
+<input id="loginEmail" type="email" placeholder="Email">
 <input id="loginPass" type="password" placeholder="Password">
-<button onclick="doLogin()">Login</button>
-<button class="gray" onclick="alert('Forgot Password link will be sent to your email.')">Forgot Password?</button>
+<button id="loginBtn">Login</button>
+<button class="gray" id="forgotBtn">Forgot Password?</button>
+<p id="loginMsg" class="small"></p>
+<div id="verifyBox" class="verify-box hide">📧 Please verify your email. Check your Gmail / Spam. After clicking the link, press Login again.<br><button class="gray" id="resendBtn">Resend Verification Email</button></div>
 <p class="small">By login, you agree to our Terms. No abusive language, no bad photos, no fake profile. Wrong activity = Permanent Ban.</p>
 </div>
 
@@ -49,47 +53,129 @@ button.gray{background:#222}.tabs{display:flex;gap:8px;margin-bottom:14px}.tabs 
 <input id="suAge" type="number" placeholder="Your Age - Must be 18+ *">
 <select id="suGender"><option>Select Gender</option><option>Male</option><option>Female</option><option>Other</option></select>
 <input id="suCity" placeholder="Your City *">
-<input id="suEmail" placeholder="Email *">
-<input id="suPass" type="password" placeholder="Create Password *">
+<input id="suEmail" type="email" placeholder="Email *">
+<input id="suPass" type="password" placeholder="Create Password - Min 6 Characters *">
 <textarea id="suBio" placeholder="Write a short bio about you..."></textarea>
 <p class="small">Upload Profile Photo (Your Real Face Photo Only)</p>
 <input type="file" accept="image/*" onchange="previewPhoto(event)">
 <div style="text-align:center"><img id="photoPreview" style="width:90px;height:90px;border-radius:50%;object-fit:cover;display:none"></div>
 <label style="font-size:13px"><input type="checkbox" id="agree" style="width:auto"> I am 18+ and I agree to Rules. I will not do any wrong activity.</label>
-<button onclick="doSignup()">Create Account & Start</button>
+<button id="signupBtn">Create Account & Start</button>
+<p id="signupMsg" class="small"></p>
 </div>
 </div>
 
-<!-- FEED / SWIPE -->
 <div id="feedPage" class="hide">
 <div class="card profile"><img id="myPhoto" src="https://i.pravatar.cc/200?img=12"><h3 id="myName">Welcome, Friend <span class="badge">✓</span></h3><p class="small" id="myBio">Complete your profile to get more matches.</p><button class="gray" onclick="showPage('profile')">Edit Profile</button></div>
-
-<div class="warn">⚠️ WARNING: Wrong Activity = ID Ban. Be Respectful. No Means No.</div>
-<br>
-
+<div class="warn">⚠️ WARNING: Wrong Activity = ID Ban. Be Respectful. No Means No.</div><br>
 <div class="person">
 <img id="personImg" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&q=80">
 <div class="person-info"><h2 id="personName" style="margin:0">Priya, 22</h2><p id="personCity" style="margin:4px 0;color:#ddd">Shimla, Himachal Pradesh • Likes Music, Travel</p></div>
 </div>
 <div class="actions"><button class="gray" onclick="nextPerson(false)">✕ PASS</button><button onclick="nextPerson(true)">❤️ LIKE</button></div>
 <p class="small" style="text-align:center" id="matchMsg"></p>
-
 <div class="card"><h3>Feed</h3><p><b>Aarav • Solan</b> <span class="badge">✓</span></p><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80" style="width:100%;border-radius:12px"><p>Beautiful morning from Himachal! Good morning everyone.</p><button class="gray">❤️ Like &nbsp; 💬 Comment</button></div>
 <div class="card"><h3>Reels</h3><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&q=80" style="width:100%;border-radius:12px"><p>New reel by Sneha - Dance Video</p><button class="gray">▶️ Watch Reel</button></div>
 </div>
 
-<!-- CHAT -->
 <div id="chatPage" class="hide">
 <div class="card"><h3>Your Matches</h3><p><b>Priya ✓</b> - Online Now</p><button onclick="alert('Match! You can now chat.')">Open Chat With Priya</button></div>
 <div class="card"><h3>Chat - Priya</h3><div class="chatbox" id="chatBox"><div class="msg">Hi! I liked your profile. How are you?</div><div class="msg me">Hi Priya! I am good. I am from Solan. How are you?</div></div><input id="chatInput" placeholder="Type a respectful message..."><button onclick="sendMsg()">Send Message</button><button class="gray" onclick="alert('User Reported & Blocked. Our team will check.')">🚫 Report & Block</button><p class="small">If someone misbehaves, Report & Block immediately. Never share OTP, password, bank details or private photos.</p></div>
 </div>
 
-<!-- PROFILE -->
 <div id="profilePage" class="hide">
 <div class="card"><h3>My Profile</h3><input id="editName" placeholder="Your Name"><input id="editCity" placeholder="Your City"><textarea id="editBio" placeholder="Your Bio"></textarea><button onclick="saveProfile()">Save Profile</button><button class="gray" onclick="logout()">Logout</button><p class="small">How to Logout: Profile > Settings > Logout > Confirm Yes. Always logout from shared phone.</p></div>
 </div>
 
 </div>
+
+<div class="footer">
+<a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms</a> | <a href="about.html">About Us</a> | <a href="contact.html">Contact</a>
+<br><br>© 2026 Global To World - All Rights Reserved.<br>18+ Only. Be Respectful.
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAE0gpHzcFlWtJsh8L6PPobJrQd2EhMfJ0",
+  authDomain: "theredeye-village.firebaseapp.com",
+  databaseURL: "https://theredeye-village-default-rtdb.firebaseio.com",
+  projectId: "theredeye-village",
+  storageBucket: "theredeye-village.firebasestorage.app",
+  messagingSenderId: "1009539974986",
+  appId: "1:1009539974986:web:cbf897f24a92399dd1e3b3"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+window.auth = auth;
+window.firebaseSignOut = () => signOut(auth);
+
+document.getElementById('signupBtn').onclick = async () => {
+  let name = document.getElementById('suName').value.trim();
+  let age = parseInt(document.getElementById('suAge').value);
+  let email = document.getElementById('suEmail').value.trim();
+  let pass = document.getElementById('suPass').value;
+  let msg = document.getElementById('signupMsg');
+  if(!name || !email || !age || !pass){ msg.innerText='Please fill Name, Age, Email and Password'; return; }
+  if(age < 18){ alert('Sorry! You must be 18+ to use Global To World.'); return; }
+  if(!document.getElementById('agree').checked){ alert('Please tick I agree to Rules'); return; }
+  try{
+    const cred = await createUserWithEmailAndPassword(auth, email, pass);
+    await sendEmailVerification(cred.user);
+    localStorage.setItem('gtw_user', JSON.stringify({name:name, age:age, email:email, city:document.getElementById('suCity').value, bio:document.getElementById('suBio').value}));
+    msg.innerText = 'Account created! Check your email and click Verification Link, then Login.';
+    alert('Welcome '+name+'! Please verify your email. Link sent to '+email);
+    switchAuth('login');
+  }catch(e){ msg.innerText = 'Error: ' + e.message; }
+};
+
+document.getElementById('loginBtn').onclick = async () => {
+  let email = document.getElementById('loginEmail').value.trim();
+  let pass = document.getElementById('loginPass').value;
+  let msg = document.getElementById('loginMsg');
+  if(!email || !pass){ msg.innerText='Please enter Email and Password'; return; }
+  try{
+    const cred = await signInWithEmailAndPassword(auth, email, pass);
+    if(!cred.user.emailVerified){
+      document.getElementById('verifyBox').classList.remove('hide');
+      msg.innerText = 'Please verify your email first. Link sent to your email.';
+      await signOut(auth);
+      return;
+    }
+    let saved = JSON.parse(localStorage.getItem('gtw_user')||'{}');
+    if(saved.name){ document.getElementById('myName').innerText='Welcome back, '+saved.name+' ✓'; }
+    showPage('feed');
+  }catch(e){ msg.innerText = 'Error: ' + e.message; }
+};
+
+document.getElementById('resendBtn').onclick = async () => {
+  let email = document.getElementById('loginEmail').value.trim();
+  let pass = document.getElementById('loginPass').value;
+  try{
+    const cred = await signInWithEmailAndPassword(auth, email, pass);
+    await sendEmailVerification(cred.user);
+    document.getElementById('loginMsg').innerText='Verification email sent again. Check Spam also.';
+    await signOut(auth);
+  }catch(e){ document.getElementById('loginMsg').innerText='Error: '+e.message; }
+};
+
+document.getElementById('forgotBtn').onclick = async () => {
+  let email = document.getElementById('loginEmail').value.trim();
+  if(!email){ alert('Please enter your Email first'); return; }
+  try{ await sendPasswordResetEmail(auth, email); alert('Password reset link sent to '+email); }
+  catch(e){ alert(e.message); }
+};
+
+onAuthStateChanged(auth, (user)=>{
+  if(user && user.emailVerified){
+    let saved = JSON.parse(localStorage.getItem('gtw_user')||'{}');
+    if(saved.name) document.getElementById('myName').innerText='Welcome, '+saved.name+' ✓';
+    showPage('feed');
+  }
+});
+</script>
 
 <script>
 let people=[
@@ -106,26 +192,6 @@ document.getElementById('loginTab').classList.toggle('active',t==='login');
 document.getElementById('signupTab').classList.toggle('active',t==='signup');
 }
 function previewPhoto(e){let f=e.target.files[0];if(!f)return;let u=URL.createObjectURL(f);let im=document.getElementById('photoPreview');im.src=u;im.style.display='block';document.getElementById('myPhoto').src=u;}
-function doSignup(){
-let name=document.getElementById('suName').value.trim();
-let age=parseInt(document.getElementById('suAge').value);
-let email=document.getElementById('suEmail').value.trim();
-if(!name||!email||!age){alert('Please fill Name, Age and Email');return;}
-if(age<18){alert('Sorry! You must be 18+ to use Global To World. Your ID cannot be created.');return;}
-if(!document.getElementById('agree').checked){alert('Please tick I agree to Rules');return;}
-localStorage.setItem('gtw_user',JSON.stringify({name:name,age:age,email:email,city:document.getElementById('suCity').value,bio:document.getElementById('suBio').value}));
-document.getElementById('myName').innerText='Welcome, '+name+' ✓';
-document.getElementById('myBio').innerText=document.getElementById('suBio').value||'New member from '+document.getElementById('suCity').value;
-showPage('feed');alert('Welcome to Global To World, '+name+'! Be respectful. Wrong activity = Ban.');
-}
-function doLogin(){
-let email=document.getElementById('loginEmail').value.trim();
-let pass=document.getElementById('loginPass').value;
-if(!email||!pass){alert('Please enter Email and Password');return;}
-let saved=JSON.parse(localStorage.getItem('gtw_user')||'{}');
-if(saved.name){document.getElementById('myName').innerText='Welcome back, '+saved.name+' ✓';}
-showPage('feed');
-}
 function showPage(p){
 ['authPage','feedPage','chatPage','profilePage'].forEach(id=>document.getElementById(id).classList.add('hide'));
 if(p==='feed')document.getElementById('feedPage').classList.remove('hide');
@@ -149,7 +215,7 @@ document.getElementById('chatInput').value='';
 document.getElementById('chatBox').scrollTop=9999;
 }
 function saveProfile(){alert('Profile Saved!');showPage('feed');}
-function logout(){localStorage.removeItem('gtw_user');showPage('auth');alert('You are logged out safely.');}
+async function logout(){ try{ if(window.firebaseSignOut) await window.firebaseSignOut(); }catch(e){} localStorage.removeItem('gtw_user'); showPage('auth'); alert('You are logged out safely.'); }
 </script>
 </body>
 </html>
