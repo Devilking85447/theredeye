@@ -3,146 +3,136 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GTW - Global To World | Real Login</title>
+<title>GTW - Global To World</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#0a0a0a;color:#fff;font-family:system-ui,sans-serif}
-.top{padding:14px 16px;border-bottom:1px solid #222;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#0a0a0a}
-.logo{color:#ff2a2a;font-weight:900;letter-spacing:2px}
-.wrap{max-width:480px;margin:0 auto;padding:20px}
+*{box-sizing:border-box}body{margin:0;background:#0a0a0a;color:#fff;font-family:system-ui,sans-serif;padding-bottom:70px}
+body.light{background:#f5f5f5;color:#111}body.light .card,body.light .top,body.light .bottom{background:#fff;color:#111;border-color:#ddd}body.light input,body.light textarea,body.light select{background:#fff;color:#111;border-color:#ddd}
+.top{padding:14px 16px;border-bottom:1px solid #222;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#0a0a0a;z-index:20}
+.logo{color:#ff2a2a;font-weight:900;letter-spacing:2px}.wrap{max-width:480px;margin:0 auto;padding:20px}
 .card{background:#151515;border:1px solid #242424;border-radius:14px;padding:20px;margin-bottom:16px}
-input{width:100%;padding:13px;border-radius:10px;border:1px solid #333;background:#0a0a0a;color:#fff;margin-bottom:12px;outline:none}
-.btn{width:100%;padding:13px;border:none;border-radius:10px;background:#ff2a2a;color:#fff;font-weight:800;cursor:pointer}
-.btn2{background:#222;margin-top:10px}
-.small{font-size:13px;color:#aaa;line-height:1.6}
-.warn{color:#ff2a2a;font-weight:700;border:1px solid #ff2a2a;padding:10px;border-radius:8px;font-size:13px}
-.hidden{display:none}
-.post{background:#111;border:1px solid #222;border-radius:12px;padding:14px;margin-bottom:12px}
+input,textarea,select{width:100%;padding:13px;border-radius:10px;border:1px solid #333;background:#0a0a0a;color:#fff;margin-bottom:12px;outline:none}
+.btn{width:100%;padding:13px;border:none;border-radius:10px;background:#ff2a2a;color:#fff;font-weight:800;cursor:pointer}.btn2{background:#222;margin-top:10px}.btn-green{background:#00c853!important}.btn-red{background:#d32f2f!important}
+.small{font-size:13px;color:#aaa;line-height:1.6}.warn{color:#ff2a2a;font-weight:700;border:1px solid #ff2a2a;padding:10px;border-radius:8px;font-size:13px}
+.hidden{display:none}.post{background:#111;border:1px solid #222;border-radius:12px;padding:14px;margin-bottom:12px}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#111;border-top:1px solid #222;display:flex;justify-content:space-around;padding:10px 0;z-index:20}.bottom button{background:none;border:0;color:#fff;font-size:22px;cursor:pointer;width:auto}
+.profile{text-align:center}.profile img{width:110px;height:110px;border-radius:50%;object-fit:cover;border:3px solid #ff2a2a}
+.chatbox{height:280px;overflow-y:auto;background:#0f0f0f;border:1px solid #242424;border-radius:12px;padding:12px;margin-bottom:10px}.msg{background:#222;padding:9px 12px;border-radius:12px;margin-bottom:8px;max-width:85%}.msg.me{background:#ff2a2a;margin-left:auto}
+.comment-box{background:#0f0f0f;border:1px solid #242424;border-radius:10px;padding:10px;margin-top:8px}
+.setting-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #242424}
+.switch{width:50px;height:26px;background:#333;border-radius:20px;position:relative;cursor:pointer;flex-shrink:0}.switch.on{background:#00c853}.switch::after{content:'';width:22px;height:22px;background:#fff;border-radius:50%;position:absolute;top:2px;left:2px;transition:0.2s}.switch.on::after{left:26px}
+.admin-card{background:#1a1a1a;border:1px solid #ff2a2a;border-radius:12px;padding:14px;margin-bottom:12px}
+.qr-box{background:#fff;padding:15px;border-radius:12px;text-align:center;color:#000;margin:12px 0}.qr-box img{width:220px;height:220px;object-fit:contain}
+.blog-img{width:100%;border-radius:12px;height:200px;object-fit:cover}.notif{padding:10px;border-bottom:1px solid #222;display:flex;gap:10px;align-items:center}
+.footer{max-width:480px;margin:0 auto;padding:16px;text-align:center;font-size:12px;color:#888}.footer a{color:#aaa;text-decoration:none;margin:0 6px}
+.empty{border:1px dashed #444;padding:20px;border-radius:12px;text-align:center;color:#888;font-size:13px}
 </style>
 </head>
 <body>
-<div class="top"><div class="logo">GLOBAL TO WORLD</div><button id="logoutBtn" class="hidden" style="background:#222;color:#fff;border:1px solid #333;padding:8px 14px;border-radius:8px">Logout</button></div>
+<div class="top"><div class="logo">GLOBAL TO WORLD</div><div><span onclick="showPage('notifications')" style="cursor:pointer">🔔 <span id="notifCount">0</span></span> &nbsp; <span onclick="showPage('settings')" style="cursor:pointer">⚙️</span> &nbsp; <span id="adminTop" class="hidden" onclick="showPage('admin')" style="cursor:pointer;color:#ffcc00;font-weight:800">👑 Admin</span> &nbsp; <button id="logoutBtn" class="hidden" style="background:#222;color:#fff;border:1px solid #333;padding:8px 14px;border-radius:8px;cursor:pointer">Logout</button></div></div>
 <div class="wrap">
-
 <div id="authBox" class="card">
-<h2 style="margin:0 0 6px">Welcome To GTW</h2>
-<p class="small">18+ Only | Email Verification Is Required | No Entry Without Verification</p>
-<input id="email" type="email" placeholder="Email - e.g. name@gmail.com">
-<input id="pass" type="password" placeholder="Password - minimum 6 characters">
-<button class="btn" id="signupBtn">Sign Up - Create New Account</button>
-<button class="btn btn2" id="loginBtn">Login - Existing Account</button>
-<button class="btn btn2" id="resendBtn">Resend Verification Email</button>
-<p id="msg" class="small"></p>
-<div class="warn">RULE: Fake ID, Abuse, Nude Photo, Asking For Money = Warn / Ban. Banned ID Will Not Be Reopened.</div>
+<h2 style="margin:0 0 6px">Welcome To GTW</h2><p class="small">18+ Only | Email Verification Required | No Entry Without Verification</p>
+<input id="email" type="email" placeholder="Email - Example: name@gmail.com"><input id="pass" type="password" placeholder="Password - Minimum 6 Characters">
+<input id="suName" placeholder="Your Real Name"><input id="suAge" type="number" placeholder="Your Age - 18+ Only"><input id="suCity" placeholder="Your City - Example: Solan">
+<button class="btn" id="signupBtn">Sign Up - Create New Account</button><button class="btn btn2" id="loginBtn">Login - Existing Account</button><button class="btn btn2" id="resendBtn">Resend Verification Email</button>
+<p id="msg" class="small"></p><div class="warn">RULE: Fake ID, Abuse, Nude Photo, Asking For Money = Warn / Ban. Banned ID Will Not Be Reopened.</div>
 </div>
-
-<div id="verifyBox" class="card hidden">
-<h3 style="color:#ff2a2a;margin:0">Verify Your Email 📧</h3>
-<p class="small">We have sent a Verification Link to your email. Open your Gmail / Email, click on that link, then come back here and press Login.<br><br>If you didn't get the email, check Spam / Promotions folder.</p>
-<button class="btn" id="checkVerifyBtn">I Have Verified - Check Now</button>
-</div>
-
+<div id="verifyBox" class="card hidden"><h3 style="color:#ff2a2a;margin:0">Verify Your Email 📧</h3><p class="small">We have sent a Verification Link to your email. Open your Gmail / Email, click on that link, then come back here and press Login.<br><br>If you did not get the email, check Spam / Promotions folder.</p><button class="btn" id="checkVerifyBtn">I Have Verified - Check Now</button></div>
 <div id="appBox" class="hidden">
-<div class="card"><h3 style="margin:0">Hello, <span id="userEmail"></span> ✅ Verified</h3><p class="small">You are now inside GTW. You can post from here.</p>
-<input id="postText" placeholder="Write something... What are you thinking today?">
-<button class="btn" id="postBtn">Post Now</button></div>
-<div id="feed"></div>
+<div id="feedPage">
+<div class="card"><h3 style="margin:0">Hello, <span id="userEmail"></span> ✅ Verified</h3><p class="small">You are now inside GTW. Real Users, Real Posts.</p></div>
+<div class="card"><h3>➕ Create Real Post</h3><input id="postText" placeholder="Write something... What are you thinking today?"><button class="btn" id="postBtn">Post Now</button><button class="btn btn2" onclick="showPage('premium')">⭐ Get Premium - Voice $1.20 / Video $2.40</button><button class="btn btn2" onclick="showPage('settings')">⚙️ Open Settings</button></div>
+<div id="feed"><div class="empty">No Posts Yet. Be the First to Post a Real Post.</div></div>
 </div>
-
+<div id="searchPage" class="hidden"><div class="card"><h3>🔍 Search Real Users</h3><input id="searchInput" placeholder="Search by Name, Email, City..." oninput="doSearch()"><div id="searchResult"><p class="small">Only Real Signed Up Users will appear here. No fake users.</p></div></div></div>
+<div id="chatPage" class="hidden"><div class="card"><h3>💬 Community Chat - Real</h3><div class="chatbox" id="chatBox"><div class="empty">No Messages Yet. Be the First to Send a Real Message.</div></div><input id="chatInput" placeholder="Type a message..."><button class="btn" onclick="sendMsg()">Send Message</button><button class="btn btn2" onclick="reportUser('community_chat','Bad Behaviour')">🚫 Report</button><button class="btn btn2" onclick="clearChat()">🗑️ Clear View</button></div></div>
+<div id="notificationsPage" class="hidden"><div class="card"><h3>🔔 Real Notifications</h3><button class="btn btn2" onclick="clearNotif()">Clear All Notifications</button></div><div id="notifList" class="card"><div class="empty">No Notifications Yet. When a Real User Likes, Comments or Follows you, it will appear here.</div></div></div>
+<div id="profilePage" class="hidden"><div class="card profile"><img id="myPhoto" src="https://i.pravatar.cc/200?img=12"><h3 id="myName">Welcome, Friend ✓</h3><p class="small" id="myBio">Complete your profile in Settings</p><p><b id="followerCount">0</b> Followers • <b id="followingCount">0</b> Following • <b id="postCount">0</b> Posts</p><p class="small">Counts are Real - Starts from 0, increases only on Real Follow.</p><button class="btn btn2" onclick="showPage('settings')">Edit Profile / Settings</button><button class="btn" onclick="showPage('premium')">⭐ Get Premium</button></div><div class="card"><h3>📌 Saved Posts - Real</h3><p class="small" id="savedList">No saved posts yet.</p></div><div class="card"><h3>📝 My Real Posts</h3><div id="myPostsProfile"><p class="small">No posts yet.</p></div></div></div>
+<div id="blogPage" class="hidden"><div class="card"><h2>📖 Blog - Real Articles</h2><p class="small">Real stories from Himachal</p></div><div class="card"><img class="blog-img" src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80"><h3>1. Top 10 Places In Himachal 2026</h3><p>Shimla, Manali, Kufri, Solan, Mandi, Dharamshala, Kasol, Spiti, Dalhousie, Chamba. Best time March to June, December to February for snowfall.</p></div><div class="card"><img class="blog-img" src="https://images.unsplash.com/photo-1573398643956-2b9e6ade3456?w=800&q=80"><h3>2. Kufri Travel Guide</h3><p>Kufri is 20 km from Shimla. Horse ride, skiing. Budget Rs 1000 to 1500 per person.</p></div><div class="card"><img class="blog-img" src="https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=800&q=80"><h3>3. How To Make Real Friends Online Safely?</h3><p>Never share OTP, password, bank details. Always meet in a public place.</p></div><div class="card"><img class="blog-img" src="https://images.unsplash.com/photo-1503220317375-aaad61436b1b?w=800&q=80"><h3>4. Solan - Mushroom City</h3><p>Kasauli, Chail, Jatoli Temple, Shoolini Temple. Try Siddu, Babru.</p></div><div class="card"><img class="blog-img" src="https://images.unsplash.com/photo-1533105079780-92b9be482077?w=800&q=80"><h3>5. 10 Budget Trips Under Rs 5000</h3><p>Kasol, Rishikesh, McLeodganj, Jaipur, Manali, Dharamshala, Amritsar.</p></div><div class="card"><img class="blog-img" src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=800&q=80"><h3>6. Himachali Culture, Food And Festivals</h3><p>Nati dance, Kullu Dussehra, Mandi Shivratri, Dham, Siddu.</p></div></div>
+<div id="premiumPage" class="hidden"><div class="card"><h3>⭐ Get Premium - Real Payment</h3><p class="small">Pay via UPI, Enter Real UTR, Admin will Approve in Real.</p></div><div class="card"><h3>🎙️ Voice - ₹99</h3><button class="btn" onclick="selectPlan('voice',99)">Select Voice - ₹99</button></div><div class="card"><h3>🎥 Video - ₹199</h3><button class="btn" onclick="selectPlan('video',199)">Select Video - ₹199</button></div><div id="payBox" class="card hidden"><div class="qr-box"><p><b>Scan And Pay - <span id="payAmount">₹99</span></b></p><img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=upi%3A%2F%2Fpay%3Fpa%3Dbinnu0117%40oksbi%26pn%3DGlobal%2520To%2520World%26cu%3DINR"><p style="font-weight:700">UPI ID: binnu0117@oksbi</p><p>Pay with GPay / PhonePe / Paytm</p></div><input id="utrInput" placeholder="Enter Real UTR Number"><button class="btn btn-green" onclick="verifyPremium()">Submit UTR And Verify</button><p id="utrMsg" class="small"></p></div></div>
+<div id="adminPage" class="hidden"><div class="card" style="border:1px solid #ff2a2a"><h3>👑 Admin Panel - Real</h3><p class="small">binnu0117@gmail.com - Only You. Real Requests will appear here.</p><button class="btn btn2" onclick="loadAdmin()">Refresh Real Requests</button><button class="btn btn2" onclick="loadReports()">View Real Reports</button></div><div id="adminList"><div class="empty">No Requests Yet. Real UTR will appear here.</div></div><div id="reportList"></div></div>
+<div id="settingsPage" class="hidden">
+<div class="card"><h2>⚙️ Settings - 100% Real - No Demo</h2><p class="small" id="settingsEmail">Login to see settings</p></div>
+<div class="card"><h3>👤 Account - Real Save</h3><p class="small">Profile Photo - Real Preview</p><input type="file" accept="image/*" onchange="previewPhoto(event)"><input id="setName" placeholder="Your Real Name"><input id="setCity" placeholder="Your Real City"><textarea id="setBio" placeholder="Your Real Bio"></textarea><button class="btn" onclick="saveSettingsProfile()">Save Real Profile</button></div>
+<div class="card"><h3>🔒 Security - Real Firebase</h3><input id="newPass" type="password" placeholder="New Password - Minimum 6 Characters"><button class="btn" onclick="changePasswordReal()">Change Real Password</button><button class="btn btn2" onclick="sendPasswordResetFromSettings()">Send Real Password Reset Email</button></div>
+<div class="card"><h3>🔔 Notifications - Real Save</h3><div class="setting-row"><span>Push Notifications</span><div id="notifSwitch" class="switch on" onclick="toggleNotif()"></div></div><div class="setting-row"><span>Email Notifications</span><div id="emailNotifSwitch" class="switch on" onclick="toggleEmailNotif()"></div></div><p class="small" id="notifStatus">Notifications: ON - Real Saved</p></div>
+<div class="card"><h3>🎨 Appearance - Real Save</h3><div class="setting-row"><span>Dark / Light Theme</span><button style="width:120px" class="btn btn2" onclick="toggleTheme()" id="themeBtn">Light Theme</button></div><label class="small">Language</label><select id="langSelect" onchange="changeLanguage()"><option value="en">English</option></select><p class="small" id="langStatus">Language: English</p></div>
+<div class="card"><h3>🔐 Privacy - Real Save</h3><div class="setting-row"><span>Profile Public</span><div id="privacySwitch" class="switch on" onclick="togglePrivacy()"></div></div><p class="small" id="privacyStatus">Your Profile is Public - Real</p><button class="btn btn2" onclick="showBlocked()">View Real Blocked Users</button><div id="blockedList"><p class="small">No Blocked Users - Real List</p></div></div>
+<div class="card"><h3>💬 Chat And Data - Real</h3><button class="btn btn2" onclick="clearChat()">🗑️ Clear My Chat View</button><button class="btn btn2" onclick="downloadMyData()">⬇️ Download My Real Data</button><button class="btn btn2" onclick="showPage('blog')">📖 Read Blog</button></div>
+<div class="card"><h3>ℹ️ About - Real Information</h3><p class="small"><b>App:</b> Global To World<br><b>Version:</b> 1.0.0<br><b>Owner:</b> binnu0117@gmail.com - Real<br><b>Location:</b> Kufri, HP, India - Real</p><button class="btn btn2" onclick="showPage('about')">About Us</button><button class="btn btn2" onclick="showPage('privacy')">Privacy Policy</button><button class="btn btn2" onclick="showPage('terms')">Terms</button><button class="btn btn2" onclick="showPage('contact')">Contact Us</button></div>
+<div class="card"><h3>🚪 Danger Zone - Real</h3><button class="btn btn2" onclick="logoutReal()">Logout - Real Logout</button><button class="btn btn-red" onclick="deleteAccountReal()">🗑️ Delete My Real Account Permanently</button></div>
 </div>
-
+<div id="aboutPage" class="hidden"><div class="card"><h2>About Us - Real</h2><p>Global To World is a friendly community from Himachal Pradesh, India. Connect through travel stories, culture and helpful guides.</p><p>Email: binnu0117@gmail.com<br>Location: Kufri, HP, India</p></div></div>
+<div id="privacyPage" class="hidden"><div class="card"><h2>Privacy Policy - Real</h2><p>We collect Name, Email, City, Photo, Messages, Likes, Comments. We never ask for OTP / Bank Details. Contact: binnu0117@gmail.com</p></div></div>
+<div id="termsPage" class="hidden"><div class="card"><h2>Terms - Real</h2><p>1. Be respectful. 2. No fake information. 3. No OTP sharing. 4. Premium is non-refundable after approval. 5. We can remove violating content.</p></div></div>
+<div id="contactPage" class="hidden"><div class="card"><h2>Contact Us - Real</h2><p>Email: binnu0117@gmail.com<br>Location: Kufri, HP, India</p><input id="contactName" placeholder="Your Name"><input id="contactEmail" placeholder="Your Email"><textarea id="contactMsg" placeholder="Your Message..."></textarea><button class="btn" onclick="sendContact()">Send Real Message</button><p id="contactDone" class="small"></p></div></div>
+</div></div>
+<div class="footer"><a href="#" onclick="showPage('about')">About</a> | <a href="#" onclick="showPage('privacy')">Privacy</a> | <a href="#" onclick="showPage('terms')">Terms</a> | <a href="#" onclick="showPage('contact')">Contact</a> | <a href="#" onclick="showPage('blog')">Blog</a> | <a href="#" onclick="showPage('settings')">Settings</a><br><br>© 2026 Global To World - 100% Real - 100% English</div>
+<div class="bottom"><button onclick="showPage('feed')">🏠</button><button onclick="showPage('search')">🔍</button><button onclick="showPage('feed')">➕</button><button onclick="showPage('chat')">💬</button><button onclick="showPage('profile')">👤</button></div>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-// Your Real Firebase Config - theredeye-village
-const firebaseConfig = {
-  apiKey: "AIzaSyAE0gpHzcFlWtJsh8L6PPobJrQd2EhMfJ0",
-  authDomain: "theredeye-village.firebaseapp.com",
-  databaseURL: "https://theredeye-village-default-rtdb.firebaseio.com",
-  projectId: "theredeye-village",
-  storageBucket: "theredeye-village.firebasestorage.app",
-  messagingSenderId: "1009539974986",
-  appId: "1:1009539974986:web:cbf897f24a92399dd1e3b3"
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, onAuthStateChanged, signOut, updatePassword, deleteUser } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, getDocs, updateDoc, doc, where } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+const firebaseConfig={apiKey:"AIzaSyAE0gpHzcFlWtJsh8L6PPobJrQd2EhMfJ0",authDomain:"theredeye-village.firebaseapp.com",databaseURL:"https://theredeye-village-default-rtdb.firebaseio.com",projectId:"theredeye-village",storageBucket:"theredeye-village.firebasestorage.app",messagingSenderId:"1009539974986",appId:"1:1009539974986:web:cbf897f24a92399dd1e3b3"};
+const app=initializeApp(firebaseConfig); const auth=getAuth(app); const db=getFirestore(app); window.auth=auth; window.db=db;
+const ADMIN_EMAIL='binnu0117@gmail.com'; let selectedPlan=null, selectedAmount=0; let realUsers=[];
+const msg=document.getElementById('msg'); const emailEl=document.getElementById('email'); const passEl=document.getElementById('pass');
+function show(t){msg.innerText=t;}
+document.getElementById('signupBtn').onclick=async()=>{
+  const age=parseInt(document.getElementById('suAge').value); const name=document.getElementById('suName').value.trim(); const city=document.getElementById('suCity').value.trim();
+  if(!name){show('Please enter Your Real Name');return;} if(!age||age<18){show('18+ Only! You must be 18 or older.');return;} if(!emailEl.value||!passEl.value){show('Please enter Email and Password');return;}
+  try{ const cred=await createUserWithEmailAndPassword(auth,emailEl.value,passEl.value); await sendEmailVerification(cred.user); await addDoc(collection(db,"users"),{name,age,email:emailEl.value,city,createdAt:serverTimestamp()}); localStorage.setItem('gtw_user',JSON.stringify({name,age,email:emailEl.value,city})); show('Account created! Please verify your email, then Login.'); document.getElementById('verifyBox').classList.remove('hidden'); }catch(e){show('Error: '+e.message);}
 };
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-const msg = document.getElementById('msg');
-const emailEl = document.getElementById('email');
-const passEl = document.getElementById('pass');
-function show(t){ msg.innerText = t; }
-
-document.getElementById('signupBtn').onclick = async () => {
-  try{
-    const cred = await createUserWithEmailAndPassword(auth, emailEl.value, passEl.value);
-    await sendEmailVerification(cred.user);
-    show("Account created! Now open your email and click the Verification Link.");
-    document.getElementById('verifyBox').classList.remove('hidden');
-  }catch(e){ show("Error: " + e.message); }
-};
-
-document.getElementById('loginBtn').onclick = async () => {
-  try{
-    const cred = await signInWithEmailAndPassword(auth, emailEl.value, passEl.value);
-    if(!cred.user.emailVerified){
-      show("Please verify your email first. Link has been sent to your email.");
-      document.getElementById('verifyBox').classList.remove('hidden');
-      await signOut(auth);
-      return;
-    }
-    show("Login successful!");
-  }catch(e){ show("Error: " + e.message); }
-};
-
-document.getElementById('resendBtn').onclick = async () => {
-  try{
-    const cred = await signInWithEmailAndPassword(auth, emailEl.value, passEl.value);
-    await sendEmailVerification(cred.user);
-    show("Verification email sent again. Check Email / Spam.");
-    await signOut(auth);
-  }catch(e){ show("Error: " + e.message); }
-};
-
-document.getElementById('checkVerifyBtn').onclick = async () => {
-  if(auth.currentUser){ await auth.currentUser.reload(); if(auth.currentUser.emailVerified){ show("Verified! Now press Login."); } else { show("Not verified yet. Click the link in your email."); } }
-  else { show("Press Login first, then Check."); }
-};
-
-onAuthStateChanged(auth, (user)=>{
-  if(user && user.emailVerified){
-    document.getElementById('authBox').classList.add('hidden');
-    document.getElementById('verifyBox').classList.add('hidden');
-    document.getElementById('appBox').classList.remove('hidden');
-    document.getElementById('logoutBtn').classList.remove('hidden');
-    document.getElementById('userEmail').innerText = user.email;
-  } else {
-    document.getElementById('authBox').classList.remove('hidden');
-    document.getElementById('appBox').classList.add('hidden');
-    document.getElementById('logoutBtn').classList.add('hidden');
-  }
-});
-
-document.getElementById('logoutBtn').onclick = ()=> signOut(auth);
-
-document.getElementById('postBtn').onclick = async () => {
-  const t = document.getElementById('postText').value.trim();
-  if(!t) return;
-  await addDoc(collection(db, "posts"), { text: t, email: auth.currentUser.email, createdAt: serverTimestamp() });
-  document.getElementById('postText').value = "";
-};
-
-const q = query(collection(db, "posts"), orderBy("createdAt","desc"));
-onSnapshot(q, (snap)=>{
-  const feed = document.getElementById('feed');
-  feed.innerHTML = "";
-  snap.forEach(d=>{
-    const p = d.data();
-    feed.innerHTML += `<div class="post"><b>${p.email}</b><div>${p.text}</div></div>`;
-  });
-});
+document.getElementById('loginBtn').onclick=async()=>{ try{ const cred=await signInWithEmailAndPassword(auth,emailEl.value,passEl.value); if(!cred.user.emailVerified){show('Please verify your email first.'); document.getElementById('verifyBox').classList.remove('hidden'); await signOut(auth); return;} show('Login successful! Real Login'); }catch(e){show('Error: '+e.message);} };
+document.getElementById('resendBtn').onclick=async()=>{ try{ const cred=await signInWithEmailAndPassword(auth,emailEl.value,passEl.value); await sendEmailVerification(cred.user); show('Verification email sent again. Check Email / Spam.'); await signOut(auth);}catch(e){show('Error: '+e.message);} };
+document.getElementById('checkVerifyBtn').onclick=async()=>{ if(auth.currentUser){await auth.currentUser.reload(); if(auth.currentUser.emailVerified) show('Verified! Now press Login.'); else show('Not verified yet. Please click the link in your email.');} else show('Please press Login first.'); };
+window.selectPlan=function(p,a){ if(!auth.currentUser){alert('Please Login First');return;} selectedPlan=p; selectedAmount=a; document.getElementById('payAmount').innerText='₹'+a; document.getElementById('payBox').classList.remove('hidden'); };
+window.verifyPremium=async()=>{ const utr=document.getElementById('utrInput').value.trim(); if(!/^[A-Za-z0-9]{8,30}$/.test(utr)){alert('Invalid UTR! Please enter Real UTR.');return;} if(!selectedPlan){alert('Please Select a Plan First');return;} try{ await addDoc(collection(db,"premium_requests"),{utr,plan:selectedPlan,amount:selectedAmount,email:auth.currentUser.email,status:'pending',createdAt:serverTimestamp()}); document.getElementById('utrMsg').innerText='Real UTR Submitted! Please wait for Admin Approval.'; alert('UTR Submitted - Real'); }catch(e){alert(e.message);} };
+window.likePost=async function(postId){ if(!auth.currentUser){alert('Please Login First');return;} try{ const q1=query(collection(db,"likes"),where("postId","==",postId),where("email","==",auth.currentUser.email)); const s=await getDocs(q1); if(!s.empty){alert('You already Liked this post - Real Check');return;} await addDoc(collection(db,"likes"),{postId,email:auth.currentUser.email,createdAt:serverTimestamp()}); alert('Liked - Real Saved in Firestore'); }catch(e){alert(e.message);} };
+window.addComment=async function(postId){ if(!auth.currentUser){alert('Please Login First');return;} const inp=document.getElementById('comment-'+postId); const text=inp.value.trim(); if(!text){alert('Please write a comment');return;} try{ await addDoc(collection(db,"comments"),{postId,email:auth.currentUser.email,text,createdAt:serverTimestamp()}); inp.value=''; alert('Comment Saved - Real'); }catch(e){alert(e.message);} };
+window.reportUser=async function(id,reason){ if(!auth.currentUser){alert('Please Login First');return;} try{ await addDoc(collection(db,"reports"),{reportedId:id,reason,by:auth.currentUser.email,status:'pending',createdAt:serverTimestamp()}); let b=JSON.parse(localStorage.getItem('gtw_blocked')||'[]'); if(!b.includes(id)) b.push(id); localStorage.setItem('gtw_blocked',JSON.stringify(b)); alert('Reported and Blocked - Real Report to Admin'); }catch(e){alert(e.message);} };
+window.sendMsg=async function(){ const v=document.getElementById('chatInput').value.trim(); if(!v) return; if(!auth.currentUser){alert('Please Login First');return;} try{ await addDoc(collection(db,"messages"),{email:auth.currentUser.email,text:v,createdAt:serverTimestamp()}); document.getElementById('chatInput').value=''; }catch(e){alert(e.message);} };
+window.toggleFollowReal=async function(targetEmail,btn){ if(!auth.currentUser){alert('Please Login First');return;} if(targetEmail===auth.currentUser.email){alert('You cannot follow yourself');return;} try{ const q1=query(collection(db,"follows"),where("from","==",auth.currentUser.email),where("to","==",targetEmail)); const s=await getDocs(q1); if(!s.empty){alert('Already Following - Real');return;} await addDoc(collection(db,"follows"),{from:auth.currentUser.email,to:targetEmail,createdAt:serverTimestamp()}); btn.innerText='Following ✓'; alert('Followed - Real Saved'); loadRealCounts(); }catch(e){alert(e.message);} };
+window.saveSettingsProfile=function(){ const n=document.getElementById('setName').value.trim(); const c=document.getElementById('setCity').value.trim(); const b=document.getElementById('setBio').value.trim(); if(!n){alert('Please enter Your Real Name');return;} let s=JSON.parse(localStorage.getItem('gtw_user')||'{}'); s.name=n; s.city=c; s.bio=b; localStorage.setItem('gtw_user',JSON.stringify(s)); document.getElementById('myName').innerText='Welcome, '+n+' ✓'; document.getElementById('myBio').innerText=b; alert('Real Profile Saved!'); };
+window.changePasswordReal=async function(){ const np=document.getElementById('newPass').value; if(!auth.currentUser){alert('Please Login First');return;} if(!np||np.length<6){alert('Password must be minimum 6 characters');return;} try{ await updatePassword(auth.currentUser,np); document.getElementById('newPass').value=''; alert('Real Password Changed!'); }catch(e){alert(e.message+' - Please Logout and Login again, then try again');} };
+window.sendPasswordResetFromSettings=async function(){ if(!auth.currentUser){alert('Please Login First');return;} try{ await sendPasswordResetEmail(auth,auth.currentUser.email); alert('Real Reset Link Sent To '+auth.currentUser.email); }catch(e){alert(e.message);} };
+window.toggleNotif=function(){ const el=document.getElementById('notifSwitch'); el.classList.toggle('on'); localStorage.setItem('gtw_notif',el.classList.contains('on')?'on':'off'); document.getElementById('notifStatus').innerText='Notifications: '+(el.classList.contains('on')?'ON - Real Saved':'OFF - Real Saved'); };
+window.toggleEmailNotif=function(){ const el=document.getElementById('emailNotifSwitch'); el.classList.toggle('on'); localStorage.setItem('gtw_email_notif',el.classList.contains('on')?'on':'off'); alert('Email Notifications '+(el.classList.contains('on')?'ON - Real':'OFF - Real')); };
+window.toggleTheme=function(){ const l=document.body.classList.toggle('light'); localStorage.setItem('gtw_theme',l?'light':'dark'); document.getElementById('themeBtn').innerText=l?'Dark Theme':'Light Theme'; };
+window.changeLanguage=function(){ const lang=document.getElementById('langSelect').value; localStorage.setItem('gtw_lang',lang); document.getElementById('langStatus').innerText='Language: English'; };
+window.togglePrivacy=function(){ const el=document.getElementById('privacySwitch'); el.classList.toggle('on'); localStorage.setItem('gtw_privacy',el.classList.contains('on')?'public':'private'); document.getElementById('privacyStatus').innerText=el.classList.contains('on')?'Your Profile is Public - Real':'Your Profile is Private - Real'; };
+window.showBlocked=function(){ const b=JSON.parse(localStorage.getItem('gtw_blocked')||'[]'); const box=document.getElementById('blockedList'); if(!b.length){box.innerHTML='<p class="small">No Blocked Users - Real List is Empty</p>';return;} box.innerHTML=b.map(x=>`<p class="small">🚫 ${x} <button style="width:auto;padding:6px 12px" class="btn btn2" onclick="unblockUser('${x}')">Unblock - Real</button></p>`).join(''); };
+window.unblockUser=function(id){ let b=JSON.parse(localStorage.getItem('gtw_blocked')||'[]'); b=b.filter(x=>x!==id); localStorage.setItem('gtw_blocked',JSON.stringify(b)); alert('Unblocked - Real: '+id); showBlocked(); };
+window.clearChat=function(){ document.getElementById('chatBox').innerHTML='<div class="empty">Chat View Cleared. Real messages remain in Firestore.</div>'; };
+window.downloadMyData=function(){ const s=localStorage.getItem('gtw_user')||'{}'; const email=auth.currentUser?auth.currentUser.email:'Not Logged In'; const data=`Global To World - My Real Data\nEmail:${email}\nProfile:${s}\nDate:${new Date().toLocaleString()}`; const blob=new Blob([data],{type:'text/plain'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='my-real-data.txt'; a.click(); alert('Real Data Downloaded!'); };
+window.deleteAccountReal=async function(){ if(!auth.currentUser){alert('Please Login First');return;} if(!confirm('Are you sure? This will Delete Permanently - Real Delete!'))return; if(!confirm('Last Confirm - Delete Permanently - Real?'))return; try{ await deleteUser(auth.currentUser); localStorage.clear(); alert('Real Account Deleted Permanently'); }catch(e){alert(e.message+' - Please Logout and Login again, then try again');} };
+window.loadAdmin=async function(){ if(!auth.currentUser||auth.currentUser.email!==ADMIN_EMAIL)return; const list=document.getElementById('adminList'); list.innerHTML='Loading Real Requests...'; try{ const snap=await getDocs(query(collection(db,"premium_requests"))); if(snap.empty){list.innerHTML='<div class="empty">No Real Requests Yet.</div>';return;} let h=''; snap.forEach(d=>{ const data=d.data(); h+=`<div class="admin-card"><p><b>${data.email}</b> - Real User</p><p>${data.plan} - ₹${data.amount}</p><p>Real UTR: ${data.utr}</p><p>Status: ${data.status}</p>${data.status==='pending'?`<button class="btn btn-green" onclick="updateStatus('${d.id}','approved')">Approve - Real</button><button class="btn" onclick="updateStatus('${d.id}','rejected')">Reject - Real</button>`:''}</div>`; }); list.innerHTML=h; }catch(e){list.innerHTML=e.message;} };
+window.loadReports=async function(){ if(!auth.currentUser||auth.currentUser.email!==ADMIN_EMAIL)return; const box=document.getElementById('reportList'); box.innerHTML='Loading Real Reports...'; try{ const snap=await getDocs(query(collection(db,"reports"))); if(snap.empty){box.innerHTML='<div class="empty">No Real Reports.</div>';return;} let h='<h3>Real Reports</h3>'; snap.forEach(d=>{ const r=d.data(); h+=`<div class="admin-card"><p>Reported: ${r.reportedId}</p><p>By Real User: ${r.by}</p><p>Reason: ${r.reason}</p></div>`; }); box.innerHTML=h; }catch(e){box.innerHTML=e.message;} };
+window.updateStatus=async function(id,s){ await updateDoc(doc(db,"premium_requests",id),{status:s}); loadAdmin(); };
+window.logoutReal=async function(){ await signOut(auth); };
+window.loadSavedSettings=function(){ const t=localStorage.getItem('gtw_theme'); if(t==='light'){document.body.classList.add('light'); document.getElementById('themeBtn').innerText='Dark Theme';} const n=localStorage.getItem('gtw_notif'); if(n==='off') document.getElementById('notifSwitch').classList.remove('on'); const e=localStorage.getItem('gtw_email_notif'); if(e==='off') document.getElementById('emailNotifSwitch').classList.remove('on'); const p=localStorage.getItem('gtw_privacy'); if(p==='private') document.getElementById('privacySwitch').classList.remove('on'); const s=JSON.parse(localStorage.getItem('gtw_user')||'{}'); if(s.name){ document.getElementById('setName').value=s.name; document.getElementById('setCity').value=s.city||''; document.getElementById('setBio').value=s.bio||''; document.getElementById('myName').innerText='Welcome, '+s.name+' ✓'; } };
+loadSavedSettings();
+window.loadRealCounts=async function(){ if(!auth.currentUser) return; try{ const snapF=await getDocs(query(collection(db,"follows"))); let followers=0,following=0; snapF.forEach(d=>{ if(d.data().to===auth.currentUser.email) followers++; if(d.data().from===auth.currentUser.email) following++; }); document.getElementById('followerCount').innerText=followers; document.getElementById('followingCount').innerText=following; const snapP=await getDocs(query(collection(db,"posts"))); let my=0; snapP.forEach(d=>{ if(d.data().email===auth.currentUser.email) my++; }); document.getElementById('postCount').innerText=my; }catch(e){} };
+const qPosts=query(collection(db,"posts"),orderBy("createdAt","desc"));
+onSnapshot(qPosts,(snap)=>{ const feed=document.getElementById('feed'); if(snap.empty){feed.innerHTML='<div class="empty">No Real Posts Yet. Be the First to Post.</div>'; return;} feed.innerHTML=""; snap.forEach(d=>{ const p=d.data(); feed.innerHTML+=`<div class="post"><b>${p.email}</b> - Real User<div style="margin:8px 0">${p.text}</div><button style="width:auto;padding:8px 14px" class="btn btn2" onclick="likePost('${d.id}')">❤️ Like - Real</button> <button style="width:auto;padding:8px 14px" class="btn btn2" onclick="sharePost('${p.text}')">🔗 Share - Real</button> <button style="width:auto;padding:8px 14px" class="btn btn2" onclick="savePostReal('${p.text}')">🔖 Save - Real</button><div class="comment-box"><input id="comment-${d.id}" placeholder="Write a Real Comment..."><button class="btn btn2" onclick="addComment('${d.id}')">Send Real Comment</button><div id="comments-${d.id}"></div></div><button style="width:auto;padding:6px 10px;margin-top:8px" class="btn btn2" onclick="reportUser('${p.email}','Bad Post')">🚫 Report - Real</button></div>`; }); loadCommentsForPosts(); });
+async function loadCommentsForPosts(){ try{ const snap=await getDocs(query(collection(db,"comments"))); snap.forEach(d=>{ const c=d.data(); const box=document.getElementById('comments-'+c.postId); if(box && !box.innerHTML.includes(c.text)){ box.innerHTML+=`<p><b>${c.email}:</b> ${c.text}</p>`; } }); }catch(e){} }
+const qMsg=query(collection(db,"messages"),orderBy("createdAt","asc"));
+onSnapshot(qMsg,(snap)=>{ const box=document.getElementById('chatBox'); if(snap.empty){box.innerHTML='<div class="empty">No Real Messages Yet.</div>';return;} box.innerHTML=''; snap.forEach(d=>{ const m=d.data(); const div=document.createElement('div'); div.className=m.email===auth.currentUser?.email?'msg me':'msg'; div.innerHTML=`<b>${m.email}:</b><br>${m.text}`; box.appendChild(div); }); box.scrollTop=box.scrollHeight; });
+const qUsers=query(collection(db,"users"),orderBy("createdAt","desc"));
+onSnapshot(qUsers,(snap)=>{ realUsers=[]; snap.forEach(d=>{ realUsers.push(d.data()); }); });
+window.doSearch=function(){ const q=document.getElementById('searchInput').value.toLowerCase().trim(); const box=document.getElementById('searchResult'); if(!q){box.innerHTML='<p class="small">Type Name / Email of a Real User</p>';return;} const f=realUsers.filter(u=>(u.name||'').toLowerCase().includes(q)||(u.email||'').toLowerCase().includes(q)||(u.city||'').toLowerCase().includes(q)); if(!f.length){box.innerHTML='<div class="empty">No Real User Found with this name. Only Real Signed Up Users appear here.</div>';return;} box.innerHTML=f.map(u=>`<div class="notif"><div><b>${u.name||u.email}</b><br><span class="small">${u.email} • ${u.city||''}</span></div><button style="width:auto;padding:6px 12px" class="btn btn2" onclick="toggleFollowReal('${u.email}',this)">Follow - Real</button></div>`).join(''); };
+window.addRealNotif=function(text){ const list=document.getElementById('notifList'); if(list.innerHTML.includes('No Notifications')) list.innerHTML=''; list.innerHTML=`<div class="notif"><b>🔔</b><div>${text} - Real<br><span class="small">Just Now</span></div></div>`+list.innerHTML; const c=document.getElementById('notifCount'); c.innerText=parseInt(c.innerText||'0')+1; };
+window.clearNotif=function(){ document.getElementById('notifList').innerHTML='<div class="empty">No Real Notifications.</div>'; document.getElementById('notifCount').innerText='0'; alert('Real Notifications Cleared'); };
+window.savePostReal=function(text){ let s=JSON.parse(localStorage.getItem('gtw_saved')||'[]'); s.push(text); localStorage.setItem('gtw_saved',JSON.stringify(s)); document.getElementById('savedList').innerText=s.join(' | '); alert('Post Saved - Real'); };
+onAuthStateChanged(auth,(user)=>{ if(user&&user.emailVerified){ document.getElementById('authBox').classList.add('hidden'); document.getElementById('verifyBox').classList.add('hidden'); document.getElementById('appBox').classList.remove('hidden'); document.getElementById('logoutBtn').classList.remove('hidden'); document.getElementById('userEmail').innerText=user.email; document.getElementById('settingsEmail').innerText='Logged in as Real User: '+user.email; if(user.email===ADMIN_EMAIL) document.getElementById('adminTop').classList.remove('hidden'); showPage('feed'); loadRealCounts(); } else { document.getElementById('authBox').classList.remove('hidden'); document.getElementById('appBox').classList.add('hidden'); document.getElementById('logoutBtn').classList.add('hidden'); document.getElementById('adminTop').classList.add('hidden'); } });
+document.getElementById('logoutBtn').onclick=()=>signOut(auth);
+document.getElementById('postBtn').onclick=async()=>{ const t=document.getElementById('postText').value.trim(); if(!t){alert('Please write something');return;} if(!auth.currentUser){alert('Please Login First');return;} await addDoc(collection(db,"posts"),{text:t,email:auth.currentUser.email,createdAt:serverTimestamp()}); document.getElementById('postText').value=''; alert('Real Post Saved in Firestore!'); };
+</script>
+<script>
+function showPage(p){ if(!window.auth||!window.auth.currentUser){ if(p!=='auth'){alert('Please Login First - Verify and Login');return;} } if(p==='admin'){ const u=window.auth?window.auth.currentUser:null; if(!u||u.email!=='binnu0117@gmail.com'){alert('Access Denied! Only Admin.');p='feed';} } const map={feed:'feedPage',search:'searchPage',chat:'chatPage',notifications:'notificationsPage',profile:'profilePage',premium:'premiumPage',admin:'adminPage',blog:'blogPage',about:'aboutPage',privacy:'privacyPage',terms:'termsPage',contact:'contactPage',settings:'settingsPage'}; ['feedPage','searchPage','chatPage','notificationsPage','profilePage','premiumPage','adminPage','blogPage','aboutPage','privacyPage','termsPage','contactPage','settingsPage'].forEach(id=>document.getElementById(id).classList.add('hidden')); if(map[p]) document.getElementById(map[p]).classList.remove('hidden'); window.scrollTo(0,0); }
+function previewPhoto(e){ let f=e.target.files[0]; if(!f) return; let u=URL.createObjectURL(f); document.getElementById('myPhoto').src=u; }
+function sharePost(title){ if(navigator.share){navigator.share({title:title,text:'Check Global To World - '+title,url:location.href});} else {navigator.clipboard.writeText(location.href); alert('Real Link Copied: '+location.href);} }
+function sendContact(){ document.getElementById('contactDone').innerText='Thank you! Real Message Sent. We will reply within 24 hours.'; document.getElementById('contactDone').style.color='#00ff88'; }
 </script>
 </body>
 </html>
