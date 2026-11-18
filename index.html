@@ -27,10 +27,14 @@ button.gray{background:#222}.tabs{display:flex;gap:8px;margin-bottom:14px}.tabs 
 .footer{max-width:480px;margin:0 auto;padding:20px;text-align:center;font-size:12px;color:#888}
 .footer a{color:#aaa;text-decoration:none;margin:0 8px}
 .verify-box{border:1px solid #ffaa00;color:#ffcc00;padding:12px;border-radius:10px;font-size:13px;margin-top:10px}
+.admin-card{background:#1a1a1a;border:1px solid #ff2a2a;border-radius:12px;padding:14px;margin-bottom:12px}
+.qr-box{background:#fff;padding:15px;border-radius:12px;text-align:center;color:#000;margin:12px 0}
+.qr-box img{width:220px;height:220px;object-fit:contain}
+.btn-green{background:#00c853!important}
 </style>
 </head>
 <body>
-<div class="top"><b>GLOBAL TO WORLD</b><div><a href="/">Home</a><a href="#" onclick="showPage('feed')">Feed</a><a href="#" onclick="showPage('chat')">Chat</a><a href="#" onclick="logout()">Logout</a></div></div>
+<div class="top"><b>GLOBAL TO WORLD</b><div><a href="/">Home</a><a href="#" onclick="showPage('feed')">Feed</a><a href="#" onclick="showPage('chat')">Chat</a><a href="#" onclick="showPage('premium')">⭐ Premium</a><a href="#" id="adminNavLink" class="hide" style="color:#ffcc00;font-weight:800" onclick="showPage('admin')">👑 Admin</a><a href="#" onclick="logout()">Logout</a></div></div>
 
 <div class="wrap">
 
@@ -66,7 +70,7 @@ button.gray{background:#222}.tabs{display:flex;gap:8px;margin-bottom:14px}.tabs 
 </div>
 
 <div id="feedPage" class="hide">
-<div class="card profile"><img id="myPhoto" src="https://i.pravatar.cc/200?img=12"><h3 id="myName">Welcome, Friend <span class="badge">✓</span></h3><p class="small" id="myBio">Complete your profile to get more matches.</p><button class="gray" onclick="showPage('profile')">Edit Profile</button></div>
+<div class="card profile"><img id="myPhoto" src="https://i.pravatar.cc/200?img=12"><h3 id="myName">Welcome, Friend <span class="badge">✓</span></h3><p class="small" id="myBio">Complete your profile to get more matches.</p><button class="gray" onclick="showPage('profile')">Edit Profile</button><button onclick="showPage('premium')">⭐ Get Premium - Voice ₹99 / Video ₹199</button></div>
 <div class="warn">⚠️ WARNING: Wrong Activity = ID Ban. Be Respectful. No Means No.</div><br>
 <div class="person">
 <img id="personImg" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&q=80">
@@ -87,6 +91,25 @@ button.gray{background:#222}.tabs{display:flex;gap:8px;margin-bottom:14px}.tabs 
 <div class="card"><h3>My Profile</h3><input id="editName" placeholder="Your Name"><input id="editCity" placeholder="Your City"><textarea id="editBio" placeholder="Your Bio"></textarea><button onclick="saveProfile()">Save Profile</button><button class="gray" onclick="logout()">Logout</button><p class="small">How to Logout: Profile > Settings > Logout > Confirm Yes. Always logout from shared phone.</p></div>
 </div>
 
+<!-- PREMIUM PAGE -->
+<div id="premiumPage" class="hide">
+<div class="card"><h3>⭐ Get Premium</h3><p class="small">Pay via UPI, Enter UTR, Admin will approve.</p></div>
+<div class="card"><h3>🎙️ Voice - ₹99</h3><p class="small">Voice Chat Premium</p><button onclick="selectPlan('voice',99)">Select Voice - ₹99</button></div>
+<div class="card"><h3>🎥 Video - ₹199</h3><p class="small">Video Chat Premium</p><button onclick="selectPlan('video',199)">Select Video - ₹199</button></div>
+<div id="payBox" class="card hide">
+<div class="qr-box"><p><b>Scan & Pay - <span id="payAmount">₹99</span></b></p><img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=upi%3A%2F%2Fpay%3Fpa%3Dbinnu0117%40oksbi%26pn%3DGlobal%2520To%2520World%26cu%3DINR" alt="Pay QR - binnu0117@oksbi"><p style="font-size:14px;font-weight:700;margin-top:8px">UPI ID: binnu0117@oksbi</p><p style="font-size:13px">Pay on GPay / PhonePe / Paytm</p></div>
+<input id="utrInput" placeholder="Enter 12-digit UTR Number">
+<button class="btn-green" onclick="verifyPremium()">Submit UTR & Verify</button>
+<p id="utrMsg" class="small"></p>
+</div>
+</div>
+
+<!-- ADMIN PANEL - ONLY FOR binnu0117@gmail.com -->
+<div id="adminPage" class="hide">
+<div class="card" style="border:1px solid #ff2a2a"><h3>👑 Admin Panel <span style="color:#ffcc00">ONLY YOU</span></h3><p class="small">Logged in as: binnu0117@gmail.com</p><button class="gray" onclick="loadAdmin()">Refresh Requests</button></div>
+<div id="adminList"><p class="small">Loading requests...</p></div>
+</div>
+
 </div>
 
 <div class="footer">
@@ -97,6 +120,7 @@ button.gray{background:#222}.tabs{display:flex;gap:8px;margin-bottom:14px}.tabs 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, query } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAE0gpHzcFlWtJsh8L6PPobJrQd2EhMfJ0",
@@ -109,8 +133,56 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 window.auth = auth;
 window.firebaseSignOut = () => signOut(auth);
+
+const ADMIN_EMAIL = 'binnu0117@gmail.com';
+let selectedPlan = null;
+let selectedAmount = 0;
+
+window.selectPlan = function(plan, amount){
+  if(!auth.currentUser){ alert('Please Login First'); showPage('auth'); return; }
+  selectedPlan = plan; selectedAmount = amount;
+  document.getElementById('payAmount').innerText = '₹' + amount;
+  document.getElementById('payBox').classList.remove('hide');
+  window.scrollTo(0,0);
+};
+
+window.verifyPremium = async function(){
+  const utr = document.getElementById('utrInput').value.trim();
+  if(!/^[A-Za-z0-9]{8,30}$/.test(utr)){ alert('Invalid UTR! Only Letters / Numbers, 8-30 characters.'); return; }
+  if(!selectedPlan){ alert('Select a Plan First'); return; }
+  try{
+    await addDoc(collection(db, "premium_requests"), {
+      utr: utr, plan: selectedPlan, amount: selectedAmount,
+      email: auth.currentUser.email, status: 'pending', time: new Date().toLocaleString()
+    });
+    document.getElementById('utrMsg').innerText = 'UTR Submitted! Wait for Admin Approval.';
+    document.getElementById('utrMsg').style.color = '#00ff88';
+  }catch(e){ alert('Error: ' + e.message); }
+};
+
+window.loadAdmin = async function(){
+  if(!auth.currentUser || auth.currentUser.email !== ADMIN_EMAIL) return;
+  const list = document.getElementById('adminList');
+  list.innerHTML = 'Loading...';
+  try{
+    const snap = await getDocs(query(collection(db, "premium_requests")));
+    if(snap.empty){ list.innerHTML = '<p class="small">No Requests Yet.</p>'; return; }
+    let html = '';
+    snap.forEach(d=>{
+      const data = d.data();
+      html += `<div class="admin-card"><p><b>Email:</b> ${data.email}</p><p><b>Plan:</b> ${data.plan} - ₹${data.amount}</p><p><b>UTR:</b> ${data.utr}</p><p><b>Time:</b> ${data.time}</p><p><b>Status:</b> ${data.status}</p><br>${data.status === 'pending' ? `<button class="btn-green" onclick="updateStatus('${d.id}','approved')">Approve</button><button onclick="updateStatus('${d.id}','rejected')">Reject</button>` : '<p>Done</p>'}</div>`;
+    });
+    list.innerHTML = html;
+  }catch(e){ list.innerHTML = 'Error: ' + e.message; }
+};
+
+window.updateStatus = async function(id, status){
+  await updateDoc(doc(db, "premium_requests", id), { status: status });
+  loadAdmin();
+};
 
 document.getElementById('signupBtn').onclick = async () => {
   let name = document.getElementById('suName').value.trim();
@@ -146,7 +218,8 @@ document.getElementById('loginBtn').onclick = async () => {
     }
     let saved = JSON.parse(localStorage.getItem('gtw_user')||'{}');
     if(saved.name){ document.getElementById('myName').innerText='Welcome back, '+saved.name+' ✓'; }
-    showPage('feed');
+    if(cred.user.email === ADMIN_EMAIL){ showPage('admin'); loadAdmin(); }
+    else { showPage('feed'); }
   }catch(e){ msg.innerText = 'Error: ' + e.message; }
 };
 
@@ -172,7 +245,16 @@ onAuthStateChanged(auth, (user)=>{
   if(user && user.emailVerified){
     let saved = JSON.parse(localStorage.getItem('gtw_user')||'{}');
     if(saved.name) document.getElementById('myName').innerText='Welcome, '+saved.name+' ✓';
-    showPage('feed');
+    if(user.email === ADMIN_EMAIL){
+      document.getElementById('adminNavLink').classList.remove('hide');
+      showPage('admin');
+      loadAdmin();
+    } else {
+      document.getElementById('adminNavLink').classList.add('hide');
+      showPage('feed');
+    }
+  } else {
+    document.getElementById('adminNavLink').classList.add('hide');
   }
 });
 </script>
@@ -193,11 +275,17 @@ document.getElementById('signupTab').classList.toggle('active',t==='signup');
 }
 function previewPhoto(e){let f=e.target.files[0];if(!f)return;let u=URL.createObjectURL(f);let im=document.getElementById('photoPreview');im.src=u;im.style.display='block';document.getElementById('myPhoto').src=u;}
 function showPage(p){
-['authPage','feedPage','chatPage','profilePage'].forEach(id=>document.getElementById(id).classList.add('hide'));
+if(p==='admin'){
+  const user = window.auth ? window.auth.currentUser : null;
+  if(!user || user.email !== 'binnu0117@gmail.com'){ alert('Access Denied! You are not Admin.'); p='feed'; }
+}
+['authPage','feedPage','chatPage','profilePage','premiumPage','adminPage'].forEach(id=>document.getElementById(id).classList.add('hide'));
 if(p==='feed')document.getElementById('feedPage').classList.remove('hide');
 if(p==='chat')document.getElementById('chatPage').classList.remove('hide');
 if(p==='profile')document.getElementById('profilePage').classList.remove('hide');
 if(p==='auth')document.getElementById('authPage').classList.remove('hide');
+if(p==='premium')document.getElementById('premiumPage').classList.remove('hide');
+if(p==='admin')document.getElementById('adminPage').classList.remove('hide');
 window.scrollTo(0,0);
 }
 function nextPerson(liked){
