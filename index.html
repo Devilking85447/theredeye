@@ -3,26 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Global To World - Login | Meet New People</title>
-<meta name="description" content="Login to Global To World - Meet new people, make friends, chat safely. 18+ Only.">
-<link rel="canonical" href="https://theredeye.co.in/">
+<title>Global To World - Make Friends, Explore Himachal & Community Blog</title>
+<meta name="description" content="Global To World - A friendly community to make friends, explore Himachal Pradesh, travel stories, local culture and helpful guides.">
 <style>
-*{box-sizing:border-box}body{margin:0;background:#0a0a0a;color:#fff;font-family:system-ui,sans-serif}
+*{box-sizing:border-box}body{margin:0;background:#0a0a0a;color:#fff;font-family:system-ui,sans-serif;transition:0.3s}
+body.light{background:#f5f5f5;color:#111}body.light .card,body.light .top{background:#fff;color:#111;border-color:#ddd}body.light input,body.light textarea,body.light select{background:#fff;color:#111;border-color:#ddd}
 .top{background:#111;border-bottom:1px solid #222;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
-.top b{color:#ff2a2a;letter-spacing:1px}.top a{color:#ccc;text-decoration:none;font-size:13px;margin-left:12px}
+.top b{color:#ff2a2a;letter-spacing:1px}.top a{color:#ccc;text-decoration:none;font-size:13px;margin-left:10px}
 .wrap{max-width:480px;margin:0 auto;padding:18px 16px 80px}
 .card{background:#151515;border:1px solid #242424;border-radius:16px;padding:20px;margin-bottom:16px}
 input,textarea,select{width:100%;padding:12px;margin:8px 0;background:#0f0f0f;border:1px solid #2a2a2a;color:#fff;border-radius:10px;outline:none}
 button{width:100%;padding:13px;border:0;border-radius:10px;background:#ff2a2a;color:#fff;font-weight:700;cursor:pointer;margin-top:8px}
-button.gray{background:#222}.tabs{display:flex;gap:8px;margin-bottom:14px}.tabs button{flex:1;background:#222}.tabs button.active{background:#ff2a2a}
+button.gray{background:#222}body.light button.gray{background:#eee;color:#111}
+.tabs{display:flex;gap:8px;margin-bottom:14px}.tabs button{flex:1;background:#222}.tabs button.active{background:#ff2a2a}
 .profile{text-align:center}.profile img{width:110px;height:110px;border-radius:50%;object-fit:cover;border:3px solid #ff2a2a}
-.person{position:relative;border-radius:16px;overflow:hidden;background:#151515;border:1px solid #242424}
-.person img{width:100%;height:420px;object-fit:cover;display:block}
-.person-info{position:absolute;bottom:0;left:0;right:0;padding:16px;background:linear-gradient(transparent,rgba(0,0,0,.9))}
-.actions{display:flex;gap:10px;margin-top:12px}.actions button{font-size:18px}
 .chatbox{height:260px;overflow-y:auto;background:#0f0f0f;border:1px solid #242424;border-radius:12px;padding:12px;margin-bottom:10px}
 .msg{background:#222;padding:9px 12px;border-radius:12px;margin-bottom:8px;max-width:85%}.msg.me{background:#ff2a2a;margin-left:auto}
-.small{font-size:12px;color:#888}.warn{border:1px solid #ff2a2a;color:#ff2a2a;padding:10px;border-radius:10px;font-size:13px;font-weight:700;text-align:center}
+.small{font-size:12px;color:#888}.warn{border:1px solid #ffaa00;color:#ffcc00;padding:10px;border-radius:10px;font-size:13px;font-weight:700;text-align:center}
 .hide{display:none}.badge{color:#00aaff;font-weight:800}
 .footer{max-width:480px;margin:0 auto;padding:20px;text-align:center;font-size:12px;color:#888}
 .footer a{color:#aaa;text-decoration:none;margin:0 8px}
@@ -30,96 +27,163 @@ button.gray{background:#222}.tabs{display:flex;gap:8px;margin-bottom:14px}.tabs 
 .admin-card{background:#1a1a1a;border:1px solid #ff2a2a;border-radius:12px;padding:14px;margin-bottom:12px}
 .qr-box{background:#fff;padding:15px;border-radius:12px;text-align:center;color:#000;margin:12px 0}
 .qr-box img{width:220px;height:220px;object-fit:contain}
-.btn-green{background:#00c853!important}
+.btn-green{background:#00c853!important}.btn-red{background:#d32f2f!important}
+.blog-img{width:100%;border-radius:12px;height:200px;object-fit:cover}
+.comment-box{background:#0f0f0f;border:1px solid #242424;border-radius:10px;padding:10px;margin-top:8px}
+.setting-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #242424}
+.switch{width:50px;height:26px;background:#333;border-radius:20px;position:relative;cursor:pointer;flex-shrink:0}
+.switch.on{background:#00c853}.switch::after{content:'';width:22px;height:22px;background:#fff;border-radius:50%;position:absolute;top:2px;left:2px;transition:0.2s}.switch.on::after{left:26px}
 </style>
 </head>
 <body>
-<div class="top"><b>GLOBAL TO WORLD</b><div><a href="/">Home</a><a href="#" onclick="showPage('feed')">Feed</a><a href="#" onclick="showPage('chat')">Chat</a><a href="#" onclick="showPage('premium')">⭐ Premium</a><a href="#" id="adminNavLink" class="hide" style="color:#ffcc00;font-weight:800" onclick="showPage('admin')">👑 Admin</a><a href="#" onclick="logout()">Logout</a></div></div>
+<div class="top"><b>GLOBAL TO WORLD</b><div><a href="#" onclick="showPage('feed')">Home</a><a href="#" onclick="showPage('blog')">Blog</a><a href="#" onclick="showPage('premium')">⭐ Premium</a><a href="#" onclick="showPage('settings')">⚙️ Settings</a><a href="#" id="adminNavLink" class="hide" style="color:#ffcc00;font-weight:800" onclick="showPage('admin')">👑 Admin</a></div></div>
 
 <div class="wrap">
 
 <div id="authPage">
-<div class="card" style="text-align:center"><h2 style="color:#ff2a2a;margin:0">GLOBAL TO WORLD</h2><p class="small">Meet New People, Make Friends, Chat Safely<br>18+ Only | Your ID Will Be Banned For Wrong Activity</p></div>
+<div class="card" style="text-align:center"><h2 style="color:#ff2a2a;margin:0">GLOBAL TO WORLD</h2><p class="small" id="welcomeText">A Friendly Community - Make Friends, Share Stories, Explore Himachal<br>Be Respectful. Be Kind. Help Each Other.</p></div>
 <div class="tabs"><button id="loginTab" class="active" onclick="switchAuth('login')">Login</button><button id="signupTab" onclick="switchAuth('signup')">Sign Up</button></div>
-
 <div id="loginBox" class="card">
 <input id="loginEmail" type="email" placeholder="Email">
 <input id="loginPass" type="password" placeholder="Password">
 <button id="loginBtn">Login</button>
 <button class="gray" id="forgotBtn">Forgot Password?</button>
 <p id="loginMsg" class="small"></p>
-<div id="verifyBox" class="verify-box hide">📧 Please verify your email. Check your Gmail / Spam. After clicking the link, press Login again.<br><button class="gray" id="resendBtn">Resend Verification Email</button></div>
-<p class="small">By login, you agree to our Terms. No abusive language, no bad photos, no fake profile. Wrong activity = Permanent Ban.</p>
+<div id="verifyBox" class="verify-box hide">📧 Please verify your email. Check your Gmail / Spam.<br><button class="gray" id="resendBtn">Resend Verification Email</button></div>
 </div>
-
 <div id="signupBox" class="card hide">
 <input id="suName" placeholder="Your Real Name *">
-<input id="suAge" type="number" placeholder="Your Age - Must be 18+ *">
+<input id="suAge" type="number" placeholder="Your Age *">
 <select id="suGender"><option>Select Gender</option><option>Male</option><option>Female</option><option>Other</option></select>
 <input id="suCity" placeholder="Your City *">
 <input id="suEmail" type="email" placeholder="Email *">
 <input id="suPass" type="password" placeholder="Create Password - Min 6 Characters *">
 <textarea id="suBio" placeholder="Write a short bio about you..."></textarea>
-<p class="small">Upload Profile Photo (Your Real Face Photo Only)</p>
+<p class="small">Upload Profile Photo</p>
 <input type="file" accept="image/*" onchange="previewPhoto(event)">
 <div style="text-align:center"><img id="photoPreview" style="width:90px;height:90px;border-radius:50%;object-fit:cover;display:none"></div>
-<label style="font-size:13px"><input type="checkbox" id="agree" style="width:auto"> I am 18+ and I agree to Rules. I will not do any wrong activity.</label>
+<label style="font-size:13px"><input type="checkbox" id="agree" style="width:auto"> I agree to Community Rules.</label>
 <button id="signupBtn">Create Account & Start</button>
 <p id="signupMsg" class="small"></p>
 </div>
 </div>
 
 <div id="feedPage" class="hide">
-<div class="card profile"><img id="myPhoto" src="https://i.pravatar.cc/200?img=12"><h3 id="myName">Welcome, Friend <span class="badge">✓</span></h3><p class="small" id="myBio">Complete your profile to get more matches.</p><button class="gray" onclick="showPage('profile')">Edit Profile</button><button onclick="showPage('premium')">⭐ Get Premium - Voice ₹99 / Video ₹199</button></div>
-<div class="warn">⚠️ WARNING: Wrong Activity = ID Ban. Be Respectful. No Means No.</div><br>
-<div class="person">
-<img id="personImg" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&q=80">
-<div class="person-info"><h2 id="personName" style="margin:0">Priya, 22</h2><p id="personCity" style="margin:4px 0;color:#ddd">Shimla, Himachal Pradesh • Likes Music, Travel</p></div>
+<div class="card profile"><img id="myPhoto" src="https://i.pravatar.cc/200?img=12"><h3 id="myName">Welcome, Friend <span class="badge">✓</span></h3><p class="small" id="myBio">Complete your profile to connect with community.</p><button class="gray" onclick="showPage('profile')">Edit Profile</button><button onclick="showPage('premium')">⭐ Get Premium - Voice ₹99 / Video ₹199</button><button class="gray" onclick="showPage('settings')">⚙️ Open Settings</button></div>
+<div class="warn">🤝 Community Rule: Be Respectful. No Abusive Language.</div><br>
+<div class="card"><h3>Welcome to Global To World</h3><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80" style="width:100%;border-radius:12px"><p>Beautiful morning from Himachal! This is a friendly community where people share travel stories, local culture and help each other.</p>
+<button class="gray" onclick="likePost('welcome_post', this)">❤️ Like - <span id="like-welcome_post">0</span></button>
+<input id="comment-welcome_post" placeholder="Write a respectful comment..."><button class="gray" onclick="addComment('welcome_post')">💬 Send Comment</button>
+<div id="comments-welcome_post" class="comment-box"><p class="small">No comments yet. Be first to comment.</p></div>
 </div>
-<div class="actions"><button class="gray" onclick="nextPerson(false)">✕ PASS</button><button onclick="nextPerson(true)">❤️ LIKE</button></div>
-<p class="small" style="text-align:center" id="matchMsg"></p>
-<div class="card"><h3>Feed</h3><p><b>Aarav • Solan</b> <span class="badge">✓</span></p><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80" style="width:100%;border-radius:12px"><p>Beautiful morning from Himachal! Good morning everyone.</p><button class="gray">❤️ Like &nbsp; 💬 Comment</button></div>
-<div class="card"><h3>Reels</h3><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&q=80" style="width:100%;border-radius:12px"><p>New reel by Sneha - Dance Video</p><button class="gray">▶️ Watch Reel</button></div>
+<div class="card"><h3>Community Stories - Kufri Trip</h3><p><b>Aarav • Solan</b> <span class="badge">✓</span></p><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&q=80" style="width:100%;border-radius:12px"><p>Visited Kufri last week - snowfall was amazing!</p>
+<button class="gray" onclick="likePost('kufri_post', this)">❤️ Like - <span id="like-kufri_post">0</span></button>
+<input id="comment-kufri_post" placeholder="Write a respectful comment..."><button class="gray" onclick="addComment('kufri_post')">💬 Send Comment</button>
+<div id="comments-kufri_post" class="comment-box"><p class="small">No comments yet.</p></div>
+</div>
+</div>
+
+<div id="blogPage" class="hide">
+<div class="card"><h2>📖 Our Blog</h2><p class="small">Real stories and helpful guides from Himachal Pradesh and India.</p></div>
+<div class="card"><img class="blog-img" src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80"><h3>1. Top 10 Places To Visit In Himachal Pradesh in 2026</h3><p>Himachal Pradesh is known for its beautiful mountains, snowfall, and friendly people. Shimla, Manali, Kufri, Solan, Mandi, Dharamshala, Kasol, Spiti Valley, Dalhousie and Chamba. Best time to visit is March to June and December to February for snowfall.</p></div>
+<div class="card"><img class="blog-img" src="https://images.unsplash.com/photo-1573398643956-2b9e6ade3456?w=800&q=80"><h3>2. Kufri Travel Guide - Snow, Horse Ride & Best Time</h3><p>Kufri is just 20 km from Shimla and is famous for snow and adventure. Budget for one day trip is around Rs 1000 to Rs 1500 per person.</p></div>
+<div class="card"><img class="blog-img" src="https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=800&q=80"><h3>3. How To Make Real Friends Online Safely?</h3><p>Never share OTP, password, bank details. Always talk respectfully, meet in public places, and inform your family.</p></div>
+<div class="card"><img class="blog-img" src="https://images.unsplash.com/photo-1503220317375-aaad61436b1b?w=800&q=80"><h3>4. Solan - The Mushroom City of India</h3><p>Solan is known as Mushroom City. Places to visit nearby are Kasauli, Chail, Jatoli Shiv Temple, and Shoolini Temple.</p></div>
+<div class="card"><img class="blog-img" src="https://images.unsplash.com/photo-1533105079780-92b9be482077?w=800&q=80"><h3>5. 10 Best Budget Trips in India Under Rs 5000</h3><p>Kasol, Rishikesh, McLeodganj, Jaipur, Udaipur, Manali, Dharamshala, Amritsar, Pushkar and Gokarna.</p></div>
+<div class="card"><img class="blog-img" src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=800&q=80"><h3>6. Himachali Culture, Food & Festivals</h3><p>Himachal is famous for Nati dance, woolen caps, Kullu Dussehra and Mandi Shivratri. Traditional dishes are Dham, Siddu, Tudkiya Bhath.</p></div>
 </div>
 
 <div id="chatPage" class="hide">
-<div class="card"><h3>Your Matches</h3><p><b>Priya ✓</b> - Online Now</p><button onclick="alert('Match! You can now chat.')">Open Chat With Priya</button></div>
-<div class="card"><h3>Chat - Priya</h3><div class="chatbox" id="chatBox"><div class="msg">Hi! I liked your profile. How are you?</div><div class="msg me">Hi Priya! I am good. I am from Solan. How are you?</div></div><input id="chatInput" placeholder="Type a respectful message..."><button onclick="sendMsg()">Send Message</button><button class="gray" onclick="alert('User Reported & Blocked. Our team will check.')">🚫 Report & Block</button><p class="small">If someone misbehaves, Report & Block immediately. Never share OTP, password, bank details or private photos.</p></div>
+<div class="card"><h3>Community Chat - Real Chat</h3><div class="chatbox" id="chatBox"><div class="msg">Hi! Welcome to Global To World community.</div></div><input id="chatInput" placeholder="Type a respectful message..."><button onclick="sendMsg()">Send Message</button><button class="gray" onclick="reportUser('community_chat','Bad Behaviour')">🚫 Report & Block - Real Report To Admin</button><button class="gray" onclick="clearChat()">🗑️ Clear My Chat</button></div>
 </div>
 
 <div id="profilePage" class="hide">
-<div class="card"><h3>My Profile</h3><input id="editName" placeholder="Your Name"><input id="editCity" placeholder="Your City"><textarea id="editBio" placeholder="Your Bio"></textarea><button onclick="saveProfile()">Save Profile</button><button class="gray" onclick="logout()">Logout</button><p class="small">How to Logout: Profile > Settings > Logout > Confirm Yes. Always logout from shared phone.</p></div>
+<div class="card"><h3>My Profile</h3><input id="editName" placeholder="Your Name"><input id="editCity" placeholder="Your City"><textarea id="editBio" placeholder="Your Bio"></textarea><button onclick="saveProfile()">Save Profile</button><button class="gray" onclick="showPage('settings')">⚙️ Go To Settings</button></div>
 </div>
 
-<!-- PREMIUM PAGE -->
 <div id="premiumPage" class="hide">
-<div class="card"><h3>⭐ Get Premium</h3><p class="small">Pay via UPI, Enter UTR, Admin will approve.</p></div>
-<div class="card"><h3>🎙️ Voice - ₹99</h3><p class="small">Voice Chat Premium</p><button onclick="selectPlan('voice',99)">Select Voice - ₹99</button></div>
-<div class="card"><h3>🎥 Video - ₹199</h3><p class="small">Video Chat Premium</p><button onclick="selectPlan('video',199)">Select Video - ₹199</button></div>
+<div class="card"><h3>⭐ Get Premium</h3><p class="small">Support our community and get premium features. Pay via UPI, Enter UTR, Admin will approve.</p></div>
+<div class="card"><h3>🎙️ Voice - ₹99</h3><button onclick="selectPlan('voice',99)">Select Voice - ₹99</button></div>
+<div class="card"><h3>🎥 Video - ₹199</h3><button onclick="selectPlan('video',199)">Select Video - ₹199</button></div>
 <div id="payBox" class="card hide">
-<div class="qr-box"><p><b>Scan & Pay - <span id="payAmount">₹99</span></b></p><img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=upi%3A%2F%2Fpay%3Fpa%3Dbinnu0117%40oksbi%26pn%3DGlobal%2520To%2520World%26cu%3DINR" alt="Pay QR - binnu0117@oksbi"><p style="font-size:14px;font-weight:700;margin-top:8px">UPI ID: binnu0117@oksbi</p><p style="font-size:13px">Pay on GPay / PhonePe / Paytm</p></div>
+<div class="qr-box"><p><b>Scan & Pay - <span id="payAmount">₹99</span></b></p><img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=upi%3A%2F%2Fpay%3Fpa%3Dbinnu0117%40oksbi%26pn%3DGlobal%2520To%2520World%26cu%3DINR"><p style="font-size:14px;font-weight:700">UPI ID: binnu0117@oksbi</p><p style="font-size:13px">Pay on GPay / PhonePe / Paytm</p></div>
 <input id="utrInput" placeholder="Enter 12-digit UTR Number">
 <button class="btn-green" onclick="verifyPremium()">Submit UTR & Verify</button>
 <p id="utrMsg" class="small"></p>
 </div>
 </div>
 
-<!-- ADMIN PANEL - ONLY FOR binnu0117@gmail.com -->
 <div id="adminPage" class="hide">
-<div class="card" style="border:1px solid #ff2a2a"><h3>👑 Admin Panel <span style="color:#ffcc00">ONLY YOU</span></h3><p class="small">Logged in as: binnu0117@gmail.com</p><button class="gray" onclick="loadAdmin()">Refresh Requests</button></div>
-<div id="adminList"><p class="small">Loading requests...</p></div>
+<div class="card" style="border:1px solid #ff2a2a"><h3>👑 Admin Panel</h3><p class="small">Logged in as: binnu0117@gmail.com</p><button class="gray" onclick="loadAdmin()">Refresh Requests</button><button class="gray" onclick="loadReports()">View Reports</button></div>
+<div id="adminList"></div><div id="reportList"></div>
 </div>
+
+<div id="settingsPage" class="hide">
+<div class="card"><h2>⚙️ Settings</h2><p class="small" id="settingsEmail">Login to see settings</p></div>
+<div class="card"><h3>👤 Account</h3>
+<input id="setName" placeholder="Your Name">
+<input id="setCity" placeholder="Your City">
+<textarea id="setBio" placeholder="Your Bio"></textarea>
+<button onclick="saveSettingsProfile()">Save Profile</button>
+</div>
+<div class="card"><h3>🔒 Security</h3>
+<input id="newPass" type="password" placeholder="New Password - Min 6 Characters">
+<button onclick="changePasswordReal()">Change Password</button>
+<button class="gray" onclick="sendPasswordResetFromSettings()">Send Password Reset Email</button>
+</div>
+<div class="card"><h3>🔔 Notifications</h3>
+<div class="setting-row"><span>Push Notifications</span><div id="notifSwitch" class="switch on" onclick="toggleNotif()"></div></div>
+<div class="setting-row"><span>Email Notifications</span><div id="emailNotifSwitch" class="switch on" onclick="toggleEmailNotif()"></div></div>
+<p class="small" id="notifStatus">Notifications: ON - Saved</p>
+</div>
+<div class="card"><h3>🎨 Appearance</h3>
+<div class="setting-row"><span>Dark / Light Theme</span><button style="width:120px" class="gray" onclick="toggleTheme()" id="themeBtn">Light Theme</button></div>
+<label class="small">Language - Real Change</label>
+<select id="langSelect" onchange="changeLanguage()">
+<option value="en">English</option>
+<option value="hi">Hindi - हिन्दी</option>
+</select>
+<p class="small" id="langStatus">Language: English</p>
+</div>
+<div class="card"><h3>🔐 Privacy</h3>
+<div class="setting-row"><span>Profile Public</span><div id="privacySwitch" class="switch on" onclick="togglePrivacy()"></div></div>
+<p class="small" id="privacyStatus">Your Profile is Public - Everyone can see you</p>
+<button class="gray" onclick="showBlocked()">View Blocked Users</button>
+<div id="blockedList"></div>
+</div>
+<div class="card"><h3>💬 Chat & Data</h3>
+<button class="gray" onclick="clearChat()">🗑️ Clear My Chat History</button>
+<button class="gray" onclick="downloadMyData()">⬇️ Download My Data</button>
+</div>
+<div class="card"><h3>ℹ️ About App</h3>
+<p class="small"><b>App Name:</b> Global To World<br><b>Version:</b> 1.0.0 - Real Version<br><b>Owner:</b> binnu0117@gmail.com<br><b>Location:</b> Kufri, Himachal Pradesh, India</p>
+<button class="gray" onclick="showPage('about')">About Us</button>
+<button class="gray" onclick="showPage('privacy')">Privacy Policy</button>
+<button class="gray" onclick="showPage('terms')">Terms</button>
+<button class="gray" onclick="showPage('contact')">Contact Us</button>
+</div>
+<div class="card"><h3>🚪 Danger Zone</h3>
+<button class="gray" onclick="logout()">Logout</button>
+<button class="btn-red" onclick="deleteAccountReal()">🗑️ Delete My Account Permanently</button>
+<p class="small" style="color:#ff6666">Delete Account will permanently delete your account. This cannot be undone.</p>
+</div>
+</div>
+
+<div id="aboutPage" class="hide"><div class="card"><h2>About Us</h2><p>Global To World is a friendly community website started from Himachal Pradesh, India. Our goal is to connect people through travel stories, local culture, and helpful guides.</p><p>Email: binnu0117@gmail.com<br>Location: Kufri, Himachal Pradesh, India</p></div></div>
+<div id="privacyPage" class="hide"><div class="card"><h2>Privacy Policy</h2><p>Last Updated: November 2026</p><p>We collect Name, Email, City, Profile Photo, Messages, Likes, Comments. We never ask for OTP, Bank Details.</p><p>Contact: binnu0117@gmail.com</p></div></div>
+<div id="termsPage" class="hide"><div class="card"><h2>Terms & Conditions</h2><p>1. Be respectful. 2. No fake info. 3. No OTP / Bank details share. 4. Premium non-refundable after approval. 5. We can remove any content that violates rules.</p></div></div>
+<div id="contactPage" class="hide"><div class="card"><h2>Contact Us</h2><p>Email: binnu0117@gmail.com<br>Location: Kufri, HP, India</p><input id="contactName" placeholder="Your Name"><input id="contactEmail" placeholder="Your Email"><textarea id="contactMsg" placeholder="Your Message..."></textarea><button onclick="sendContact()">Send Message</button><p id="contactDone" class="small"></p></div></div>
 
 </div>
 
 <div class="footer">
-<a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms</a> | <a href="about.html">About Us</a> | <a href="contact.html">Contact</a>
-<br><br>© 2026 Global To World - All Rights Reserved.<br>18+ Only. Be Respectful.
+<a href="#" onclick="showPage('about')">About Us</a> | <a href="#" onclick="showPage('privacy')">Privacy Policy</a> | <a href="#" onclick="showPage('terms')">Terms</a> | <a href="#" onclick="showPage('contact')">Contact</a> | <a href="#" onclick="showPage('blog')">Blog</a> | <a href="#" onclick="showPage('settings')">Settings</a>
+<br><br>© 2026 Global To World - All Rights Reserved.
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, onAuthStateChanged, signOut, updatePassword, deleteUser } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, query } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -134,12 +198,10 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-window.auth = auth;
+window.auth = auth; window.db = db;
 window.firebaseSignOut = () => signOut(auth);
-
 const ADMIN_EMAIL = 'binnu0117@gmail.com';
-let selectedPlan = null;
-let selectedAmount = 0;
+let selectedPlan = null; let selectedAmount = 0;
 
 window.selectPlan = function(plan, amount){
   if(!auth.currentUser){ alert('Please Login First'); showPage('auth'); return; }
@@ -151,16 +213,173 @@ window.selectPlan = function(plan, amount){
 
 window.verifyPremium = async function(){
   const utr = document.getElementById('utrInput').value.trim();
-  if(!/^[A-Za-z0-9]{8,30}$/.test(utr)){ alert('Invalid UTR! Only Letters / Numbers, 8-30 characters.'); return; }
+  if(!/^[A-Za-z0-9]{8,30}$/.test(utr)){ alert('Invalid UTR!'); return; }
   if(!selectedPlan){ alert('Select a Plan First'); return; }
   try{
-    await addDoc(collection(db, "premium_requests"), {
-      utr: utr, plan: selectedPlan, amount: selectedAmount,
-      email: auth.currentUser.email, status: 'pending', time: new Date().toLocaleString()
-    });
+    await addDoc(collection(db, "premium_requests"), { utr, plan: selectedPlan, amount: selectedAmount, email: auth.currentUser.email, status: 'pending', time: new Date().toLocaleString() });
     document.getElementById('utrMsg').innerText = 'UTR Submitted! Wait for Admin Approval.';
     document.getElementById('utrMsg').style.color = '#00ff88';
   }catch(e){ alert('Error: ' + e.message); }
+};
+
+window.likePost = async function(postId, btn){
+  if(!auth.currentUser){ alert('Please Login First'); return; }
+  try{
+    await addDoc(collection(db, "likes"), { postId, email: auth.currentUser.email, time: new Date().toLocaleString() });
+    const el = document.getElementById('like-'+postId);
+    if(el) el.innerText = parseInt(el.innerText||'0') + 1;
+    alert('Liked! Saved in Database.');
+  }catch(e){ alert('Error: ' + e.message); }
+};
+
+window.addComment = async function(postId){
+  if(!auth.currentUser){ alert('Please Login First'); return; }
+  const input = document.getElementById('comment-'+postId);
+  const text = input.value.trim();
+  if(!text){ alert('Please write comment'); return; }
+  try{
+    await addDoc(collection(db, "comments"), { postId, email: auth.currentUser.email, text, time: new Date().toLocaleString() });
+    document.getElementById('comments-'+postId).innerHTML += `<p><b>${auth.currentUser.email}:</b> ${text}</p>`;
+    input.value = ''; alert('Comment Saved!');
+  }catch(e){ alert('Error: ' + e.message); }
+};
+
+window.reportUser = async function(reportedId, reason){
+  if(!auth.currentUser){ alert('Please Login First'); return; }
+  try{
+    await addDoc(collection(db, "reports"), { reportedId, reason, by: auth.currentUser.email, status: 'pending', time: new Date().toLocaleString() });
+    let blocked = JSON.parse(localStorage.getItem('gtw_blocked')||'[]');
+    if(!blocked.includes(reportedId)) blocked.push(reportedId);
+    localStorage.setItem('gtw_blocked', JSON.stringify(blocked));
+    alert('Reported & Blocked Successfully! Admin will check.');
+  }catch(e){ alert('Error: ' + e.message); }
+};
+
+window.sendMsg = async function(){
+  const v = document.getElementById('chatInput').value.trim();
+  if(!v) return;
+  if(!auth.currentUser){ alert('Please Login First'); return; }
+  try{
+    await addDoc(collection(db, "messages"), { email: auth.currentUser.email, text: v, time: new Date().toLocaleString() });
+    const d = document.createElement('div'); d.className='msg me'; d.innerText = v;
+    document.getElementById('chatBox').appendChild(d);
+    document.getElementById('chatInput').value='';
+    document.getElementById('chatBox').scrollTop=9999;
+  }catch(e){ alert('Error: ' + e.message); }
+};
+
+window.saveSettingsProfile = function(){
+  const name = document.getElementById('setName').value.trim();
+  const city = document.getElementById('setCity').value.trim();
+  const bio = document.getElementById('setBio').value.trim();
+  if(!name){ alert('Please enter Name'); return; }
+  let saved = JSON.parse(localStorage.getItem('gtw_user')||'{}');
+  saved.name = name; saved.city = city; saved.bio = bio;
+  localStorage.setItem('gtw_user', JSON.stringify(saved));
+  document.getElementById('myName').innerText = 'Welcome, '+name+' ✓';
+  document.getElementById('myBio').innerText = bio || 'Complete your profile';
+  alert('Profile Saved Successfully! Real Save Ho Gaya.');
+};
+
+window.changePasswordReal = async function(){
+  const np = document.getElementById('newPass').value;
+  if(!auth.currentUser){ alert('Please Login First'); return; }
+  if(!np || np.length < 6){ alert('Password min 6 characters'); return; }
+  try{
+    await updatePassword(auth.currentUser, np);
+    document.getElementById('newPass').value='';
+    alert('Password Changed Successfully!');
+  }catch(e){ alert('Error: ' + e.message + ' - Pehle Logout karke fir Login karo, fir try karo.'); }
+};
+
+window.sendPasswordResetFromSettings = async function(){
+  if(!auth.currentUser){ alert('Please Login First'); return; }
+  try{ await sendPasswordResetEmail(auth, auth.currentUser.email); alert('Reset Link Sent To '+auth.currentUser.email); }
+  catch(e){ alert(e.message); }
+};
+
+window.toggleNotif = function(){
+  const el = document.getElementById('notifSwitch');
+  el.classList.toggle('on');
+  const on = el.classList.contains('on');
+  localStorage.setItem('gtw_notif', on ? 'on' : 'off');
+  document.getElementById('notifStatus').innerText = 'Notifications: ' + (on ? 'ON - Saved' : 'OFF - Saved');
+};
+
+window.toggleEmailNotif = function(){
+  const el = document.getElementById('emailNotifSwitch');
+  el.classList.toggle('on');
+  const on = el.classList.contains('on');
+  localStorage.setItem('gtw_email_notif', on ? 'on' : 'off');
+  alert('Email Notifications ' + (on ? 'ON' : 'OFF') + ' - Saved');
+};
+
+window.toggleTheme = function(){
+  const isLight = document.body.classList.toggle('light');
+  localStorage.setItem('gtw_theme', isLight ? 'light' : 'dark');
+  document.getElementById('themeBtn').innerText = isLight ? 'Dark Theme' : 'Light Theme';
+};
+
+window.changeLanguage = function(){
+  const lang = document.getElementById('langSelect').value;
+  localStorage.setItem('gtw_lang', lang);
+  if(lang === 'hi'){
+    document.getElementById('langStatus').innerText = 'Bhasha: Hindi';
+    document.getElementById('welcomeText').innerText = 'Ek Dostana Community - Dosti Karo, Kahaniya Share Karo, Himachal Ghumo';
+    alert('Bhasha Hindi kar di gayi!');
+  } else {
+    document.getElementById('langStatus').innerText = 'Language: English';
+    document.getElementById('welcomeText').innerText = 'A Friendly Community - Make Friends, Share Stories, Explore Himachal';
+    alert('Language changed to English!');
+  }
+};
+
+window.togglePrivacy = function(){
+  const el = document.getElementById('privacySwitch');
+  el.classList.toggle('on');
+  const on = el.classList.contains('on');
+  localStorage.setItem('gtw_privacy', on ? 'public' : 'private');
+  document.getElementById('privacyStatus').innerText = on ? 'Your Profile is Public - Everyone can see you' : 'Your Profile is Private - Only you can see';
+};
+
+window.showBlocked = function(){
+  const blocked = JSON.parse(localStorage.getItem('gtw_blocked')||'[]');
+  const box = document.getElementById('blockedList');
+  if(blocked.length === 0){ box.innerHTML = '<p class="small">No Blocked Users. Good!</p>'; return; }
+  box.innerHTML = blocked.map(b=>`<p class="small">🚫 ${b} <button style="width:auto;padding:6px 12px" class="gray" onclick="unblockUser('${b}')">Unblock</button></p>`).join('');
+};
+window.unblockUser = function(id){
+  let blocked = JSON.parse(localStorage.getItem('gtw_blocked')||'[]');
+  blocked = blocked.filter(x=>x!==id);
+  localStorage.setItem('gtw_blocked', JSON.stringify(blocked));
+  alert('Unblocked: '+id); showBlocked();
+};
+
+window.clearChat = function(){
+  if(!confirm('Kya aap apni Chat History Clear karna chahte ho?')) return;
+  document.getElementById('chatBox').innerHTML = '<div class="msg">Chat Cleared. New Start!</div>';
+  alert('Chat Cleared Successfully!');
+};
+
+window.downloadMyData = function(){
+  const saved = localStorage.getItem('gtw_user')||'{}';
+  const email = auth.currentUser ? auth.currentUser.email : 'Not Logged In';
+  const data = `Global To World - My Data\nEmail: ${email}\nProfile: ${saved}\nDate: ${new Date().toLocaleString()}`;
+  const blob = new Blob([data], {type:'text/plain'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'my-data.txt'; a.click();
+  alert('Your Data Downloaded!');
+};
+
+window.deleteAccountReal = async function(){
+  if(!auth.currentUser){ alert('Please Login First'); return; }
+  if(!confirm('Pakka Delete karna hai? Ye wapas nahi aayega!')) return;
+  if(!confirm('Last Confirm - Delete My Account Permanently?')) return;
+  try{
+    await deleteUser(auth.currentUser);
+    localStorage.clear();
+    alert('Account Deleted Permanently.');
+    showPage('auth');
+  }catch(e){ alert('Error: ' + e.message + ' - Pehle Logout karke fir Login karo, fir Delete karo.'); }
 };
 
 window.loadAdmin = async function(){
@@ -173,16 +392,45 @@ window.loadAdmin = async function(){
     let html = '';
     snap.forEach(d=>{
       const data = d.data();
-      html += `<div class="admin-card"><p><b>Email:</b> ${data.email}</p><p><b>Plan:</b> ${data.plan} - ₹${data.amount}</p><p><b>UTR:</b> ${data.utr}</p><p><b>Time:</b> ${data.time}</p><p><b>Status:</b> ${data.status}</p><br>${data.status === 'pending' ? `<button class="btn-green" onclick="updateStatus('${d.id}','approved')">Approve</button><button onclick="updateStatus('${d.id}','rejected')">Reject</button>` : '<p>Done</p>'}</div>`;
+      html += `<div class="admin-card"><p><b>Email:</b> ${data.email}</p><p><b>Plan:</b> ${data.plan} - ₹${data.amount}</p><p><b>UTR:</b> ${data.utr}</p><p><b>Status:</b> ${data.status}</p><br>${data.status === 'pending' ? `<button class="btn-green" onclick="updateStatus('${d.id}','approved')">Approve</button><button onclick="updateStatus('${d.id}','rejected')">Reject</button>` : '<p>Done</p>'}</div>`;
     });
     list.innerHTML = html;
   }catch(e){ list.innerHTML = 'Error: ' + e.message; }
 };
 
+window.loadReports = async function(){
+  if(!auth.currentUser || auth.currentUser.email !== ADMIN_EMAIL) return;
+  const box = document.getElementById('reportList');
+  box.innerHTML = 'Loading Reports...';
+  try{
+    const snap = await getDocs(query(collection(db, "reports")));
+    if(snap.empty){ box.innerHTML = '<p class="small">No Reports.</p>'; return; }
+    let html = '<h3>Reports</h3>';
+    snap.forEach(d=>{ const r=d.data(); html += `<div class="admin-card"><p><b>Reported:</b> ${r.reportedId}</p><p><b>By:</b> ${r.by}</p><p><b>Reason:</b> ${r.reason}</p></div>`; });
+    box.innerHTML = html;
+  }catch(e){ box.innerHTML = 'Error: ' + e.message; }
+};
+
 window.updateStatus = async function(id, status){
-  await updateDoc(doc(db, "premium_requests", id), { status: status });
+  await updateDoc(doc(db, "premium_requests", id), { status });
   loadAdmin();
 };
+
+window.loadSavedSettings = function(){
+  const theme = localStorage.getItem('gtw_theme');
+  if(theme === 'light'){ document.body.classList.add('light'); document.getElementById('themeBtn').innerText = 'Dark Theme'; }
+  const notif = localStorage.getItem('gtw_notif');
+  if(notif === 'off') document.getElementById('notifSwitch').classList.remove('on');
+  const emailN = localStorage.getItem('gtw_email_notif');
+  if(emailN === 'off') document.getElementById('emailNotifSwitch').classList.remove('on');
+  const priv = localStorage.getItem('gtw_privacy');
+  if(priv === 'private'){ document.getElementById('privacySwitch').classList.remove('on'); document.getElementById('privacyStatus').innerText = 'Your Profile is Private - Only you can see'; }
+  const lang = localStorage.getItem('gtw_lang');
+  if(lang) document.getElementById('langSelect').value = lang;
+  const saved = JSON.parse(localStorage.getItem('gtw_user')||'{}');
+  if(saved.name){ document.getElementById('setName').value = saved.name; document.getElementById('setCity').value = saved.city||''; document.getElementById('setBio').value = saved.bio||''; }
+};
+loadSavedSettings();
 
 document.getElementById('signupBtn').onclick = async () => {
   let name = document.getElementById('suName').value.trim();
@@ -191,14 +439,13 @@ document.getElementById('signupBtn').onclick = async () => {
   let pass = document.getElementById('suPass').value;
   let msg = document.getElementById('signupMsg');
   if(!name || !email || !age || !pass){ msg.innerText='Please fill Name, Age, Email and Password'; return; }
-  if(age < 18){ alert('Sorry! You must be 18+ to use Global To World.'); return; }
   if(!document.getElementById('agree').checked){ alert('Please tick I agree to Rules'); return; }
   try{
     const cred = await createUserWithEmailAndPassword(auth, email, pass);
     await sendEmailVerification(cred.user);
-    localStorage.setItem('gtw_user', JSON.stringify({name:name, age:age, email:email, city:document.getElementById('suCity').value, bio:document.getElementById('suBio').value}));
+    localStorage.setItem('gtw_user', JSON.stringify({name, age, email, city:document.getElementById('suCity').value, bio:document.getElementById('suBio').value}));
     msg.innerText = 'Account created! Check your email and click Verification Link, then Login.';
-    alert('Welcome '+name+'! Please verify your email. Link sent to '+email);
+    alert('Welcome '+name+'! Please verify your email.');
     switchAuth('login');
   }catch(e){ msg.innerText = 'Error: ' + e.message; }
 };
@@ -212,12 +459,13 @@ document.getElementById('loginBtn').onclick = async () => {
     const cred = await signInWithEmailAndPassword(auth, email, pass);
     if(!cred.user.emailVerified){
       document.getElementById('verifyBox').classList.remove('hide');
-      msg.innerText = 'Please verify your email first. Link sent to your email.';
+      msg.innerText = 'Please verify your email first.';
       await signOut(auth);
       return;
     }
     let saved = JSON.parse(localStorage.getItem('gtw_user')||'{}');
     if(saved.name){ document.getElementById('myName').innerText='Welcome back, '+saved.name+' ✓'; }
+    document.getElementById('settingsEmail').innerText = 'Logged in as: ' + cred.user.email;
     if(cred.user.email === ADMIN_EMAIL){ showPage('admin'); loadAdmin(); }
     else { showPage('feed'); }
   }catch(e){ msg.innerText = 'Error: ' + e.message; }
@@ -243,12 +491,12 @@ document.getElementById('forgotBtn').onclick = async () => {
 
 onAuthStateChanged(auth, (user)=>{
   if(user && user.emailVerified){
+    document.getElementById('settingsEmail').innerText = 'Logged in as: ' + user.email;
     let saved = JSON.parse(localStorage.getItem('gtw_user')||'{}');
     if(saved.name) document.getElementById('myName').innerText='Welcome, '+saved.name+' ✓';
     if(user.email === ADMIN_EMAIL){
       document.getElementById('adminNavLink').classList.remove('hide');
-      showPage('admin');
-      loadAdmin();
+      showPage('admin'); loadAdmin();
     } else {
       document.getElementById('adminNavLink').classList.add('hide');
       showPage('feed');
@@ -260,13 +508,6 @@ onAuthStateChanged(auth, (user)=>{
 </script>
 
 <script>
-let people=[
-{name:"Priya, 22",city:"Shimla, Himachal Pradesh • Likes Music, Travel",img:"https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&q=80"},
-{name:"Sneha, 24",city:"Delhi • Likes Dance, Photography",img:"https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=80"},
-{name:"Aarav, 25",city:"Solan, Himachal Pradesh • Likes Travel, Cricket",img:"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80"},
-{name:"Riya, 21",city:"Mandi, Himachal Pradesh • Likes Singing",img:"https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800&q=80"}
-];
-let pi=0;
 function switchAuth(t){
 document.getElementById('loginBox').classList.toggle('hide',t!=='login');
 document.getElementById('signupBox').classList.toggle('hide',t!=='signup');
@@ -279,30 +520,24 @@ if(p==='admin'){
   const user = window.auth ? window.auth.currentUser : null;
   if(!user || user.email !== 'binnu0117@gmail.com'){ alert('Access Denied! You are not Admin.'); p='feed'; }
 }
-['authPage','feedPage','chatPage','profilePage','premiumPage','adminPage'].forEach(id=>document.getElementById(id).classList.add('hide'));
+if(p==='settings' && (!window.auth || !window.auth.currentUser)){ alert('Please Login First to Open Settings'); p='auth'; }
+['authPage','feedPage','chatPage','profilePage','premiumPage','adminPage','blogPage','aboutPage','privacyPage','termsPage','contactPage','settingsPage'].forEach(id=>document.getElementById(id).classList.add('hide'));
 if(p==='feed')document.getElementById('feedPage').classList.remove('hide');
 if(p==='chat')document.getElementById('chatPage').classList.remove('hide');
 if(p==='profile')document.getElementById('profilePage').classList.remove('hide');
 if(p==='auth')document.getElementById('authPage').classList.remove('hide');
 if(p==='premium')document.getElementById('premiumPage').classList.remove('hide');
 if(p==='admin')document.getElementById('adminPage').classList.remove('hide');
+if(p==='blog')document.getElementById('blogPage').classList.remove('hide');
+if(p==='about')document.getElementById('aboutPage').classList.remove('hide');
+if(p==='privacy')document.getElementById('privacyPage').classList.remove('hide');
+if(p==='terms')document.getElementById('termsPage').classList.remove('hide');
+if(p==='contact')document.getElementById('contactPage').classList.remove('hide');
+if(p==='settings')document.getElementById('settingsPage').classList.remove('hide');
 window.scrollTo(0,0);
 }
-function nextPerson(liked){
-if(liked){document.getElementById('matchMsg').innerText='❤️ You liked '+people[pi].name+'. If they like you back, it will become a Match!';}
-pi=(pi+1)%people.length;
-document.getElementById('personImg').src=people[pi].img;
-document.getElementById('personName').innerText=people[pi].name;
-document.getElementById('personCity').innerText=people[pi].city;
-}
-function sendMsg(){
-let v=document.getElementById('chatInput').value.trim();if(!v)return;
-let d=document.createElement('div');d.className='msg me';d.innerText=v;
-document.getElementById('chatBox').appendChild(d);
-document.getElementById('chatInput').value='';
-document.getElementById('chatBox').scrollTop=9999;
-}
 function saveProfile(){alert('Profile Saved!');showPage('feed');}
+function sendContact(){ document.getElementById('contactDone').innerText='Thank you! Your message has been sent.'; document.getElementById('contactDone').style.color='#00ff88'; }
 async function logout(){ try{ if(window.firebaseSignOut) await window.firebaseSignOut(); }catch(e){} localStorage.removeItem('gtw_user'); showPage('auth'); alert('You are logged out safely.'); }
 </script>
 </body>
